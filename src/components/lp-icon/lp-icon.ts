@@ -63,8 +63,13 @@ export class LpIcon extends LitElement {
     if (changedProps.has('name') && !this.name)
       console.warn('<lp-icon> missing required "name" attribute');
 
-    if (changedProps.has('size')) 
-      this.style.setProperty('--icon-size', this.size);
+    if (changedProps.has('size'))
+      if (CSS.supports('width', this.size)) {
+        this.style.setProperty('--icon-size', this.size);
+      } else {
+        console.warn('<lp-icon> invalid "size" value:', this.size);
+        this.style.setProperty('--icon-size', '2rem');
+      }
 
     if (changedProps.has('stroke'))
       if (!isColorSet(this.stroke)){
