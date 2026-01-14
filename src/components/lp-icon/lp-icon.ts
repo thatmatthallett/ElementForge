@@ -21,7 +21,7 @@ export class LpIcon extends LitElement {
   size: string = '2rem';
 
   @property({ type: String })
-  stroke: ColorSet = 'blue';
+  stroke: ColorSet | 'currentColor' = 'blue';
 
   render() {
     if (!isIconName(this.name)) {
@@ -68,7 +68,7 @@ export class LpIcon extends LitElement {
 
     if (changedProps.has('stroke'))
       if (!isColorSet(this.stroke)){
-        console.warn('<lp-icon> "stroke" attribute has invalid value:', this.stroke, 'Value must be one of black, gray, blue, slate, lgray. Defaulting to blue.');
+        console.warn('<lp-icon> "stroke" attribute has invalid value:', this.stroke, 'Value must be one of black, gray, blue, slate, lgray, or currentColor. Defaulting to blue.');
         this.style.setProperty('--icon-stroke', 'var(--color-blue)');
       } else {
         this.style.setProperty('--icon-stroke', 'var(--color-' + this.stroke + ')');
