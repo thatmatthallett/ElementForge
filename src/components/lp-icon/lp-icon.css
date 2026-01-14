@@ -1,0 +1,9 @@
+:host {
+  display: inline-flex;
+  line-height: 0;
+}
+svg {
+  width: var(--icon-size, 3rem);
+  height: var(--icon-size, 3rem);
+  stroke: var(--icon-stroke, currentColor);
+}
