@@ -73,8 +73,29 @@ export class LpIcon extends LitElement {
       } else {
         this.style.setProperty('--icon-stroke', 'var(--color-' + this.stroke + ')');
       }
+
+    this.updateAria()
   }
 
+  private updateAria(): void {
+    const hasLabel = this.hasAttribute('aria-label');
+    const isHidden = this.getAttribute('aria-hidden') === 'true';
+
+    if (hasLabel) { // Meaningful icon
+      this.removeAttribute('aria-hidden');
+      if (!this.hasAttribute('role')) this.setAttribute('role', 'img');
+      return;
+    }
+
+    if (isHidden) { // Consumer explicitly wants it hidden
+      this.removeAttribute('role');
+      return;
+    }
+
+    // Default behavior: decorative
+    this.setAttribute('aria-hidden', 'true');
+    this.removeAttribute('role');
+  }
 }
 
 declare global {
