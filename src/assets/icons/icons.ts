@@ -1,8 +1,6 @@
 import { svg, type TemplateResult } from 'lit';
 
-type IconsType = {
-  [key: string]: TemplateResult<2>;
-};
+export type IconsType = { [key: string]: TemplateResult<2> };
 
 export const icons: IconsType = {
   "a-b-2": svg`<svg

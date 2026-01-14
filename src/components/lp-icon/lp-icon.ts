@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import stylesText from './lp-icon.css?raw';
 
 import { icons } from '../../assets/icons/icons';
+import { isColorSet, isIconName } from '../../utils/global-utils';
 
 /**
  * litPortfolio Icon Element.
@@ -14,16 +15,22 @@ export class LpIcon extends LitElement {
   private _styleEl?: HTMLStyleElement
   
   @property({ type: String })
-  name: string = '';
+  name!: IconName;
+
+  @property({ type: String })
+  size: string = '2rem';
+
+  @property({ type: String })
+  stroke: ColorSet = 'blue';
 
   render() {
-    const icon = icons[this.name];
-    console.log('icon', icon);
-    if (!icon) return html`Icon failed to load: ${this.name}`;
+    if (!isIconName(this.name)) {
+      console.warn('<lp-icon> "name" attribute value not found:', this.name);
+      return html``;
+    }
 
     return html`
       ${icons[this.name]}
-      ${icon}
     `;
   }
 
@@ -51,6 +58,23 @@ export class LpIcon extends LitElement {
       }
     }
   }
+
+  updated(changedProps: Map<string, unknown>) {
+    if (changedProps.has('name') && !this.name)
+      console.warn('<lp-icon> missing required "name" attribute');
+
+    if (changedProps.has('size')) 
+      this.style.setProperty('--icon-size', this.size);
+
+    if (changedProps.has('stroke'))
+      if (!isColorSet(this.stroke)){
+        console.warn('<lp-icon> "stroke" attribute has invalid value:', this.stroke, 'Value must be one of black, gray, blue, slate, lgray. Defaulting to blue.');
+        this.style.setProperty('--icon-stroke', 'var(--color-blue)');
+      } else {
+        this.style.setProperty('--icon-stroke', 'var(--color-' + this.stroke + ')');
+      }
+  }
+
 }
 
 declare global {

@@ -3,7 +3,7 @@
   line-height: 0;
 }
 svg {
-  width: var(--icon-size, 3rem);
-  height: var(--icon-size, 3rem);
-  stroke: var(--icon-stroke, currentColor);
+  width: var(--icon-size);
+  height: var(--icon-size);
+  stroke: var(--icon-stroke);
 }
