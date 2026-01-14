@@ -5,7 +5,7 @@ import stylesText from './lp-button.css?raw'
 /**
  * litPortfolio Button Element.
  *
- * @slot - This element has a slot
+ * @slot - This element has a slots
  * @csspart button - The button
  */
 @customElement('lp-button')
@@ -13,12 +13,14 @@ export class MyElement extends LitElement {
   private static _sheet?: CSSStyleSheet
   private _styleEl?: HTMLStyleElement
   
+  @property({ type: String })
+  color: 'black' | 'gray' | 'slate' | 'lgray' | 'default' = 'default'
   
 
 
   render() {
     return html`
-      <button >
+      <button class="${this.color}">
         <slot name="start"></slot>
         <slot></slot>
         <slot name="end"></slot>
