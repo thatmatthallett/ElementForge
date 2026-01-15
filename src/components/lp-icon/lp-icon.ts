@@ -1,9 +1,11 @@
 import { LitElement, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { dsLogger } from '../../utils/dslogger';
 import stylesText from './lp-icon.css?raw';
 
 import { icons } from '../../assets/icons/icons';
 import { isColorSet, isIconName } from '../../utils/global-utils';
+import { colorSetValues } from '../../types/colorSet';
 
 /**
  * litPortfolio Icon Element.
@@ -24,7 +26,7 @@ export class LpIcon extends LitElement {
   size: string = '2rem';
 
   @property({ type: String, reflect: true })
-  stroke: string = '2';
+  strokeWidth: string = '2';
 
   connectedCallback() {
     super.connectedCallback()
@@ -56,13 +58,13 @@ export class LpIcon extends LitElement {
       this.updateColor();
 
     if (changedProps.has('name') && !this.name)
-      console.warn('<lp-icon> missing required "name" attribute');
+      dsLogger.error('lp-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'lp-icon#name');
 
     if (changedProps.has('size'))
       this.updateSize();
 
-    if (changedProps.has('stroke'))
-      this.updateStroke();
+    if (changedProps.has('strokeWidth'))
+      this.updateStrokeWidth();
 
     this.updateAria()
   }
@@ -89,10 +91,10 @@ export class LpIcon extends LitElement {
 
   private updateColor(): void {
     if (!isColorSet(this.color)){
-      console.warn('<lp-icon> "color" attribute has invalid value:', this.color, '- Value must be one of black, gray, blue, slate, lgray, or currentColor. Defaulting to blue.');
+      dsLogger.warn('lp-icon', `invalid "color" value: ${this.color} - Value must be one of ${colorSetValues.join(', ')} or currentColor. Defaulting to blue.`, 'lp-icon#color');
       this.style.setProperty('--icon-color', 'var(--color-blue)');
     } else {
-      this.style.setProperty('--icon-color', 'var(--color-' + this.color + ')');
+      this.style.setProperty('--icon-color', `var(--color-${this.color})`);
     }
   }
 
@@ -100,16 +102,16 @@ export class LpIcon extends LitElement {
     if (CSS.supports('width', this.size)) {
       this.style.setProperty('--icon-size', this.size);
     } else {
-      console.warn('<lp-icon> invalid "size" value:', this.size, '- Defaulting to 2rem.');
+      dsLogger.warn('lp-icon', `invalid "size" value: ${this.size} - Defaulting to 2rem.`, 'lp-icon#size');
       this.style.setProperty('--icon-size', '2rem');
     }
   }
 
-  private updateStroke(): void {
-    if (CSS.supports('stroke-width', this.stroke)) {
-      this.style.setProperty('--icon-stroke-width', this.stroke);
+  private updateStrokeWidth(): void {
+    if (CSS.supports('stroke-width', this.strokeWidth)) {
+      this.style.setProperty('--icon-stroke-width', this.strokeWidth);
     } else {
-      console.warn('<lp-icon> invalid "stroke" value:', this.size), '- Defaulting to 2.';
+      dsLogger.warn('lp-icon', `invalid "strokeWidth" value: ${this.strokeWidth} - Defaulting to 2.`, 'lp-icon#strokeWidth');
       this.style.setProperty('--icon-stroke-width', '2');
     }
     
@@ -117,7 +119,7 @@ export class LpIcon extends LitElement {
 
   render() {
     if (!isIconName(this.name)) {
-      console.warn('<lp-icon> "name" attribute value not found:', this.name);
+      dsLogger.error('lp-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'lp-icon#name');
       return html``;
     }
 
