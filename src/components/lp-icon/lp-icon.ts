@@ -6,6 +6,7 @@ import stylesText from './lp-icon.css?raw';
 import { icons } from '../../assets/icons/icons';
 import { isIconName } from '../../utils/global-utils';
 import { colorSetValues } from '../../types/colorSet';
+import { strokeWidthTokens, type StrokeWidthPreset } from '../../types/strokeWidths';
 
 /**
  * litPortfolio Icon Element.
@@ -26,7 +27,7 @@ export class LpIcon extends LitElement {
   size: string = '2rem';
 
   @property({ type: String, reflect: true })
-  strokeWidth: string = '2';
+  strokeWidth: StrokeWidthPreset | string = '2';
 
   connectedCallback() {
     super.connectedCallback()
@@ -113,6 +114,12 @@ export class LpIcon extends LitElement {
   }
 
   private updateStrokeWidth(): void {
+    const preset = strokeWidthTokens[this.strokeWidth as StrokeWidthPreset]
+    if (preset) {
+      this.style.setProperty('--icon-stroke-width', preset);
+      return;
+    }
+
     if (CSS.supports('stroke-width', this.strokeWidth)) {
       this.style.setProperty('--icon-stroke-width', this.strokeWidth);
     } else {
