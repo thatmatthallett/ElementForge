@@ -13,26 +13,18 @@ import { isColorSet, isIconName } from '../../utils/global-utils';
 export class LpIcon extends LitElement {
   private static _sheet?: CSSStyleSheet
   private _styleEl?: HTMLStyleElement
+
+  @property({ type: String, reflect: true })
+  color: ColorSet | 'currentColor' = 'blue';
   
   @property({ type: String })
   name!: IconName;
 
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   size: string = '2rem';
 
-  @property({ type: String })
-  stroke: ColorSet | 'currentColor' = 'blue';
-
-  render() {
-    if (!isIconName(this.name)) {
-      console.warn('<lp-icon> "name" attribute value not found:', this.name);
-      return html``;
-    }
-
-    return html`
-      ${icons[this.name]}
-    `;
-  }
+  @property({ type: String, reflect: true })
+  stroke: string = '2';
 
   connectedCallback() {
     super.connectedCallback()
@@ -60,30 +52,23 @@ export class LpIcon extends LitElement {
   }
 
   updated(changedProps: Map<string, unknown>) {
+    if (changedProps.has('color'))
+      this.updateColor();
+
     if (changedProps.has('name') && !this.name)
       console.warn('<lp-icon> missing required "name" attribute');
 
     if (changedProps.has('size'))
-      if (CSS.supports('width', this.size)) {
-        this.style.setProperty('--icon-size', this.size);
-      } else {
-        console.warn('<lp-icon> invalid "size" value:', this.size);
-        this.style.setProperty('--icon-size', '2rem');
-      }
+      this.updateSize();
 
     if (changedProps.has('stroke'))
-      if (!isColorSet(this.stroke)){
-        console.warn('<lp-icon> "stroke" attribute has invalid value:', this.stroke, 'Value must be one of black, gray, blue, slate, lgray, or currentColor. Defaulting to blue.');
-        this.style.setProperty('--icon-stroke', 'var(--color-blue)');
-      } else {
-        this.style.setProperty('--icon-stroke', 'var(--color-' + this.stroke + ')');
-      }
+      this.updateStroke();
 
     this.updateAria()
   }
 
   private updateAria(): void {
-    const hasLabel = this.hasAttribute('aria-label');
+    const hasLabel = this.hasAttribute('aria-label') || this.hasAttribute('aria-labelledby');
     const isHidden = this.getAttribute('aria-hidden') === 'true';
 
     if (hasLabel) { // Meaningful icon
@@ -100,6 +85,45 @@ export class LpIcon extends LitElement {
     // Default behavior: decorative
     this.setAttribute('aria-hidden', 'true');
     this.removeAttribute('role');
+  }
+
+  private updateColor(): void {
+    if (!isColorSet(this.color)){
+      console.warn('<lp-icon> "color" attribute has invalid value:', this.color, '- Value must be one of black, gray, blue, slate, lgray, or currentColor. Defaulting to blue.');
+      this.style.setProperty('--icon-color', 'var(--color-blue)');
+    } else {
+      this.style.setProperty('--icon-color', 'var(--color-' + this.color + ')');
+    }
+  }
+
+  private updateSize(): void {
+    if (CSS.supports('width', this.size)) {
+      this.style.setProperty('--icon-size', this.size);
+    } else {
+      console.warn('<lp-icon> invalid "size" value:', this.size, '- Defaulting to 2rem.');
+      this.style.setProperty('--icon-size', '2rem');
+    }
+  }
+
+  private updateStroke(): void {
+    if (CSS.supports('stroke-width', this.stroke)) {
+      this.style.setProperty('--icon-stroke-width', this.stroke);
+    } else {
+      console.warn('<lp-icon> invalid "stroke" value:', this.size), '- Defaulting to 2.';
+      this.style.setProperty('--icon-stroke-width', '2');
+    }
+    
+  }
+
+  render() {
+    if (!isIconName(this.name)) {
+      console.warn('<lp-icon> "name" attribute value not found:', this.name);
+      return html``;
+    }
+
+    return html`
+      ${icons[this.name]}
+    `;
   }
 }
 

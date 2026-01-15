@@ -5,5 +5,13 @@
 svg {
   width: var(--icon-size);
   height: var(--icon-size);
-  stroke: var(--icon-stroke);
+
+  &.icons-tabler-filled {
+    fill: var(--icon-color);
+  }
+
+  &.icons-tabler-outline {
+    stroke: var(--icon-color);
+    stroke-width: var(--icon-stroke-width);
+  }
 }
