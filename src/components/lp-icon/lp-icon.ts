@@ -4,7 +4,7 @@ import { dsLogger } from '../../utils/dslogger';
 import stylesText from './lp-icon.css?raw';
 
 import { icons } from '../../assets/icons/icons';
-import { isColorSet, isIconName } from '../../utils/global-utils';
+import { isIconName } from '../../utils/global-utils';
 import { colorSetValues } from '../../types/colorSet';
 
 /**
@@ -90,7 +90,12 @@ export class LpIcon extends LitElement {
   }
 
   private updateColor(): void {
-    if (!isColorSet(this.color)){
+    if (this.color === 'currentColor') {
+      this.style.setProperty('--icon-color', 'currentColor');
+      return;
+    }
+
+    if (!colorSetValues.includes(this.color as any)){
       dsLogger.warn('lp-icon', `invalid "color" value: ${this.color} - Value must be one of ${colorSetValues.join(', ')} or currentColor. Defaulting to blue.`, 'lp-icon#color');
       this.style.setProperty('--icon-color', 'var(--color-blue)');
     } else {
