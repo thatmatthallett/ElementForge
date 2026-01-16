@@ -1,7 +1,9 @@
 import { LitElement } from 'lit';
 import type { ComponentEvents } from './events';
+import * as a11y from './ally';
 
 export class LpElement extends LitElement {
+  /* Stylesheet cache for adopted styles */
   private static _sheet?: CSSStyleSheet
   private _styleEl?: HTMLStyleElement
 
@@ -38,6 +40,8 @@ export class LpElement extends LitElement {
     }
   }
 
+  /* end Style handling */
+
 
   /**
    * Emit a typed custom event from any component.
@@ -63,7 +67,7 @@ export class LpElement extends LitElement {
    * A dev‑mode logger that only runs in development.
    * You can expand this later for warnings, analytics, etc.
    */
-  protected log(message: string, ...args: unknown[]) {
+  public log(message: string, ...args: unknown[]) {
     if (import.meta.env.DEV) {
       const tag = (this.constructor as typeof LpElement).tagName ?? this.tagName.toLowerCase();
       console.debug(`[${tag}] ${message}`, ...args);
@@ -88,4 +92,49 @@ export class LpElement extends LitElement {
    *   static tagName = 'lp-icon';
    */
   static tagName?: string;
+
+  /* Global Event Listeners w/ Cleanup */
+  private _listeners: Array<() => void> = [];
+
+  protected listen(
+    target: EventTarget,
+    type: string,
+    handler: EventListenerOrEventListenerObject,
+    options?: AddEventListenerOptions
+  ) {
+    target.addEventListener(type, handler, options);
+
+    // Store cleanup function
+    this._listeners.push(() => {
+      target.removeEventListener(type, handler, options);
+    });
+  }
+
+  disconnectedCallback() {
+    // Auto-cleanup all listeners
+    for (const off of this._listeners) off();
+    this._listeners = [];
+
+    super.disconnectedCallback();
+  }
+  /* End Global Event Listeners w/ Cleanup */
+
+  /* Accessibility Helpers */
+
+  protected ally = {
+    assertAltText: () => a11y.assertAltText(this),
+    assertAriaControls: (id: string) => a11y.assertAriaControls(this, id),
+    assertAriaExpanded: (expanded: boolean) => a11y.assertAriaExpanded(this, expanded),
+    assertFocusable: () => a11y.assertFocusable(this),
+    assertLabel: () => a11y.assertLabel(this),
+    assertRequiredProps: (props: string[]) => a11y.assertRequiredProps(this, props),
+    assertRole: (expected: string) => a11y.assertRole(this, expected),
+    assertSingleTabStop: () => a11y.assertSingleTabStop(this),
+    ensureTabbable: () => a11y.ensureTabbable(this),
+    restoreFocus: () => a11y.restoreFocus(this),
+    trapFocus: () => a11y.trapFocus(this),
+    warnIfInteractiveWithoutRole: () => a11y.warnIfInteractiveWithoutRole(this),
+  };
+
+  /* End Accessibility Helpers */
 }
