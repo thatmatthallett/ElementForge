@@ -5,7 +5,7 @@ import { dsLogger } from '../../utils/dslogger';
 import stylesText from './lp-icon.css?raw';
 
 import { icons } from '../../assets/icons/icons';
-import { isIconName } from '../../utils/global-utils';
+import { isIconName } from '../../utils';
 import { colorSetValues } from '../../types/colorSet';
 import { strokeWidthTokens, type StrokeWidthPreset } from '../../types/strokeWidths';
 

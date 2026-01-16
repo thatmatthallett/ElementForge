@@ -1,17 +1,65 @@
 import { LitElement } from 'lit';
 import type { ComponentEvents } from './events';
 import * as a11y from './ally';
+import { observeAttributes } from '../utils';
 
 export class LpElement extends LitElement {
-  /* Stylesheet cache for adopted styles */
-  private static _sheet?: CSSStyleSheet
-  private _styleEl?: HTMLStyleElement
+  private static _sheet?: CSSStyleSheet;
+  private _styleEl?: HTMLStyleElement;
+  private _attributeObserverCleanup: (() => void) | null = null;
+  private _listeners: Array<() => void> = [];
+
+  /* Accessibility Helpers */
+  protected ally = {
+    assertAltText: () => a11y.assertAltText(this),
+    assertAriaControls: (id: string) => a11y.assertAriaControls(this, id),
+    assertAriaExpanded: (expanded: boolean) => a11y.assertAriaExpanded(this, expanded),
+    assertFocusable: () => a11y.assertFocusable(this),
+    assertLabel: () => a11y.assertLabel(this),
+    assertRequiredProps: (props: string[]) => a11y.assertRequiredProps(this, props),
+    assertRole: (expected: string) => a11y.assertRole(this, expected),
+    assertSingleTabStop: () => a11y.assertSingleTabStop(this),
+    ensureTabbable: () => a11y.ensureTabbable(this),
+    restoreFocus: () => a11y.restoreFocus(this),
+    trapFocus: () => a11y.trapFocus(this),
+    warnIfInteractiveWithoutRole: () => a11y.warnIfInteractiveWithoutRole(this),
+  };
+  /* Attribute Observation Boolean */
+  protected observeAttributes = false;
+  
+  /**
+   * A static tagName property for consistent logging.
+   * You can set this in each component:
+   *   static tagName = 'lp-icon';
+   */
+  static tagName?: string;
+
 
   connectedCallback() {
     super.connectedCallback();
     this.applyComponentStyles();
+
+    if (this.observeAttributes)
+      this._attributeObserverCleanup = observeAttributes(
+        this,
+        (name, oldValue, newValue) => {
+        this.onAttributeChanged(name, oldValue, newValue);
+      }
+  );
+
   }
 
+  disconnectedCallback() {
+    // Auto-cleanup all listeners
+    for (const off of this._listeners) off();
+    this._listeners = [];
+
+    this._attributeObserverCleanup?.();
+
+    super.disconnectedCallback();
+  }
+
+  /* Stylesheet cache for adopted styles */
   private applyComponentStyles() {
     const ctor = this.constructor as typeof LpElement;
     const root = this.shadowRoot!;
@@ -39,8 +87,6 @@ export class LpElement extends LitElement {
       }
     }
   }
-
-  /* end Style handling */
 
 
   /**
@@ -86,16 +132,7 @@ export class LpElement extends LitElement {
     }
   }
 
-  /**
-   * A static tagName property for consistent logging.
-   * You can set this in each component:
-   *   static tagName = 'lp-icon';
-   */
-  static tagName?: string;
-
   /* Global Event Listeners w/ Cleanup */
-  private _listeners: Array<() => void> = [];
-
   protected listen(
     target: EventTarget,
     type: string,
@@ -110,31 +147,9 @@ export class LpElement extends LitElement {
     });
   }
 
-  disconnectedCallback() {
-    // Auto-cleanup all listeners
-    for (const off of this._listeners) off();
-    this._listeners = [];
-
-    super.disconnectedCallback();
+  /* Attribute Observer */
+  protected onAttributeChanged(_name: string, _oldValue: string | null, _newValue: string | null) {
+    // default: no-op
   }
-  /* End Global Event Listeners w/ Cleanup */
 
-  /* Accessibility Helpers */
-
-  protected ally = {
-    assertAltText: () => a11y.assertAltText(this),
-    assertAriaControls: (id: string) => a11y.assertAriaControls(this, id),
-    assertAriaExpanded: (expanded: boolean) => a11y.assertAriaExpanded(this, expanded),
-    assertFocusable: () => a11y.assertFocusable(this),
-    assertLabel: () => a11y.assertLabel(this),
-    assertRequiredProps: (props: string[]) => a11y.assertRequiredProps(this, props),
-    assertRole: (expected: string) => a11y.assertRole(this, expected),
-    assertSingleTabStop: () => a11y.assertSingleTabStop(this),
-    ensureTabbable: () => a11y.ensureTabbable(this),
-    restoreFocus: () => a11y.restoreFocus(this),
-    trapFocus: () => a11y.trapFocus(this),
-    warnIfInteractiveWithoutRole: () => a11y.warnIfInteractiveWithoutRole(this),
-  };
-
-  /* End Accessibility Helpers */
 }
