@@ -1,5 +1,6 @@
-import { LitElement, html } from 'lit';
+import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { LpElement } from '../../lib/lp-element';
 import { dsLogger } from '../../utils/dslogger';
 import stylesText from './lp-icon.css?raw';
 
@@ -13,9 +14,8 @@ import { strokeWidthTokens, type StrokeWidthPreset } from '../../types/strokeWid
  *
  */
 @customElement('lp-icon')
-export class LpIcon extends LitElement {
-  private static _sheet?: CSSStyleSheet
-  private _styleEl?: HTMLStyleElement
+export class LpIcon extends LpElement {
+  static stylesText = stylesText;
 
   @property({ type: String, reflect: true })
   color: ColorSet | 'currentColor' = 'blue';
@@ -28,31 +28,6 @@ export class LpIcon extends LitElement {
 
   @property({ type: String, reflect: true })
   strokeWidth: StrokeWidthPreset | string = '2';
-
-  connectedCallback() {
-    super.connectedCallback()
-    const root = this.renderRoot as ShadowRoot
-
-    if ('adoptedStyleSheets' in ShadowRoot.prototype) {
-      if (!LpIcon._sheet) {
-        const sheet = new CSSStyleSheet()
-        if ('replaceSync' in CSSStyleSheet.prototype) {
-          ;(sheet as any).replaceSync(stylesText)
-        } else if ((sheet as any).replace) {
-          ;(sheet as any).replace(stylesText)
-        }
-        LpIcon._sheet = sheet
-      }
-      ;(root as any).adoptedStyleSheets = [LpIcon._sheet]
-    } else {
-      if (!this._styleEl) {
-        const s = document.createElement('style')
-        s.textContent = stylesText
-        root.appendChild(s)
-        this._styleEl = s
-      }
-    }
-  }
 
   updated(changedProps: Map<string, unknown>) {
     if (changedProps.has('color'))

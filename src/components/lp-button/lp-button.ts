@@ -1,5 +1,6 @@
-import { LitElement, html } from 'lit'
+import { html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
+import { LpElement } from '../../lib/lp-element'
 import stylesText from './lp-button.css?raw'
 
 /**
@@ -9,14 +10,12 @@ import stylesText from './lp-button.css?raw'
  * @csspart button - The button
  */
 @customElement('lp-button')
-export class LpButton extends LitElement {
-  private static _sheet?: CSSStyleSheet
-  private _styleEl?: HTMLStyleElement
-  
-  @property({ type: String })
-  color: 'black' | 'gray' | 'slate' | 'lgray' | 'default' = 'default'
-  
+export class LpButton extends LpElement {
+  static stylesText = stylesText;
 
+  @property({ type: String })
+  color: ColorSet = 'blue';
+  
 
   render() {
     return html`
@@ -26,31 +25,6 @@ export class LpButton extends LitElement {
         <slot name="end"></slot>
       </button>
     `
-  }
-
-  connectedCallback() {
-    super.connectedCallback()
-    const root = this.renderRoot as ShadowRoot
-
-    if ('adoptedStyleSheets' in ShadowRoot.prototype) {
-      if (!LpButton._sheet) {
-        const sheet = new CSSStyleSheet()
-        if ('replaceSync' in CSSStyleSheet.prototype) {
-          ;(sheet as any).replaceSync(stylesText)
-        } else if ((sheet as any).replace) {
-          ;(sheet as any).replace(stylesText)
-        }
-        LpButton._sheet = sheet
-      }
-      ;(root as any).adoptedStyleSheets = [LpButton._sheet]
-    } else {
-      if (!this._styleEl) {
-        const s = document.createElement('style')
-        s.textContent = stylesText
-        root.appendChild(s)
-        this._styleEl = s
-      }
-    }
   }
 }
 
