@@ -1,6 +1,7 @@
 import { LitElement } from 'lit';
 import type { ComponentEvents } from './events';
 import * as a11y from './ally';
+import type { AssertRoleOptions } from './ally/assertRole';
 import { observeAttributes } from '../utils';
 
 export class LpElement extends LitElement {
@@ -17,7 +18,7 @@ export class LpElement extends LitElement {
     assertFocusable: () => a11y.assertFocusable(this),
     assertLabel: () => a11y.assertLabel(this),
     assertRequiredProps: (props: string[]) => a11y.assertRequiredProps(this, props),
-    assertRole: (expected: string) => a11y.assertRole(this, expected),
+    assertRole: (options: AssertRoleOptions) => a11y.assertRole(this, options),
     assertSingleTabStop: () => a11y.assertSingleTabStop(this),
     ensureTabbable: () => a11y.ensureTabbable(this),
     restoreFocus: () => a11y.restoreFocus(this),

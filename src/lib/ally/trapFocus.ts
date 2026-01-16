@@ -1,11 +1,9 @@
 import type { LpElement } from '../lp-element';
 
 export function trapFocus(el: LpElement) {
-  if (!import.meta.env.DEV) return;
-
   const root = el.shadowRoot;
   if (!root) {
-    el.log('Cannot trap focus: no shadowRoot found');
+    if (import.meta.env.DEV) el.log('Cannot trap focus: no shadowRoot found');
     return;
   }
 
@@ -14,7 +12,7 @@ export function trapFocus(el: LpElement) {
   );
 
   if (focusables.length === 0) {
-    el.log('Focus trap warning: no focusable elements inside component');
+    if (import.meta.env.DEV) el.log('Focus trap warning: no focusable elements inside component');
     return;
   }
 
@@ -26,13 +24,11 @@ export function trapFocus(el: LpElement) {
     if (e.key !== 'Tab') return;
 
     if (e.shiftKey) {
-      // Shift+Tab on first element → wrap to last
       if (document.activeElement === first) {
         e.preventDefault();
         last.focus();
       }
     } else {
-      // Tab on last element → wrap to first
       if (document.activeElement === last) {
         e.preventDefault();
         first.focus();
@@ -42,6 +38,9 @@ export function trapFocus(el: LpElement) {
 
   root.addEventListener('keydown', handler);
 
-  // Return cleanup function
+  if (import.meta.env.DEV) {
+    el.log('Focus trap activated');
+  }
+
   return () => root.removeEventListener('keydown', handler);
 }

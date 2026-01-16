@@ -18,7 +18,7 @@ export class LpButton extends LpElement {
 
   @property({ type: String })
   color: ColorSet = 'blue';
-  
+
   @property({ type: String })
   type: HTMLButtonElement['type'] = 'button';
 
@@ -27,6 +27,7 @@ export class LpButton extends LpElement {
 
     // Accessibility
     this.ally.assertLabel();
+    this.ally.assertSingleTabStop();
   }
   
   protected onAttributeChanged(name: string, _oldValue: string | null, newValue: string | null) {
