@@ -1,18 +1,20 @@
 :host {
-  --lp-button-bg: var(--color-blue);
-  --lp-button-color: 100%;
-  --lp-button-shadow: var(--color-black);
+  --lp-button-bg: var(--lp-color-blue);
+  --lp-button-color-l: 100%;
+  --lp-button-box-shadow:  0 4px 6px oklch(from var(--lp-color-black) l c h / 0.2);
   --lp-button-icon-size: 1rem;
+  --lp-button-padding-block: 0.75rem;
+  --lp-button-padding-inline: 0.75rem;
 }
 
 button {
-  background-color: var(--button-bg);
-  color: oklch(from var(--color-lgray) var(--button-color) c h / 1);
-  box-shadow: 0 4px 6px oklch(from var(--button-shadow) l c h / 0.2);
-  min-height: 2.5rem;
-  padding-inline: .75rem;
+  background-color: var(--lp-button-bg);
+  color: oklch(from var(--lp-color-lgray) var(--lp-button-color-l) c h / 1);
+  box-shadow: var(--lp-button-box-shadow);
+  padding-block: var(--lp-button-padding-block);
+  padding-inline: var(--lp-button-padding-inline);
   font-size: 1rem;
-  border: 1px solid oklch(from var(--button-bg) 75% c h / 1);
+  border: 1px solid oklch(from var(--lp-button-bg) 75% c h / 1);
   border-radius: 0.25rem;
 
   display: inline-flex;
@@ -21,26 +23,26 @@ button {
   justify-content: center;
 
   &:hover {
-    background-color: oklch(from var(--button-bg) l c h / 0.9);
-    box-shadow: 0 6px 8px oklch(from var(--button-shadow) l c h / 0.3);
+    background-color: oklch(from var(--lp-button-bg) l c h / 0.9);
+    box-shadow: 0 6px 8px oklch(from var(--lp-button-shadow) l c h / 0.3);
   }
 
   lp-icon {
-    --lp-icon-size: var(--button-icon-size);
+    --lp-icon-size: var(--lp-button-icon-size);
   }
 }
 
 button.black {
-  --button-bg: var(--color-black);
+  --button-bg: var(--lp-color-black);
 }
 button.gray {
-  --button-bg: var(--color-gray);
+  --button-bg: var(--lp-color-gray);
 }
 button.slate {
-  --button-bg: var(--color-slate);
+  --button-bg: var(--lp-color-slate);
 }
 button.lgray {
-  --button-bg: var(--color-lgray);
+  --button-bg: var(--lp-color-lgray);
   --button-color: 40%;
 }
 
@@ -48,7 +50,7 @@ button.lgray {
 .icon-start,
 .icon-end,
 .loader {
-  width: 1em;
+  width: var(--lp-button-icon-size);
   display: inline-flex;
   justify-content: center;
   align-items: center;

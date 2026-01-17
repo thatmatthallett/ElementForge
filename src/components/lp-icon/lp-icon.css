@@ -12,16 +12,16 @@
 }
 
 svg {
-  width: var(--icon-size);
-  height: var(--icon-size);
+  width: var(--lp-icon-size);
+  height: var(--lp-icon-size);
 
   &.icons-tabler-filled {
-    fill: var(--icon-color);
+    fill: var(--lp-icon-color);
   }
 
   &.icons-tabler-outline {
-    stroke: var(--icon-color);
-    stroke-width: var(--icon-stroke-width);
+    stroke: var(--lp-icon-color);
+    stroke-width: var(--lp-icon-stroke-width);
   }
 }
 

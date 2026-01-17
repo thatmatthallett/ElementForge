@@ -2,11 +2,11 @@
 
 @layer theme {
   :root {
-    --color-black: oklch(0.2795 0.0181 241.71);
-    --color-gray: oklch(0.3392 0.0244 248.55);
-    --color-blue: oklch(0.3987 0.0709 229.86);
-    --color-slate: oklch(0.6256 0.0294 211.13);
-    --color-lgray: oklch(0.8793 0.0094 150.67);
+    --lp-color-black: oklch(0.2795 0.0181 241.71);
+    --lp-color-gray: oklch(0.3392 0.0244 248.55);
+    --lp-color-blue: oklch(0.3987 0.0709 229.86);
+    --lp-color-slate: oklch(0.6256 0.0294 211.13);
+    --lp-color-lgray: oklch(0.8793 0.0094 150.67);
   }
 }
 
