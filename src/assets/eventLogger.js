@@ -11,11 +11,13 @@ const lpEvents = [
   'lp-select',
   'lp-select-open',
   'lp-select-close',
+  'lp-loading-start',
+  'lp-loading-end',
   // Add more as your design system grows
 ];
 
 for (const eventName of lpEvents) {
-  document.addEventListener(
+  window.addEventListener(
     eventName,
     e => logLpEvent(e),
     { capture: true }
@@ -28,7 +30,7 @@ function logLpEvent(e) {
   const detail = e.detail ?? {};
 
   console.groupCollapsed(
-    `%c LP EVENT %c ${name} %c ${time}`,
+    `%cLP-EVENT%c${name}%c ${time}`,
     'background:#6C5CE7;color:white;padding:2px 6px;border-radius:4px;',
     'background:#00CEC9;color:black;padding:2px 6px;border-radius:4px;margin-left:4px;',
     'color:#636e72;margin-left:4px;'

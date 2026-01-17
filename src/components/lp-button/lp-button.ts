@@ -19,7 +19,7 @@ export class LpButton extends LpElement {
 
   static stylesText = stylesText;
 
-  @property({ type: String, reflect: true })
+  @property({ type: String })
   lpId: string = createComponentId('lpButton');
 
   @property({ type: String, reflect: true })
