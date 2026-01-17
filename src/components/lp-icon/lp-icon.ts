@@ -79,30 +79,36 @@ export class LpIcon extends LpElement {
 
   private updateColor(): void {
     if (this.color === 'currentColor') {
-      this.style.setProperty('--icon-color', 'currentColor');
+      this.style.removeProperty('--icon-color');
       return;
     }
 
-    if (!colorSetValues.includes(this.color as any)){
-      dsLogger.warn('lp-icon', `invalid "color" value: ${this.color} - Value must be one of ${colorSetValues.join(', ')} or currentColor. Defaulting to blue.`, 'lp-icon#color');
-      this.style.setProperty('--icon-color', 'var(--color-blue)');
-    } else {
-      this.style.setProperty('--icon-color', `var(--color-${this.color})`);
+    if (!colorSetValues.includes(this.color as any)) {
+      dsLogger.warn('lp-icon', `invalid "color" value: ${this.color}`, 'lp-icon#color');
+      this.style.removeProperty('--icon-color');
+      return;
     }
+
+    this.style.setProperty('--icon-color', `var(--color-${this.color})`);
   }
 
   private updateSize(): void {
+    if (this.size === '2rem') {
+      this.style.removeProperty('--icon-size');
+      return;
+    }
+
     if (CSS.supports('width', this.size)) {
       this.style.setProperty('--icon-size', this.size);
     } else {
-      dsLogger.warn('lp-icon', `invalid "size" value: ${this.size} - Defaulting to 2rem.`, 'lp-icon#size');
-      this.style.setProperty('--icon-size', '2rem');
+      dsLogger.warn('lp-icon', `invalid "size" value: ${this.size}`, 'lp-icon#size');
+      this.style.removeProperty('--icon-size'); // fall back to CSS default
     }
   }
 
   private updateStrokeWidth(): void {
-    const preset = strokeWidthTokens[this.strokeWidth as StrokeWidthPreset]
-    
+    const preset = strokeWidthTokens[this.strokeWidth as StrokeWidthPreset];
+
     if (preset) {
       this.style.setProperty('--icon-stroke-width', preset);
       return;
@@ -111,11 +117,11 @@ export class LpIcon extends LpElement {
     if (CSS.supports('stroke-width', this.strokeWidth)) {
       this.style.setProperty('--icon-stroke-width', this.strokeWidth);
     } else {
-      dsLogger.warn('lp-icon', `invalid "strokeWidth" value: ${this.strokeWidth} - Defaulting to 2.`, 'lp-icon#strokeWidth');
-      this.style.setProperty('--icon-stroke-width', '2');
+      dsLogger.warn('lp-icon', `invalid "strokeWidth" value: ${this.strokeWidth}`, 'lp-icon#strokeWidth');
+      this.style.removeProperty('--icon-stroke-width');
     }
-    
   }
+
 
   render() {
     if (!isIconName(this._name)) {
