@@ -1,8 +1,8 @@
 :host {
-  --icon-color: currentColor;
-  --icon-size: 2rem;
-  --icon-stroke-width: 2;
-  
+  --lp-icon-color: currentColor;
+  --lp-icon-size: 2rem;
+  --lp-icon-stroke-width: 2;
+
   display: inline-flex;
   line-height: 0;
 }

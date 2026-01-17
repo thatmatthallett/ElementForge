@@ -79,30 +79,30 @@ export class LpIcon extends LpElement {
 
   private updateColor(): void {
     if (this.color === 'currentColor') {
-      this.style.removeProperty('--icon-color');
+      this.style.removeProperty('--lp-icon-color');
       return;
     }
 
     if (!colorSetValues.includes(this.color as any)) {
       dsLogger.warn('lp-icon', `invalid "color" value: ${this.color}`, 'lp-icon#color');
-      this.style.removeProperty('--icon-color');
+      this.style.removeProperty('--lp-icon-color');
       return;
     }
 
-    this.style.setProperty('--icon-color', `var(--color-${this.color})`);
+    this.style.setProperty('--lp-icon-color', `var(--color-${this.color})`);
   }
 
   private updateSize(): void {
     if (this.size === '2rem') {
-      this.style.removeProperty('--icon-size');
+      this.style.removeProperty('--lp-icon-size');
       return;
     }
 
     if (CSS.supports('width', this.size)) {
-      this.style.setProperty('--icon-size', this.size);
+      this.style.setProperty('--lp-icon-size', this.size);
     } else {
       dsLogger.warn('lp-icon', `invalid "size" value: ${this.size}`, 'lp-icon#size');
-      this.style.removeProperty('--icon-size'); // fall back to CSS default
+      this.style.removeProperty('--lp-icon-size'); // fall back to CSS default
     }
   }
 
@@ -110,15 +110,15 @@ export class LpIcon extends LpElement {
     const preset = strokeWidthTokens[this.strokeWidth as StrokeWidthPreset];
 
     if (preset) {
-      this.style.setProperty('--icon-stroke-width', preset);
+      this.style.setProperty('--lp-icon-stroke-width', preset);
       return;
     }
 
     if (CSS.supports('stroke-width', this.strokeWidth)) {
-      this.style.setProperty('--icon-stroke-width', this.strokeWidth);
+      this.style.setProperty('--lp-icon-stroke-width', this.strokeWidth);
     } else {
       dsLogger.warn('lp-icon', `invalid "strokeWidth" value: ${this.strokeWidth}`, 'lp-icon#strokeWidth');
-      this.style.removeProperty('--icon-stroke-width');
+      this.style.removeProperty('--lp-icon-stroke-width');
     }
   }
 

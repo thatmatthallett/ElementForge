@@ -1,8 +1,8 @@
 :host {
-  --button-bg: var(--color-blue);
-  --button-color: 100%;
-  --button-shadow: var(--color-black);
-  --button-icon-size: 1rem;
+  --lp-button-bg: var(--color-blue);
+  --lp-button-color: 100%;
+  --lp-button-shadow: var(--color-black);
+  --lp-button-icon-size: 1rem;
 }
 
 button {
@@ -26,7 +26,7 @@ button {
   }
 
   lp-icon {
-    --icon-size: var(--button-icon-size) !important;
+    --lp-icon-size: var(--button-icon-size);
   }
 }
 
