@@ -26,10 +26,12 @@ export class LpButton extends LpElement {
   disabled = false;
 
   @property({ type: String, reflect: true })
-  iconStart: IconName | null = null;
+  icon: IconName | null = null;
   @property({ type: String, reflect: true })
-  iconEnd: IconName | null = null;
+  iconPosition: 'start' | 'end' = 'start';
 
+  @property({ type: Boolean, reflect: true })
+  loader = false
   @property({ type: Boolean, reflect: true })
   loading = false;
   @property({ type: String })
@@ -98,6 +100,18 @@ export class LpButton extends LpElement {
 
 
   render() {
+    const iconCode = html`
+      <span class="icon-${this.iconPosition} ${this.loading ? 'mode-loading' : 'mode-normal'}">
+        <lp-icon name=${this.icon}></lp-icon>
+      </span>
+    `;
+
+    const loaderCode = html`
+      <span class="loader ${this.loading ? 'mode-loading' : 'mode-normal'}">
+        <lp-icon name=${this.loadingIcon} spinner></lp-icon>
+      </span>
+    `;
+
     return html`
       <button
         type="${this.type}"
@@ -106,24 +120,17 @@ export class LpButton extends LpElement {
         ?disabled=${this.disabled || this.loading}
         aria-busy=${this.loading ? 'true' : 'false'}
       >
-        <span class="icon-start">
-          ${this.iconStart  
-            ? html`<lp-icon name=${this.iconStart} size="1rem"></lp-icon>`
-            : null
-          }
-        </span>
+        ${this.icon && this.iconPosition === 'start' 
+          ? iconCode : null
+        }
         <slot></slot>
-        <span class="icon-end">
-          ${this.loading &&
-            html`<lp-icon name=${this.loadingIcon} size="1rem" spinner></lp-icon>`
-          }
-          ${this.iconEnd &&
-            html`<lp-icon name=${this.iconEnd} size="1rem"></lp-icon>`
-          }
-        </span>
+        ${this.icon && this.iconPosition === 'end' 
+          ? iconCode : null
+        }
+        ${this.loader ? loaderCode : null}
       </button>
-    `
-  } 
+    `;
+  }
 }
 
 declare global {

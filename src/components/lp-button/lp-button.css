@@ -2,14 +2,15 @@
   --button-bg: var(--color-blue);
   --button-color: 100%;
   --button-shadow: var(--color-black);
+  --button-icon-size: 1rem;
 }
 
 button {
   background-color: var(--button-bg);
   color: oklch(from var(--color-lgray) var(--button-color) c h / 1);
   box-shadow: 0 4px 6px oklch(from var(--button-shadow) l c h / 0.2);
-  min-width: 120px;
-  padding: 0.75rem 1.5rem;
+  min-height: 2.5rem;
+  padding-inline: .75rem;
   font-size: 1rem;
   border: 1px solid oklch(from var(--button-bg) 75% c h / 1);
   border-radius: 0.25rem;
@@ -17,10 +18,15 @@ button {
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
+  justify-content: center;
 
   &:hover {
     background-color: oklch(from var(--button-bg) l c h / 0.9);
     box-shadow: 0 6px 8px oklch(from var(--button-shadow) l c h / 0.3);
+  }
+
+  lp-icon {
+    --icon-size: var(--button-icon-size) !important;
   }
 }
 
@@ -40,17 +46,47 @@ button.lgray {
 
 /* Icon Animations */
 .icon-start,
-.icon-end {
+.icon-end,
+.loader {
+  width: 1em;
   display: inline-flex;
-  align-items: center;
   justify-content: center;
-  transition: transform 1s ease;
+  align-items: center;
+  transition: opacity 200ms ease, transform 200ms ease, width 200ms ease;
+  overflow: hidden;
 }
 
-:host([loading]) .icon-start {
-  transform: translateX(-0.25rem);
+  /* NORMAL MODE */
+.icon-start.mode-normal {
+  opacity: 1;
+  transform: translateX(0);
 }
 
-:host([loading]) .icon-end {
- transform: translateX(0);
+.icon-end.mode-normal {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.loader.mode-normal {
+  width: 0;
+  opacity: 0;
+  transform: translateX(1rem); /* slides right */
+}
+
+  /* LOADING MODE */
+.icon-start.mode-loading {
+  width: 0;
+  opacity: 0;
+  transform: translateX(-1rem);
+}
+
+.icon-end.mode-loading {
+  width: 0;
+  opacity: 0;
+  transform: translateX(1rem); /* slides right */
+}
+
+.loader.mode-loading {
+  opacity: 1;
+  transform: translateX(0);
 }
