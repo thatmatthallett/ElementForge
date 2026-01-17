@@ -1,13 +1,15 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { LpElement } from '../../lib/lp-element';
-import { dsLogger } from '../../utils/dslogger';
+import { dsLogger, isIconName } from '../../utils';
 import stylesText from './lp-icon.css?raw';
 
 import { icons } from '../../assets/icons/icons';
-import { isIconName } from '../../utils';
-import { colorSetValues } from '../../types/colorSet';
-import { strokeWidthTokens, type StrokeWidthPreset } from '../../types/strokeWidths';
+import { 
+  colorSetValues,
+  strokeWidthTokens,
+  type StrokeWidthPreset
+} from '../../types';
 
 /**
  * litPortfolio Icon Element.

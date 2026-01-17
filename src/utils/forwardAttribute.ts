@@ -1,4 +1,4 @@
-export function forwardAria(host: HTMLElement, target: HTMLElement, name: string, value: string | null) {
+export function forwardAttribute(host: HTMLElement, target: HTMLElement, name: string, value: string | null) {
   if (value === null) {
     target.removeAttribute(name);
   } else {
