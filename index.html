@@ -15,7 +15,8 @@
     </my-element>
 
     <div>
-      <lp-button color="slate">Test</lp-button>
+      <lp-button id="loadToggle" color="slate">Test Load Event</lp-button>
+      <lp-button id="loadToggle2" color="slate">Test Load Method</lp-button>
     </div>
     <div>
       <lp-icon name="ad-circle-filled"></lp-icon>
@@ -39,9 +40,27 @@
     }
 
     const btn = document.querySelector('#testLoader');
+    const btn2 = document.querySelector('#loadToggle');
+    const btn3 = document.querySelector('#loadToggle2');
 
     btn.addEventListener('lp-click', e => {
       toggleLoading(btn);
     });
+
+    btn2.addEventListener('lp-click', e => {
+      let isLoading = btn.loading;
+      let lpId = btn.lpId;
+      toggleLoading(lpId, isLoading);
+    });
+
+    btn3.addEventListener('lp-click', e => {
+      btn.toggleLoading();
+    });
+
+    function toggleLoading(lpId, isLoading) {
+      console.log(`Toggling loading for ${lpId} to ${isLoading}`);
+      const eventName = isLoading ? 'lp-loading-end' : 'lp-loading-start';
+      window.dispatchEvent( new CustomEvent(eventName, { detail: { lpId } }) );
+    }
   </script>
 </html>

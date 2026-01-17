@@ -2,7 +2,7 @@ import { html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import { LpElement } from '../../lib/lp-element'
 import stylesText from './lp-button.css?raw'
-import { forwardAria, matchesAttributeCategory, isButtonType } from '../../utils'
+import { forwardAria, matchesAttributeCategory, isButtonType, createComponentId } from '../../utils'
 
 /**
  * litPortfolio Button Element.
@@ -18,6 +18,9 @@ export class LpButton extends LpElement {
   protected observeAttributes = true;
 
   static stylesText = stylesText;
+
+  @property({ type: String, reflect: true })
+  lpId: string = createComponentId('lpButton');
 
   @property({ type: String, reflect: true })
   color: ColorSet = 'blue';
@@ -51,7 +54,20 @@ export class LpButton extends LpElement {
     // Handle Clicks
     this.addEventListener('click', this.#preventHostClick);
 
+    // Handle Loading Events
+    window.addEventListener('lp-loading-start', this.onLoadingStart as EventListener);
+    window.addEventListener('lp-loading-end', this.onLoadingEnd as EventListener);
+  }
 
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+
+    // Remove Click Handler
+    this.removeEventListener('click', this.#preventHostClick);
+
+    // Remove Loading Handlers
+    window.removeEventListener('lp-loading-start', this.onLoadingStart as EventListener);
+    window.removeEventListener('lp-loading-end', this.onLoadingEnd as EventListener);
   }
 
   #onInternalClick(event: MouseEvent) {
@@ -71,6 +87,9 @@ export class LpButton extends LpElement {
     }
   }
 
+  public startLoading() { this.loading = true; }
+  public stopLoading() { this.loading = false; }
+  public toggleLoading() { this.loading = !this.loading; }
   
   protected onAttributeChanged(name: string, _oldValue: string | null, newValue: string | null) {
     if (!matchesAttributeCategory(name, ['aria-','disabled','type'])) return;
@@ -96,6 +115,17 @@ export class LpButton extends LpElement {
       return;
     }
 
+  }
+
+  private onLoadingStart = (e: CustomEvent<{ lpId: string }>) => {
+    console.log('lp-loading-start received', e.detail.lpId, this.lpId);
+    if (e.detail.lpId !== this.lpId) return;
+    this.startLoading();
+  }
+  private onLoadingEnd = (e: CustomEvent<{ lpId: string }>) => {
+    console.log('lp-loading-end received', e.detail.lpId, this.lpId);
+    if (e.detail.lpId !== this.lpId) return;
+    this.stopLoading();
   }
 
 

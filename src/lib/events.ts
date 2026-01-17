@@ -28,5 +28,9 @@ export type ComponentEvents = {
   'lp-select-open': undefined;
   'lp-select-close': undefined;
 
+  // Loading component events
+  'lp-loading-start':  { lpId: string };
+  'lp-loading-end': { lpId: string };
+
   // Add more component-specific events here...
 };
