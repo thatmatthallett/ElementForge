@@ -118,12 +118,10 @@ export class LpButton extends LpElement {
   }
 
   private onLoadingStart = (e: CustomEvent<{ lpId: string }>) => {
-    console.log('lp-loading-start received', e.detail.lpId, this.lpId);
     if (e.detail.lpId !== this.lpId) return;
     this.startLoading();
   }
   private onLoadingEnd = (e: CustomEvent<{ lpId: string }>) => {
-    console.log('lp-loading-end received', e.detail.lpId, this.lpId);
     if (e.detail.lpId !== this.lpId) return;
     this.stopLoading();
   }

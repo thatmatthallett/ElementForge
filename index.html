@@ -29,7 +29,7 @@
   </div>
 
   <script>
-    function toggleLoading(button, duration = 1500) {
+    function triggerLoading(button, duration = 1500) {
       // Turn loading on
       button.loading = true;
 
@@ -44,7 +44,7 @@
     const btn3 = document.querySelector('#loadToggle2');
 
     btn.addEventListener('lp-click', e => {
-      toggleLoading(btn);
+      triggerLoading(btn);
     });
 
     btn2.addEventListener('lp-click', e => {
@@ -58,7 +58,6 @@
     });
 
     function toggleLoading(lpId, isLoading) {
-      console.log(`Toggling loading for ${lpId} to ${isLoading}`);
       const eventName = isLoading ? 'lp-loading-end' : 'lp-loading-start';
       window.dispatchEvent( new CustomEvent(eventName, { detail: { lpId } }) );
     }
