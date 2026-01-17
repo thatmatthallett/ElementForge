@@ -7,6 +7,7 @@
     <title>lit-portfolio</title>
     <link rel="stylesheet" href="./src/index.css" />
     <script type="module" src="/src/components/index.ts"></script>
+    <script src="/src/assets/eventLogger.js"></script>
   </head>
   <body>
     <my-element>
@@ -19,7 +20,28 @@
     <div>
       <lp-icon name="ad-circle-filled"></lp-icon>
       <lp-icon name="address-book" size="5rem" strokeWidth="1"></lp-icon>
-      <lp-icon name="ad-circle"></lp-icon>
+      <lp-icon name="loader-2" strokeWidth="bold" spinner></lp-icon>
     </div>
   </body>
+  <div>
+    <lp-button id="testLoader" color="slate" iconStart="User">Test</lp-button>
+  </div>
+
+  <script>
+    function toggleLoading(button, duration = 1500) {
+      // Turn loading on
+      button.loading = true;
+
+      // Turn loading off after a delay
+      setTimeout(() => {
+        button.loading = false;
+      }, duration);
+    }
+
+    const btn = document.querySelector('#testLoader');
+
+    btn.addEventListener('lp-click', e => {
+      toggleLoading(btn);
+    });
+  </script>
 </html>

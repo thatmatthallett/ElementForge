@@ -1,8 +1,10 @@
-button {
+:host {
   --button-bg: var(--color-blue);
   --button-color: 100%;
   --button-shadow: var(--color-black);
+}
 
+button {
   background-color: var(--button-bg);
   color: oklch(from var(--color-lgray) var(--button-color) c h / 1);
   box-shadow: 0 4px 6px oklch(from var(--button-shadow) l c h / 0.2);
@@ -11,6 +13,10 @@ button {
   font-size: 1rem;
   border: 1px solid oklch(from var(--button-bg) 75% c h / 1);
   border-radius: 0.25rem;
+
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
 
   &:hover {
     background-color: oklch(from var(--button-bg) l c h / 0.9);
@@ -30,4 +36,21 @@ button.slate {
 button.lgray {
   --button-bg: var(--color-lgray);
   --button-color: 40%;
+}
+
+/* Icon Animations */
+.icon-start,
+.icon-end {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 1s ease;
+}
+
+:host([loading]) .icon-start {
+  transform: translateX(-0.25rem);
+}
+
+:host([loading]) .icon-end {
+ transform: translateX(0);
 }

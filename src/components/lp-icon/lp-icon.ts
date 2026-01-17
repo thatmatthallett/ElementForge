@@ -18,13 +18,25 @@ export class LpIcon extends LpElement {
   static stylesText = stylesText;
 
   @property({ type: String, reflect: true })
-  color: ColorSet | 'currentColor' = 'blue';
-  
+  color: ColorSet | 'currentColor' = 'currentColor';
+
+  private _name!: IconName;
   @property({ type: String })
-  name!: IconName;
+  get name() {
+    return this._name;
+  }
+  set name(value: IconName) {
+    const normalized = value?.toLowerCase() as IconName;
+    const old = this._name;
+    this._name = normalized;
+    this.requestUpdate('name', old);
+  }
 
   @property({ type: String, reflect: true })
   size: string = '2rem';
+
+  @property({ type: Boolean, reflect: true })
+  spinner = false;
 
   @property({ type: String, reflect: true })
   strokeWidth: StrokeWidthPreset | string = '2';
@@ -90,6 +102,7 @@ export class LpIcon extends LpElement {
 
   private updateStrokeWidth(): void {
     const preset = strokeWidthTokens[this.strokeWidth as StrokeWidthPreset]
+    
     if (preset) {
       this.style.setProperty('--icon-stroke-width', preset);
       return;
@@ -105,13 +118,13 @@ export class LpIcon extends LpElement {
   }
 
   render() {
-    if (!isIconName(this.name)) {
+    if (!isIconName(this._name)) {
       dsLogger.error('lp-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'lp-icon#name');
       return html``;
     }
 
     return html`
-      ${icons[this.name]}
+      ${icons[this._name]}
     `;
   }
 }

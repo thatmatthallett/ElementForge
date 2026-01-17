@@ -6,7 +6,7 @@ export function assertLabel(el: LpElement) {
   const hasLabel =
     el.getAttribute('aria-label') ||
     el.getAttribute('aria-labelledby') ||
-    el.querySelector('[slot="label"]');
+    el.textContent?.trim();
 
   if (!hasLabel) {
     el.log('Component is missing an accessible label');

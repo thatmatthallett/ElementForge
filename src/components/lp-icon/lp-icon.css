@@ -2,6 +2,11 @@
   display: inline-flex;
   line-height: 0;
 }
+
+:host([spinner]) svg {
+  animation: lp-icon-spin 1.5s linear infinite;
+}
+
 svg {
   width: var(--icon-size);
   height: var(--icon-size);
@@ -13,5 +18,14 @@ svg {
   &.icons-tabler-outline {
     stroke: var(--icon-color);
     stroke-width: var(--icon-stroke-width);
+  }
+}
+
+@keyframes lp-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

@@ -7,7 +7,10 @@
 export type ComponentEvents = {
   // Generic UI events
   'lp-change': { value: unknown };
-  'lp-click': { source: 'keyboard' | 'mouse' };
+  'lp-click': { 
+    originalEvent: MouseEvent;
+    source?: 'keyboard' | 'mouse';
+   };
   'lp-input': { value: unknown };
   'lp-focus': undefined;
   'lp-blur': undefined;
