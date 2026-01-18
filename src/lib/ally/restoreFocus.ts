@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function restoreFocus(el: LpElement) {
+export function restoreFocus(el: EfElement) {
   const previouslyFocused = document.activeElement as HTMLElement | null;
 
   return () => {

@@ -1,4 +1,4 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
 export interface AssertRoleOptions {
   mustBe?: string;
@@ -8,7 +8,7 @@ export interface AssertRoleOptions {
 
 
 export function assertRole(
-  el: LpElement,
+  el: EfElement,
   options: AssertRoleOptions
 ) {
   if (!import.meta.env.DEV) return;

@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function ensureTabbable(el: LpElement) {
+export function ensureTabbable(el: EfElement) {
   const hadTabindex = el.hasAttribute('tabindex');
 
   if (!hadTabindex) {

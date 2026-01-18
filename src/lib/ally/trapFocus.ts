@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function trapFocus(el: LpElement) {
+export function trapFocus(el: EfElement) {
   const root = el.shadowRoot;
   if (!root) {
     if (import.meta.env.DEV) el.log('Cannot trap focus: no shadowRoot found');

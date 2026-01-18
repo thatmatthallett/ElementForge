@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function warnIfInteractiveWithoutRole(el: LpElement) {
+export function warnIfInteractiveWithoutRole(el: EfElement) {
   if (!import.meta.env.DEV) return;
 
   const isInteractive =

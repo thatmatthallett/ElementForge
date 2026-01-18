@@ -6,31 +6,31 @@
  */
 export type ComponentEvents = {
   // Generic UI events
-  'lp-change': { value: unknown };
-  'lp-click': { 
+  'ef-change': { value: unknown };
+  'ef-click': { 
     originalEvent: MouseEvent;
     source?: 'keyboard' | 'mouse';
    };
-  'lp-input': { value: unknown };
-  'lp-focus': undefined;
-  'lp-blur': undefined;
+  'ef-input': { value: unknown };
+  'ef-focus': undefined;
+  'ef-blur': undefined;
 
   // Icon component events
-  'lp-icon-load': { name: string };
-  'lp-icon-error': { name: string; error: Error };
+  'ef-icon-load': { name: string };
+  'ef-icon-error': { name: string; error: Error };
 
   // Modal events
-  'lp-open': { source: 'keyboard' | 'mouse' | 'programmatic' };
-  'lp-close': { reason: 'escape' | 'backdrop' | 'programmatic' };
+  'ef-open': { source: 'keyboard' | 'mouse' | 'programmatic' };
+  'ef-close': { reason: 'escape' | 'backdrop' | 'programmatic' };
 
   // Select component events
-  'lp-select': { value: string | number };
-  'lp-select-open': undefined;
-  'lp-select-close': undefined;
+  'ef-select': { value: string | number };
+  'ef-select-open': undefined;
+  'ef-select-close': undefined;
 
   // Loading component events
-  'lp-loading-start':  { lpId: string };
-  'lp-loading-end': { lpId: string };
+  'ef-loading-start':  { efId: string };
+  'ef-loading-end': { efId: string };
 
   // Add more component-specific events here...
 };

@@ -1,0 +1,94 @@
+:host {
+  --ef-button-bg: var(--ef-color-blue);
+  --ef-button-color-l: 100%;
+  --ef-button-box-shadow:  0 4px 6px oklch(from var(--ef-color-black) l c h / 0.2);
+  --ef-button-icon-size: 1rem;
+  --ef-button-padding-block: 0.75rem;
+  --ef-button-padding-inline: 0.75rem;
+}
+
+button {
+  background-color: var(--ef-button-bg);
+  color: oklch(from var(--ef-color-lgray) var(--ef-button-color-l) c h / 1);
+  box-shadow: var(--ef-button-box-shadow);
+  padding-block: var(--ef-button-padding-block);
+  padding-inline: var(--ef-button-padding-inline);
+  font-size: 1rem;
+  border: 1px solid oklch(from var(--ef-button-bg) 75% c h / 1);
+  border-radius: 0.25rem;
+
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: oklch(from var(--ef-button-bg) l c h / 0.9);
+    box-shadow: 0 6px 8px oklch(from var(--ef-button-shadow) l c h / 0.3);
+  }
+
+  ef-icon {
+    --ef-icon-size: var(--ef-button-icon-size);
+  }
+}
+
+button.black {
+  --ef-button-bg: var(--ef-color-black);
+}
+button.gray {
+  --ef-button-bg: var(--ef-color-gray);
+}
+button.slate {
+  --ef-button-bg: var(--ef-color-slate);
+}
+button.lgray {
+  --ef-button-bg: var(--ef-color-lgray);
+  --ef-button-color-l: 40%;
+}
+
+/* Icon Animations */
+.icon-start,
+.icon-end,
+.loader {
+  width: var(--ef-button-icon-size);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 200ms ease, transform 200ms ease, width 200ms ease;
+  overflow: hidden;
+}
+
+  /* NORMAL MODE */
+.icon-start.mode-normal {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.icon-end.mode-normal {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.loader.mode-normal {
+  width: 0;
+  opacity: 0;
+  transform: translateX(1rem); /* slides right */
+}
+
+  /* LOADING MODE */
+.icon-start.mode-loading {
+  width: 0;
+  opacity: 0;
+  transform: translateX(-1rem);
+}
+
+.icon-end.mode-loading {
+  width: 0;
+  opacity: 0;
+  transform: translateX(1rem); /* slides right */
+}
+
+.loader.mode-loading {
+  opacity: 1;
+  transform: translateX(0);
+}

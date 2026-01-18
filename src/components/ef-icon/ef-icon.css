@@ -1,0 +1,35 @@
+:host {
+  --ef-icon-color: currentColor;
+  --ef-icon-size: 2rem;
+  --ef-icon-stroke-width: 2;
+
+  display: inline-flex;
+  line-height: 0;
+}
+
+:host([spinner]) svg {
+  animation: ef-icon-spin 1.5s linear infinite;
+}
+
+svg {
+  width: var(--ef-icon-size);
+  height: var(--ef-icon-size);
+
+  &.icons-tabler-filled {
+    fill: var(--ef-icon-color);
+  }
+
+  &.icons-tabler-outline {
+    stroke: var(--ef-icon-color);
+    stroke-width: var(--ef-icon-stroke-width);
+  }
+}
+
+@keyframes ef-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

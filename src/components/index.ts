@@ -1,3 +1,3 @@
 import './my-element/my-element.ts'
-import './lp-button/lp-button.ts'
-import './lp-icon/lp-icon.ts'
+import './ef-button/ef-button.ts'
+import './ef-icon/ef-icon.ts'

@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function assertAriaControls(el: LpElement, targetId: string) {
+export function assertAriaControls(el: EfElement, targetId: string) {
   if (!import.meta.env.DEV) return;
 
   const attr = el.getAttribute('aria-controls');

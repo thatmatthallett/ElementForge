@@ -1,36 +1,36 @@
-const lpEvents = [
-  'lp-change',
-  'lp-click',
-  'lp-input',
-  'lp-focus',
-  'lp-blur',
-  'lp-icon-load',
-  'lp-icon-error',
-  'lp-open',
-  'lp-close',
-  'lp-select',
-  'lp-select-open',
-  'lp-select-close',
-  'lp-loading-start',
-  'lp-loading-end',
+const efEvents = [
+  'ef-change',
+  'ef-click',
+  'ef-input',
+  'ef-focus',
+  'ef-blur',
+  'ef-icon-load',
+  'ef-icon-error',
+  'ef-open',
+  'ef-close',
+  'ef-select',
+  'ef-select-open',
+  'ef-select-close',
+  'ef-loading-start',
+  'ef-loading-end',
   // Add more as your design system grows
 ];
 
-for (const eventName of lpEvents) {
+for (const eventName of efEvents) {
   window.addEventListener(
     eventName,
-    e => logLpEvent(e),
+    e => logEfEvent(e),
     { capture: true }
   );
 }
 
-function logLpEvent(e) {
+function logEfEvent(e) {
   const time = new Date().toISOString().split('T')[1].replace('Z', '');
   const name = e.type;
   const detail = e.detail ?? {};
 
   console.groupCollapsed(
-    `%cLP-EVENT%c${name}%c ${time}`,
+    `%cEF-EVENT%c${name}%c ${time}`,
     'background:#6C5CE7;color:white;padding:2px 6px;border-radius:4px;',
     'background:#00CEC9;color:black;padding:2px 6px;border-radius:4px;margin-left:4px;',
     'color:#636e72;margin-left:4px;'

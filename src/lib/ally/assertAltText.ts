@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function assertAltText(el: LpElement) {
+export function assertAltText(el: EfElement) {
   if (!import.meta.env.DEV) return;
 
   const alt = el.getAttribute('alt');

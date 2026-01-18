@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function assertLabel(el: LpElement) {
+export function assertLabel(el: EfElement) {
   if (!import.meta.env.DEV) return;
 
   const hasLabel =

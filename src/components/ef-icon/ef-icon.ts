@@ -1,8 +1,8 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { LpElement } from '../../lib/lp-element';
+import { EfElement } from '../../lib/ef-element';
 import { dsLogger, isIconName } from '../../utils';
-import stylesText from './lp-icon.css?raw';
+import stylesText from './ef-icon.css?raw';
 
 import { icons } from '../../assets/icons/icons';
 import { 
@@ -15,8 +15,8 @@ import {
  * litPortfolio Icon Element.
  *
  */
-@customElement('lp-icon')
-export class LpIcon extends LpElement {
+@customElement('ef-icon')
+export class EfIcon extends EfElement {
   static stylesText = stylesText;
 
   @property({ type: String, reflect: true })
@@ -48,7 +48,7 @@ export class LpIcon extends LpElement {
       this.updateColor();
 
     if (changedProps.has('name') && !this.name)
-      dsLogger.error('lp-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'lp-icon#name');
+      dsLogger.error('ef-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'ef-icon#name');
 
     if (changedProps.has('size'))
       this.updateSize();
@@ -81,30 +81,30 @@ export class LpIcon extends LpElement {
 
   private updateColor(): void {
     if (this.color === 'currentColor') {
-      this.style.removeProperty('--lp-icon-color');
+      this.style.removeProperty('--ef-icon-color');
       return;
     }
 
     if (!colorSetValues.includes(this.color as any)) {
-      dsLogger.warn('lp-icon', `invalid "color" value: ${this.color}`, 'lp-icon#color');
-      this.style.removeProperty('--lp-icon-color');
+      dsLogger.warn('ef-icon', `invalid "color" value: ${this.color}`, 'ef-icon#color');
+      this.style.removeProperty('--ef-icon-color');
       return;
     }
 
-    this.style.setProperty('--lp-icon-color', `var(--color-${this.color})`);
+    this.style.setProperty('--ef-icon-color', `var(--color-${this.color})`);
   }
 
   private updateSize(): void {
     if (this.size === '2rem') {
-      this.style.removeProperty('--lp-icon-size');
+      this.style.removeProperty('--ef-icon-size');
       return;
     }
 
     if (CSS.supports('width', this.size)) {
-      this.style.setProperty('--lp-icon-size', this.size);
+      this.style.setProperty('--ef-icon-size', this.size);
     } else {
-      dsLogger.warn('lp-icon', `invalid "size" value: ${this.size}`, 'lp-icon#size');
-      this.style.removeProperty('--lp-icon-size'); // fall back to CSS default
+      dsLogger.warn('ef-icon', `invalid "size" value: ${this.size}`, 'ef-icon#size');
+      this.style.removeProperty('--ef-icon-size'); // fall back to CSS default
     }
   }
 
@@ -112,22 +112,22 @@ export class LpIcon extends LpElement {
     const preset = strokeWidthTokens[this.strokeWidth as StrokeWidthPreset];
 
     if (preset) {
-      this.style.setProperty('--lp-icon-stroke-width', preset);
+      this.style.setProperty('--ef-icon-stroke-width', preset);
       return;
     }
 
     if (CSS.supports('stroke-width', this.strokeWidth)) {
-      this.style.setProperty('--lp-icon-stroke-width', this.strokeWidth);
+      this.style.setProperty('--ef-icon-stroke-width', this.strokeWidth);
     } else {
-      dsLogger.warn('lp-icon', `invalid "strokeWidth" value: ${this.strokeWidth}`, 'lp-icon#strokeWidth');
-      this.style.removeProperty('--lp-icon-stroke-width');
+      dsLogger.warn('ef-icon', `invalid "strokeWidth" value: ${this.strokeWidth}`, 'ef-icon#strokeWidth');
+      this.style.removeProperty('--ef-icon-stroke-width');
     }
   }
 
 
   render() {
     if (!isIconName(this._name)) {
-      dsLogger.error('lp-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'lp-icon#name');
+      dsLogger.error('ef-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'ef-icon#name');
       return html``;
     }
 
@@ -139,6 +139,6 @@ export class LpIcon extends LpElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'lp-icon': LpIcon
+    'ef-icon': EfIcon
   }
 }

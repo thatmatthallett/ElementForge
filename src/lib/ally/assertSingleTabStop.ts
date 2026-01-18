@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function assertSingleTabStop(el: LpElement) {
+export function assertSingleTabStop(el: EfElement) {
   if (!import.meta.env.DEV) return;
 
   const focusables = el.shadowRoot?.querySelectorAll(

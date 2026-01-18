@@ -3,13 +3,13 @@ import type { ComponentEvents } from '../lib/events';
 declare global {
   type IconName = import('../assets/icons/icon-types').IconName;
 
-  type ColorSet = 'black' | 'gray' | 'blue' | 'slate' | 'lgray';
+  type ColorSet = import('../types').ColorSet;
 
   interface HTMLElementEventMap extends HTMLElementEventMap {}
 
   namespace JSX {
     interface IntrinsicElements {
-      'lp-icon': {
+      'ef-icon': {
         name: IconName;
         size?: string;
         stroke?: ColorSet;

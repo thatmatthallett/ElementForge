@@ -15,28 +15,28 @@
     </my-element>
 
     <div>
-      <lp-button id="loadToggle" color="slate">Test Load Event</lp-button>
-      <lp-button id="loadToggle2" color="slate">Test Load Method</lp-button>
+      <ef-button id="loadToggle" color="slate">Test Load Event</ef-button>
+      <ef-button id="loadToggle2" color="slate">Test Load Method</ef-button>
     </div>
     <div>
-      <lp-icon name="ad-circle-filled"></lp-icon>
-      <lp-icon name="address-book" size="5rem" strokeWidth="1"></lp-icon>
-      <lp-icon name="loader-2" strokeWidth="bold" spinner></lp-icon>
+      <ef-icon name="ad-circle-filled"></ef-icon>
+      <ef-icon name="address-book" size="5rem" strokeWidth="1"></ef-icon>
+      <ef-icon name="loader-2" strokeWidth="bold" spinner></ef-icon>
     </div>
     
     <div style="display:flex; gap: 3rem; margin-block: 2rem;">
-      <lp-icon name="ef-ef" size="3rem"></lp-icon>
-      <lp-icon name="ef-anvil" size="3rem"></lp-icon>
-      <lp-icon name="ef-hex-anvil" size="3rem"></lp-icon>
-      <lp-icon name="ef-hex-ef" size="3rem"></lp-icon>
-      <lp-icon name="ef-hex-anvil-ef" size="3rem"></lp-icon>
+      <ef-icon name="ef-ef" size="3rem"></ef-icon>
+      <ef-icon name="ef-anvil" size="3rem"></ef-icon>
+      <ef-icon name="ef-hex-anvil" size="3rem"></ef-icon>
+      <ef-icon name="ef-hex-ef" size="3rem"></ef-icon>
+      <ef-icon name="ef-hex-anvil-ef" size="3rem"></ef-icon>
     </div>
     
     <div>
-      <lp-button id="testLoader" loader icon="User">Loading Button</lp-button>
+      <ef-button id="testLoader" loader icon="User">Loading Button</ef-button>
     </div>
     <div>
-      <lp-button aria-label="task-marker-1" id="testToggler" color="gray" icon="circle-check" toggle toggleIcon="circle-check-filled"></lp-button>
+      <ef-button aria-label="task-marker-1" id="testToggler" color="gray" icon="circle-check" toggle toggleIcon="circle-check-filled"></ef-button>
     </div>
   </body>
 
@@ -56,31 +56,31 @@
     const btn3 = document.querySelector('#loadToggle2');
     const btnToggler = document.querySelector('#testToggler');
 
-    btn.addEventListener('lp-click', e => {
+    btn.addEventListener('ef-click', e => {
       triggerLoading(btn);
     });
 
-    btn2.addEventListener('lp-click', e => {
+    btn2.addEventListener('ef-click', e => {
       let isLoading = btn.loading;
-      let lpId = btn.lpId;
-      toggleLoading(lpId, isLoading);
+      let efId = btn.efId;
+      toggleLoading(efId, isLoading);
     });
 
-    btn3.addEventListener('lp-click', e => {
+    btn3.addEventListener('ef-click', e => {
       btn.toggleLoading();
     });
 
 
-    btnToggler.addEventListener('lp-click', e => {
+    btnToggler.addEventListener('ef-click', e => {
       console.log(btnToggler.toggled);
       //btnToggler.toggled = !btnToggler.toggled;
 
     });
 
 
-    function toggleLoading(lpId, isLoading) {
-      const eventName = isLoading ? 'lp-loading-end' : 'lp-loading-start';
-      window.dispatchEvent( new CustomEvent(eventName, { detail: { lpId } }) );
+    function toggleLoading(efId, isLoading) {
+      const eventName = isLoading ? 'ef-loading-end' : 'ef-loading-start';
+      window.dispatchEvent( new CustomEvent(eventName, { detail: { efId } }) );
     }
   </script>
 </html>

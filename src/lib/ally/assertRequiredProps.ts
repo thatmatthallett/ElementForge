@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function assertRequiredProps(el: LpElement, props: string[]) {
+export function assertRequiredProps(el: EfElement, props: string[]) {
   if (!import.meta.env.DEV) return;
 
   for (const prop of props) {

@@ -1,7 +1,7 @@
-import type { LpElement } from '../lib/lp-element';
+import type { EfElement } from '../lib/ef-element';
 
 export function observeAttributes(
-  el: LpElement,
+  el: EfElement,
   callback: (name: string, oldValue: string | null, newValue: string | null) => void
 ) {
   const observer = new MutationObserver(mutations => {

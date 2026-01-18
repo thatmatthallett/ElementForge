@@ -1,7 +1,7 @@
 import { html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
-import { LpElement } from '../../lib/lp-element'
-import stylesText from './lp-button.css?raw'
+import { EfElement } from '../../lib/ef-element'
+import stylesText from './ef-button.css?raw'
 import { 
   dsLogger,
   forwardAttribute,
@@ -18,8 +18,8 @@ import {
 
 type LoadingIconName = Extract<IconName, "loader" | "loader-2" | "loader-3" | "loader-quarter" | "fidget-spinner" | "fidget-spinner-filled">;
 
-@customElement('lp-button')
-export class LpButton extends LpElement {
+@customElement('ef-button')
+export class EfButton extends EfElement {
   protected observeAttributes = true;
   static stylesText = stylesText;
   static formAssociated = true;
@@ -30,7 +30,7 @@ export class LpButton extends LpElement {
   private _toggleWarning = false;
 
   @property({ type: String })
-  lpId: string = createComponentId('lpButton');
+  efId: string = createComponentId('efButton');
 
   @property({ type: String, reflect: true })
   color: ColorSet = 'blue';
@@ -72,8 +72,8 @@ export class LpButton extends LpElement {
     this.addEventListener('click', this.#preventHostClick);
 
     // Handle Loading Events
-    window.addEventListener('lp-loading-start', this.onLoadingStart as EventListener);
-    window.addEventListener('lp-loading-end', this.onLoadingEnd as EventListener);
+    window.addEventListener('ef-loading-start', this.onLoadingStart as EventListener);
+    window.addEventListener('ef-loading-end', this.onLoadingEnd as EventListener);
   }
 
   disconnectedCallback(): void {
@@ -83,8 +83,8 @@ export class LpButton extends LpElement {
     this.removeEventListener('click', this.#preventHostClick);
 
     // Remove Loading Handlers
-    window.removeEventListener('lp-loading-start', this.onLoadingStart as EventListener);
-    window.removeEventListener('lp-loading-end', this.onLoadingEnd as EventListener);
+    window.removeEventListener('ef-loading-start', this.onLoadingStart as EventListener);
+    window.removeEventListener('ef-loading-end', this.onLoadingEnd as EventListener);
   }
 
   updated(changedProps: Map<string, unknown>) {
@@ -97,7 +97,7 @@ export class LpButton extends LpElement {
     if (!hasText && hasIcon && !hasAriaLabel) {
       if (import.meta.env.DEV && !this._iconOnlyWarning) {
         this._iconOnlyWarning = true;
-        dsLogger.warn( 'lp-button', 'icon-only usage detected without aria-label. Add aria-label to describe the button action.' );
+        dsLogger.warn( 'ef-button', 'icon-only usage detected without aria-label. Add aria-label to describe the button action.' );
       }
     }
 
@@ -105,7 +105,7 @@ export class LpButton extends LpElement {
     if (this.loading && !this.loader && !this._loaderWarning) {
       this._loaderWarning = true;
       dsLogger.warn(
-        'lp-button',
+        'ef-button',
         'loading is enabled but loader=false. Enable loader to display loading visuals.'
       );
     }
@@ -114,7 +114,7 @@ export class LpButton extends LpElement {
     if (!this.toggle && (this.toggled || this.toggleIcon) && !this._toggleWarning) {
       this._toggleWarning = true;
       dsLogger.warn(
-        'lp-button',
+        'ef-button',
         'Toggle-related props (toggled or toggledIcon) are set but toggle mode is disabled. Add toggle to enable toggle behavior.'
       );
     }
@@ -122,7 +122,7 @@ export class LpButton extends LpElement {
     if (this.toggle && this.hasAttribute('aria-expanded') && !this._expandedWarning) {
       this._expandedWarning = true;
       dsLogger.warn(
-        'lp-button',
+        'ef-button',
         'aria-expanded is set on a toggle button. aria-pressed will be suppressed to avoid conflicting ARIA states.'
       );
      }
@@ -144,7 +144,7 @@ export class LpButton extends LpElement {
 
     if (this.toggle) { this.toggled = !this.toggled; }
 
-    this.emit('lp-click', { originalEvent: event });
+    this.emit('ef-click', { originalEvent: event });
   }
 
 
@@ -181,7 +181,7 @@ export class LpButton extends LpElement {
     // Prevent tabindex on host
     if (name === 'tabindex') {
       if (import.meta.env.DEV) {
-        console.warn('<lp-button> does not support tabindex. The internal button manages focus.');
+        console.warn('<ef-button> does not support tabindex. The internal button manages focus.');
       }
 
       this.removeAttribute('tabindex'); return;
@@ -190,12 +190,12 @@ export class LpButton extends LpElement {
     forwardAttribute(this, btn, name, newValue);
   }
 
-  private onLoadingStart = (e: CustomEvent<{ lpId: string }>) => {
-    if (e.detail.lpId !== this.lpId) return;
+  private onLoadingStart = (e: CustomEvent<{ efId: string }>) => {
+    if (e.detail.efId !== this.efId) return;
     this.startLoading();
   }
-  private onLoadingEnd = (e: CustomEvent<{ lpId: string }>) => {
-    if (e.detail.lpId !== this.lpId) return;
+  private onLoadingEnd = (e: CustomEvent<{ efId: string }>) => {
+    if (e.detail.efId !== this.efId) return;
     this.stopLoading();
   }
 
@@ -215,13 +215,13 @@ export class LpButton extends LpElement {
 
     const loaderCode = html`
       <span class="loader ${this.loading ? 'mode-loading' : 'mode-normal'}">
-        <lp-icon name=${this.loadingIcon} spinner part="loader"></lp-icon>
+        <ef-icon name=${this.loadingIcon} spinner part="loader"></ef-icon>
       </span>
     `;
 
     const iconCode = html`
       <span class="icon-${this.iconPosition} ${this.loading ? 'mode-loading' : 'mode-normal'}">
-        <lp-icon name=${currentIcon} part="icon"></lp-icon>
+        <ef-icon name=${currentIcon} part="icon"></ef-icon>
       </span>
     `;
 
@@ -251,6 +251,6 @@ export class LpButton extends LpElement {
 
 declare global {
   interface HTMLElementTagNameMap {
-    'lp-button': LpButton
+    'ef-button': EfButton
   }
 }

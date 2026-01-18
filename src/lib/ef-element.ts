@@ -4,7 +4,7 @@ import * as a11y from './ally';
 import type { AssertRoleOptions } from './ally/assertRole';
 import { observeAttributes } from '../utils';
 
-export class LpElement extends LitElement {
+export class EfElement extends LitElement {
   private static _sheet?: CSSStyleSheet;
   private _styleEl?: HTMLStyleElement;
   private _attributeObserverCleanup: (() => void) | null = null;
@@ -31,7 +31,7 @@ export class LpElement extends LitElement {
   /**
    * A static tagName property for consistent logging.
    * You can set this in each component:
-   *   static tagName = 'lp-icon';
+   *   static tagName = 'ef-icon';
    */
   static tagName?: string;
 
@@ -62,7 +62,7 @@ export class LpElement extends LitElement {
 
   /* Stylesheet cache for adopted styles */
   private applyComponentStyles() {
-    const ctor = this.constructor as typeof LpElement;
+    const ctor = this.constructor as typeof EfElement;
     const root = this.shadowRoot!;
     const css = (ctor as any).stylesText as string | undefined;
 
@@ -116,7 +116,7 @@ export class LpElement extends LitElement {
    */
   public log(message: string, ...args: unknown[]) {
     if (import.meta.env.DEV) {
-      const tag = (this.constructor as typeof LpElement).tagName ?? this.tagName.toLowerCase();
+      const tag = (this.constructor as typeof EfElement).tagName ?? this.tagName.toLowerCase();
       console.debug(`[${tag}] ${message}`, ...args);
     }
   }

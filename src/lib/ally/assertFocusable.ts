@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function assertFocusable(el: LpElement) {
+export function assertFocusable(el: EfElement) {
   if (!import.meta.env.DEV) return;
 
   const tabindex = el.getAttribute('tabindex');

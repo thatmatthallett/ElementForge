@@ -1,6 +1,6 @@
-import type { LpElement } from '../lp-element';
+import type { EfElement } from '../ef-element';
 
-export function assertAriaExpanded(el: LpElement, expanded: boolean) {
+export function assertAriaExpanded(el: EfElement, expanded: boolean) {
   if (!import.meta.env.DEV) return;
 
   const attr = el.getAttribute('aria-expanded');
