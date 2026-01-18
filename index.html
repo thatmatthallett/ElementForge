@@ -25,7 +25,10 @@
     </div>
   </body>
   <div>
-    <lp-button id="testLoader" color="slate" loader icon="User">Loading Button</lp-button>
+    <lp-button id="testLoader" loader icon="User">Loading Button</lp-button>
+  </div>
+  <div>
+    <lp-button aria-label="task-marker-1" id="testToggler" color="gray" icon="circle-check" toggle toggleIcon="circle-check-filled"></lp-button>
   </div>
 
   <script>
@@ -42,6 +45,7 @@
     const btn = document.querySelector('#testLoader');
     const btn2 = document.querySelector('#loadToggle');
     const btn3 = document.querySelector('#loadToggle2');
+    const btnToggler = document.querySelector('#testToggler');
 
     btn.addEventListener('lp-click', e => {
       triggerLoading(btn);
@@ -56,6 +60,14 @@
     btn3.addEventListener('lp-click', e => {
       btn.toggleLoading();
     });
+
+
+    btnToggler.addEventListener('lp-click', e => {
+      console.log(btnToggler.toggled);
+      //btnToggler.toggled = !btnToggler.toggled;
+
+    });
+
 
     function toggleLoading(lpId, isLoading) {
       const eventName = isLoading ? 'lp-loading-end' : 'lp-loading-start';

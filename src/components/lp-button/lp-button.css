@@ -33,17 +33,17 @@ button {
 }
 
 button.black {
-  --button-bg: var(--lp-color-black);
+  --lp-button-bg: var(--lp-color-black);
 }
 button.gray {
-  --button-bg: var(--lp-color-gray);
+  --lp-button-bg: var(--lp-color-gray);
 }
 button.slate {
-  --button-bg: var(--lp-color-slate);
+  --lp-button-bg: var(--lp-color-slate);
 }
 button.lgray {
-  --button-bg: var(--lp-color-lgray);
-  --button-color: 40%;
+  --lp-button-bg: var(--lp-color-lgray);
+  --lp-button-color-l: 40%;
 }
 
 /* Icon Animations */

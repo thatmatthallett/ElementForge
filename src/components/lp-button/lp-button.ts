@@ -24,6 +24,10 @@ export class LpButton extends LpElement {
   static stylesText = stylesText;
   static formAssociated = true;
   private internals = this.attachInternals();
+  private _expandedWarning = false;
+  private _iconOnlyWarning = false;
+  private _loaderWarning = false;
+  private _toggleWarning = false;
 
   @property({ type: String })
   lpId: string = createComponentId('lpButton');
@@ -48,6 +52,13 @@ export class LpButton extends LpElement {
 
   @property({ type: String, reflect: true })
   type: HTMLButtonElement['type'] = 'button';
+
+  @property({ type: Boolean, reflect: true })
+  toggle = false;
+  @property({ type: Boolean, reflect: true })
+  toggled: boolean = false;
+  @property({ type: String })
+  toggleIcon: IconName | null = null;
 
   connectedCallback(): void {
     super.connectedCallback();
@@ -84,27 +95,54 @@ export class LpButton extends LpElement {
     const hasAriaLabel = this.hasAttribute('aria-label');
 
     if (!hasText && hasIcon && !hasAriaLabel) {
-      if (import.meta.env.DEV) {
+      if (import.meta.env.DEV && !this._iconOnlyWarning) {
+        this._iconOnlyWarning = true;
         dsLogger.warn( 'lp-button', 'icon-only usage detected without aria-label. Add aria-label to describe the button action.' );
       }
     }
+
+    // Warn if loading is enabled but loader is not
+    if (this.loading && !this.loader && !this._loaderWarning) {
+      this._loaderWarning = true;
+      dsLogger.warn(
+        'lp-button',
+        'loading is enabled but loader=false. Enable loader to display loading visuals.'
+      );
+    }
+
+    // Warn if toggle is not set but toggledIcon or toggled is used
+    if (!this.toggle && (this.toggled || this.toggleIcon) && !this._toggleWarning) {
+      this._toggleWarning = true;
+      dsLogger.warn(
+        'lp-button',
+        'Toggle-related props (toggled or toggledIcon) are set but toggle mode is disabled. Add toggle to enable toggle behavior.'
+      );
+    }
+
+    if (this.toggle && this.hasAttribute('aria-expanded') && !this._expandedWarning) {
+      this._expandedWarning = true;
+      dsLogger.warn(
+        'lp-button',
+        'aria-expanded is set on a toggle button. aria-pressed will be suppressed to avoid conflicting ARIA states.'
+      );
+     }
   }
 
 
   #onInternalClick(event: MouseEvent) {
     if (this.disabled || this.loading) return;
-
+    
     const form = this.internals.form;
-
     if (this.type === 'submit') {
       form?.requestSubmit();
       return;
     }
-
     if (this.type === 'reset') {
       form?.reset();
       return;
     }
+
+    if (this.toggle) { this.toggled = !this.toggled; }
 
     this.emit('lp-click', { originalEvent: event });
   }
@@ -122,7 +160,7 @@ export class LpButton extends LpElement {
   public toggleLoading() { this.loading = !this.loading; }
   
   protected onAttributeChanged(name: string, _oldValue: string | null, newValue: string | null) {
-    const attributs = ['aria-','disabled','type','form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'tabindex']
+    const attributs = ['aria-','disabled','type','form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'tabindex', 'name', 'value']
     if (!matchesAttributeCategory(name, attributs)) return;
 
     const btn = this.shadowRoot!.querySelector('button');
@@ -170,15 +208,20 @@ export class LpButton extends LpElement {
 
 
   render() {
-    const iconCode = html`
-      <span class="icon-${this.iconPosition} ${this.loading ? 'mode-loading' : 'mode-normal'}">
-        <lp-icon name=${this.icon} part="icon"></lp-icon>
-      </span>
-    `;
+    const ariaPressed = this.toggle && !this.hasAttribute('aria-expanded')
+      ? String(this.toggled)
+      : null;
+    const currentIcon = this.toggle && this.toggled ? this.toggleIcon ?? this.icon : this.icon;
 
     const loaderCode = html`
       <span class="loader ${this.loading ? 'mode-loading' : 'mode-normal'}">
         <lp-icon name=${this.loadingIcon} spinner part="loader"></lp-icon>
+      </span>
+    `;
+
+    const iconCode = html`
+      <span class="icon-${this.iconPosition} ${this.loading ? 'mode-loading' : 'mode-normal'}">
+        <lp-icon name=${currentIcon} part="icon"></lp-icon>
       </span>
     `;
 
@@ -188,7 +231,9 @@ export class LpButton extends LpElement {
         class="${this.color}"
         @click=${this.#onInternalClick}
         ?disabled=${this.disabled || this.loading}
-        aria-busy=${this.loading ? 'true' : 'false'}
+        aria-busy=${this.loader ? String(this.loading) : null}
+        aria-pressed=${ariaPressed}
+        aria-expanded=${this.getAttribute('aria-expanded')}
         part="button"
       >
         ${this.icon && this.iconPosition === 'start' 
