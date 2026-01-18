@@ -84,6 +84,37 @@
       --ef-color-text: oklch(0.15 0 0);
       --ef-color-text-secondary: oklch(0.38 0 0);
     }
+
+    [data-theme="forge"] {
+      --ef-color-primary: oklch(0.75 0.20 47.5); /* hotter ember */
+      --ef-color-primary-dark: oklch(0.60 0.16 47.2);
+      --ef-color-primary-light: oklch(0.82 0.16 47.8);
+
+      --ef-color-secondary: oklch(0.48 0.07 246.3); /* slightly richer steel */
+      --ef-color-secondary-dark: oklch(0.38 0.05 246.8);
+      --ef-color-secondary-light: oklch(0.65 0.06 246.0);
+    }
+
+    [data-theme="dim"] {
+      --ef-color-surface: oklch(0.28 0 0);
+      --ef-color-surface-alt: oklch(0.32 0 0);
+      --ef-color-border: oklch(0.36 0 0);
+      --ef-color-text: oklch(0.92 0 0);
+      --ef-color-text-secondary: oklch(0.75 0 0);
+    }
+
+    [data-theme="high-contrast"] {
+      --ef-color-surface: oklch(0.15 0 0);
+      --ef-color-surface-alt: oklch(0.20 0 0);
+      --ef-color-border: oklch(0.95 0 0);
+      --ef-color-text: oklch(1 0 0);
+      --ef-color-text-secondary: oklch(0.90 0 0);
+
+      --ef-color-success: oklch(0.85 0.20 142);
+      --ef-color-warning: oklch(0.95 0.20 83);
+      --ef-color-error: oklch(0.75 0.20 28);
+      --ef-color-info: oklch(0.80 0.20 254);
+    }
   }
 
   @media (prefers-color-scheme: light) {
