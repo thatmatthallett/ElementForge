@@ -1,6 +1,8 @@
 :host {
   --ef-icon-color: currentColor;
   --ef-icon-size: 2rem;
+  --ef-icon-height: 2rem;
+  --ef-icon-width: 2rem;
   --ef-icon-stroke-width: 2;
 
   display: inline-flex;
@@ -12,8 +14,8 @@
 }
 
 svg {
-  width: var(--ef-icon-size);
-  height: var(--ef-icon-size);
+  width: var(--ef-icon-width);
+  height: var(--ef-icon-height);
 
   &.icons-tabler-filled {
     fill: var(--ef-icon-color);

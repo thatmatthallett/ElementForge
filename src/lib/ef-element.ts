@@ -1,4 +1,5 @@
 import { LitElement } from 'lit';
+import { property } from 'lit/decorators.js'
 import type { ComponentEvents } from './events';
 import * as a11y from './ally';
 import type { AssertRoleOptions } from './ally/assertRole';
@@ -9,6 +10,10 @@ export class EfElement extends LitElement {
   private _styleEl?: HTMLStyleElement;
   private _attributeObserverCleanup: (() => void) | null = null;
   private _listeners: Array<() => void> = [];
+
+  @property({ attribute: 'data-theme', reflect: true })
+  theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';
+
 
   /* Accessibility Helpers */
   protected ally = {

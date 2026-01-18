@@ -2,7 +2,7 @@
   --ef-button-bg: var(--ef-color-blue);
   --ef-button-color-l: 100%;
   --ef-button-box-shadow:  0 4px 6px oklch(from var(--ef-color-black) l c h / 0.2);
-  --ef-button-icon-size: 1rem;
+  --ef-button-icon-width: 1rem;
   --ef-button-padding-block: 0.75rem;
   --ef-button-padding-inline: 0.75rem;
 }
@@ -28,7 +28,7 @@ button {
   }
 
   ef-icon {
-    --ef-icon-size: var(--ef-button-icon-size);
+    --ef-icon-width: var(--ef-button-icon-width);
   }
 }
 

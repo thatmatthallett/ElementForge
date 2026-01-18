@@ -33,9 +33,12 @@ export class EfIcon extends EfElement {
     this._name = normalized;
     this.requestUpdate('name', old);
   }
-
   @property({ type: String, reflect: true })
-  size: string = '2rem';
+  // default to width, width must be set first to default correctly
+  height?: string;
+  
+  @property({ type: String, reflect: true })
+  width: string = '2rem';
 
   @property({ type: Boolean, reflect: true })
   spinner = false;
@@ -50,8 +53,11 @@ export class EfIcon extends EfElement {
     if (changedProps.has('name') && !this.name)
       dsLogger.error('ef-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'ef-icon#name');
 
-    if (changedProps.has('size'))
-      this.updateSize();
+    if (changedProps.has('width'))
+      this.updateWidth();
+
+    if (changedProps.has('height'))
+      this.updateHeight();
 
     if (changedProps.has('strokeWidth'))
       this.updateStrokeWidth();
@@ -94,18 +100,31 @@ export class EfIcon extends EfElement {
     this.style.setProperty('--ef-icon-color', `var(--color-${this.color})`);
   }
 
-  private updateSize(): void {
-    if (this.size === '2rem') {
-      this.style.removeProperty('--ef-icon-size');
+  private updateHeight(): void {
+    const finalHeight = this.height ?? this.width;
+    
+    if (CSS.supports('height', finalHeight)) {
+      this.style.setProperty('--ef-icon-height', finalHeight);
+    } else {
+      dsLogger.warn('ef-icon', `invalid "height" value: ${finalHeight}`, 'ef-icon#height');
+      this.style.removeProperty('--ef-icon-height'); }
+  }
+
+  private updateWidth(): void {
+    if (this.width === '2rem') {
+      this.style.removeProperty('--ef-icon-width');
       return;
     }
 
-    if (CSS.supports('width', this.size)) {
-      this.style.setProperty('--ef-icon-size', this.size);
+    if (CSS.supports('width', this.width)) {
+      this.style.setProperty('--ef-icon-width', this.width);
     } else {
-      dsLogger.warn('ef-icon', `invalid "size" value: ${this.size}`, 'ef-icon#size');
-      this.style.removeProperty('--ef-icon-size'); // fall back to CSS default
+      dsLogger.warn('ef-icon', `invalid "width" value: ${this.width}`, 'ef-icon#width');
+      this.style.removeProperty('--ef-icon-width'); // fall back to CSS default
     }
+
+    // If height is unset, width changes should also update height
+    if (!this.height) { this.updateHeight(); }
   }
 
   private updateStrokeWidth(): void {
@@ -126,16 +145,27 @@ export class EfIcon extends EfElement {
 
 
   render() {
-    if (!isIconName(this._name)) {
-      dsLogger.error('ef-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'ef-icon#name');
-      return html``;
+    // Inline SVG via slot
+    if (this.hasChildNodes()) {
+      return html`<slot></slot>`;
     }
 
-    return html`
-      ${icons[this._name]}
-    `;
+    // Registry icon via name
+    if (isIconName(this._name)) {
+      return html`${icons[this._name]}`;
+    }
+
+    // Fallback + error
+    dsLogger.error(
+      'ef-icon',
+      'missing required "name" attribute or valid src/slot.',
+      'ef-icon#name'
+    );
+
+    return html``;
   }
 }
+
 
 declare global {
   interface HTMLElementTagNameMap {
