@@ -3,6 +3,8 @@
 @layer theme {
   @import './fonts.css';
 
+  /* test comment */
+
   :root {
     color-scheme: dark;
 
