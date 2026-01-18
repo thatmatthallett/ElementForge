@@ -1,0 +1,125 @@
+@layer theme, base;
+
+@layer theme {
+  @import './fonts.css';
+
+  :root {
+    --ef-color-black: oklch(0.2795 0.0181 241.71);
+    --ef-color-gray: oklch(0.3392 0.0244 248.55);
+    --ef-color-blue: oklch(0.3987 0.0709 229.86);
+    --ef-color-slate: oklch(0.6256 0.0294 211.13);
+    --ef-color-lgray: oklch(0.8793 0.0094 150.67);
+
+    /* Primary */
+    --ef-color-primary: oklch(0.72 0.17 47.5);
+    --ef-color-primary-dark: oklch(0.58 0.14 47.2);
+    --ef-color-primary-light: oklch(0.78 0.14 47.8);
+
+    /* Secondary */
+    --ef-color-secondary: oklch(0.45 0.06 246.3);
+    --ef-color-secondary-dark: oklch(0.36 0.04 246.8);
+    --ef-color-secondary-light: oklch(0.62 0.05 246.0);
+
+    /* Neutrals */
+    --ef-color-surface: oklch(0.22 0 0);
+    --ef-color-surface-light: oklch(0.97 0 0);
+    --ef-color-border: oklch(0.86 0 0);
+    --ef-color-text: oklch(0.15 0 0);
+    --ef-color-text-secondary: oklch(0.38 0 0);
+
+    /* Semantic */
+    --ef-color-success: oklch(0.75 0.14 142);
+    --ef-color-warning: oklch(0.87 0.17 83);
+    --ef-color-error: oklch(0.63 0.17 28);
+    --ef-color-info: oklch(0.66 0.15 254);
+
+    /* Font Families */
+    --ef-font-display: 'Satoshi', system-ui, sans-serif;
+    --ef-font-body: 'Inter', system-ui, sans-serif;
+    --ef-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* Font Weights (semantic, variable‑font friendly) */
+      /* Body/UI */
+    --ef-weight-body: 400;
+    --ef-weight-body-strong: 500;
+    --ef-weight-ui: 500;
+    --ef-weight-ui-strong: 600;
+
+      /* Display / Branding */
+    --ef-weight-display: 700;
+    --ef-weight-display-strong: 900;
+
+      /* Code */
+    --ef-weight-code: 400;
+    --ef-weight-code-strong: 700;
+
+    /* Font Sizes (modular scale) */
+    --ef-size-xs: 0.75rem;   /* 12px */
+    --ef-size-sm: 0.875rem;  /* 14px */
+    --ef-size-md: 1rem;      /* 16px */
+    --ef-size-lg: 1.125rem;  /* 18px */
+    --ef-size-xl: 1.25rem;   /* 20px */
+    --ef-size-2xl: 1.5rem;   /* 24px */
+    --ef-size-3xl: 1.875rem; /* 30px */
+    --ef-size-4xl: 2.25rem;  /* 36px */
+
+    /*  Line Heights */
+    --ef-line-tight: 1.1;
+    --ef-line-normal: 1.4;
+    --ef-line-relaxed: 1.6;
+
+    /* Letter Spacing */
+    --ef-tracking-tight: -0.01em;
+    --ef-tracking-normal: 0;
+    --ef-tracking-wide: 0.02em;
+  }
+
+}
+
+@layer base {
+  :root {
+    font-family: var(--ef-font-body);
+    font-size: var(--ef-size-md);
+    line-height: var(--ef-line-normal);
+    font-weight: var(--ef-weight-code);
+
+    color-scheme: light dark;
+    color: var(--ef-color-surface-light);
+    background-color: var(--ef-color-surface);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    font-weight: var(--ef-weight-body-strong);
+    color: var(--ef-color-secondary);
+    text-decoration: inherit;
+  }
+  a:hover {
+    color: var(--ef-color-secondary-dark);
+  }
+
+  body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    place-items: center;
+    justify-content: center;
+    min-width: 320px;
+    min-height: 100vh;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      color: var(--ef-color-text);
+      background-color: var(--ef-color-surface-light);
+    }
+      
+    a:hover {
+      color: var(--ef-color-secondary-light);
+    }
+  }
+}
