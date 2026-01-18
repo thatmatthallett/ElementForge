@@ -4,6 +4,8 @@
   @import './fonts.css';
 
   :root {
+    color-scheme: dark;
+
     --ef-color-black: oklch(0.2795 0.0181 241.71);
     --ef-color-gray: oklch(0.3392 0.0244 248.55);
     --ef-color-blue: oklch(0.3987 0.0709 229.86);
@@ -20,12 +22,12 @@
     --ef-color-secondary-dark: oklch(0.36 0.04 246.8);
     --ef-color-secondary-light: oklch(0.62 0.05 246.0);
 
-    /* Neutrals */
-    --ef-color-surface: oklch(0.22 0 0);
-    --ef-color-surface-light: oklch(0.97 0 0);
-    --ef-color-border: oklch(0.86 0 0);
-    --ef-color-text: oklch(0.15 0 0);
-    --ef-color-text-secondary: oklch(0.38 0 0);
+    /* Neutrals - Dark Mode Defaults [data-theme="dark"] */
+    --ef-color-surface: oklch(0.22 0 0); /* Graphite */
+    --ef-color-surface-alt: oklch(0.28 0 0); /* Slightly lighter panel */
+    --ef-color-border: oklch(0.40 0 0); /* Dark border */
+    --ef-color-text: oklch(0.97 0 0); /* Light text */
+    --ef-color-text-secondary: oklch(0.80 0 0);
 
     /* Semantic */
     --ef-color-success: oklch(0.75 0.14 142);
@@ -72,8 +74,29 @@
     --ef-tracking-tight: -0.01em;
     --ef-tracking-normal: 0;
     --ef-tracking-wide: 0.02em;
+
+    [data-theme="light"] {
+      color-scheme: light;
+
+      --ef-color-surface: oklch(0.97 0 0);
+      --ef-color-surface-alt: oklch(0.92 0 0);
+      --ef-color-border: oklch(0.86 0 0);
+      --ef-color-text: oklch(0.15 0 0);
+      --ef-color-text-secondary: oklch(0.38 0 0);
+    }
   }
 
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      color-scheme: light;
+      
+      --ef-color-surface: oklch(0.97 0 0);
+      --ef-color-surface-alt: oklch(0.92 0 0);
+      --ef-color-border: oklch(0.86 0 0);
+      --ef-color-text: oklch(0.15 0 0);
+      --ef-color-text-secondary: oklch(0.38 0 0);
+    }
+  }
 }
 
 @layer base {
@@ -84,7 +107,7 @@
     font-weight: var(--ef-weight-code);
 
     color-scheme: light dark;
-    color: var(--ef-color-surface-light);
+    color: var(--ef-color-text);
     background-color: var(--ef-color-surface);
 
     font-synthesis: none;
@@ -110,16 +133,5 @@
     justify-content: center;
     min-width: 320px;
     min-height: 100vh;
-  }
-
-  @media (prefers-color-scheme: light) {
-    :root {
-      color: var(--ef-color-text);
-      background-color: var(--ef-color-surface-light);
-    }
-      
-    a:hover {
-      color: var(--ef-color-secondary-light);
-    }
   }
 }
