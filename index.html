@@ -23,13 +23,22 @@
       <lp-icon name="address-book" size="5rem" strokeWidth="1"></lp-icon>
       <lp-icon name="loader-2" strokeWidth="bold" spinner></lp-icon>
     </div>
+    
+    <div style="display:flex; gap: 3rem; margin-block: 2rem;">
+      <lp-icon name="ef-ef" size="3rem"></lp-icon>
+      <lp-icon name="ef-anvil" size="3rem"></lp-icon>
+      <lp-icon name="ef-hex-anvil" size="3rem"></lp-icon>
+      <lp-icon name="ef-hex-ef" size="3rem"></lp-icon>
+      <lp-icon name="ef-hex-anvil-ef" size="3rem"></lp-icon>
+    </div>
+    
+    <div>
+      <lp-button id="testLoader" loader icon="User">Loading Button</lp-button>
+    </div>
+    <div>
+      <lp-button aria-label="task-marker-1" id="testToggler" color="gray" icon="circle-check" toggle toggleIcon="circle-check-filled"></lp-button>
+    </div>
   </body>
-  <div>
-    <lp-button id="testLoader" loader icon="User">Loading Button</lp-button>
-  </div>
-  <div>
-    <lp-button aria-label="task-marker-1" id="testToggler" color="gray" icon="circle-check" toggle toggleIcon="circle-check-filled"></lp-button>
-  </div>
 
   <script>
     function triggerLoading(button, duration = 1500) {

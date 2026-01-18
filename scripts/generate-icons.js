@@ -3,6 +3,7 @@ import path from 'path';
 
 const outlineDir = './node_modules/@tabler/icons/icons/outline';
 const filledDir = './node_modules/@tabler/icons/icons/filled';
+const logosDir = './src/assets/logos'
 
 const iconsOut = './src/assets/icons/icons.ts';
 const typesOut = './src/assets/icons/icon-types.ts';
@@ -18,9 +19,11 @@ function loadIcons(dir, suffix = '') {
     });
 }
 
+
+const logoIcons = loadIcons(logosDir);
 const outlineIcons = loadIcons(outlineDir);
 const filledIcons = loadIcons(filledDir, '-filled');
-const allIcons = [...outlineIcons, ...filledIcons];
+const allIcons = [...logoIcons, ...outlineIcons, ...filledIcons];
 
 /* -------------------------------------------------------
    1) Generate icons.ts
