@@ -1,38 +1,45 @@
-/**
- * Central registry of all custom events emitted by the design system.
- * Each key is the event name, and the value is the typed `detail` payload.
- *
- * Use `undefined` for events that do not carry a detail payload.
- */
-import type { StatusSet } from "../tokens";
+import type { StatusSet } from '../tokens';
 
-export type ComponentEvents = {
+/**
+ * Single source of truth for all design system events.
+ * Each key is the event name.
+ * Each value is the typed detail payload.
+ */
+export const eventDefinitions = {
   // Generic UI events
-  'ef-change': { value: unknown };
-  'ef-click': { 
-    originalEvent: MouseEvent;
-    source?: 'keyboard' | 'mouse';
-   };
-  'ef-input': { value: unknown };
-  'ef-focus': undefined;
-  'ef-blur': undefined;
-  'ef-hover': { hovering: boolean };
-  "ef-validate": { status?: StatusSet ; message?: string };
+  'ef-change': {} as { value: unknown },
+  'ef-click': {} as { originalEvent: MouseEvent; source?: 'keyboard' | 'mouse' },
+  'ef-input': {} as { value: unknown },
+  'ef-focus': undefined as undefined,
+  'ef-blur': undefined as undefined,
+  'ef-hover': {} as { hovering: boolean },
+  'ef-validate': {} as { status?: StatusSet; message?: string },
 
   // Modal events
-  'ef-open': { source: 'keyboard' | 'mouse' | 'programmatic' };
-  'ef-close': { reason: 'escape' | 'backdrop' | 'programmatic' };
+  'ef-open': {} as { source: 'keyboard' | 'mouse' | 'programmatic' },
+  'ef-close': {} as { reason: 'escape' | 'backdrop' | 'programmatic' },
 
   // Select component events
-  'ef-select': { value: string | number };
-  'ef-select-open': undefined;
-  'ef-select-close': undefined;
+  'ef-select': {} as { value: string | number },
+  'ef-select-open': undefined as undefined,
+  'ef-select-close': undefined as undefined,
 
   // Loading component events
-  'ef-loading': { efId: string; active: boolean;};
-  'ef-loading-start':  { efId: string }; // event emmmited to trigger loading
-  'ef-loading-end': { efId: string }; // event emmmited to remove loading
-  
+  'ef-loading': {} as { efId: string; active: boolean },
+  'ef-loading-start': {} as { efId: string },
+  'ef-loading-end': {} as { efId: string },
+} as const;
 
-  // Add more component-specific events here...
+/**
+ * Runtime array of event names.
+ * Generated automatically from eventDefinitions.
+ */
+export const efEvents = Object.keys(eventDefinitions) as Array<keyof typeof eventDefinitions>;
+
+/**
+ * Typed event map.
+ * Generated automatically from eventDefinitions.
+ */
+export type ComponentEvents = {
+  [K in keyof typeof eventDefinitions]: typeof eventDefinitions[K]
 };

@@ -271,6 +271,7 @@ export class EfButton extends EfElement {
         }
         ${this.loader ? loaderCode : null}
       </button>
+      ${this.statusMessage ?? this.renderStatusMessage()}
     `;
   }
 }

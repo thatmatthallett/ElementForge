@@ -1,17 +1,15 @@
-import type { ComponentEvents } from '../../src/lib/events';
-
-export const efEvents = Object.keys( {} as ComponentEvents ) as (keyof ComponentEvents)[];
+import { efEvents } from '../lib/events';
 
 for (const eventName of efEvents) {
   window.addEventListener(
     eventName,
-    e => logEfEvent(e as CustomEvent<ComponentEvents[typeof eventName]>),
+    e => logEfEvent(e),
     { capture: true }
   );
 }
 
 
-function logEfEvent(e: CustomEvent) {
+function logEfEvent(e) {
   const time = new Date().toISOString().split('T')[1].replace('Z', '');
   const name = e.type;
   const detail = e.detail ?? {};
