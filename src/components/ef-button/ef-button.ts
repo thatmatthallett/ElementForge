@@ -5,7 +5,8 @@ import stylesText from './ef-button.css?raw'
 import {
   forwardAttribute,
   matchesAttributeCategory,
-  isButtonType
+  isButtonType,
+  isEfId
 } from '../../utils'
 import { 
   type ColorSet, 
@@ -15,12 +16,12 @@ import {
   shapeValues,
   shapeRadius
 } from '../../tokens'
+import { type EventOf } from '../../lib/events';
 
 /**
  * litPortfolio Button Element.
  *
  * @slot - This element has a slots
- * @csspart button - The button
  */
 
 type LoadingIconName = Extract<IconName, "loader" | "loader-2" | "loader-3" | "loader-quarter" | "fidget-spinner" | "fidget-spinner-filled">;
@@ -96,10 +97,12 @@ export class EfButton extends EfElement {
     }
 
     // color updating
-    if (changedProps.has('color')) { this.updateColor(); }
+    if (changedProps.has('color'))
+      this.schedule('color', () => this.updateColor());
 
     // shape updating
-    if (changedProps.has('shape')) { this.updateShape(); }
+    if (changedProps.has('shape'))
+      this.schedule('shape', () => this.updateShape());
 
     // Warn if loading is enabled but loader is not
     if (this.loading && !this.loader) {
@@ -151,15 +154,15 @@ export class EfButton extends EfElement {
 
   public startLoading() {
     this.loading = true;
-    this.emit('ef-loading', { efId: this.efId, active: true })
+    this.emit('ef-loading', { active: true })
   }
   public stopLoading() {
     this.loading = false;
-    this.emit('ef-loading', { efId: this.efId, active: false })
+    this.emit('ef-loading', { active: false })
   }
   public toggleLoading() {
     this.loading = !this.loading;
-    this.emit('ef-loading', { efId: this.efId, active: this.loading })
+    this.emit('ef-loading', { active: this.loading })
   }
   
   protected onAttributeChanged(name: string, _oldValue: string | null, newValue: string | null) {
@@ -193,12 +196,12 @@ export class EfButton extends EfElement {
     forwardAttribute(this, btn, name, newValue);
   }
 
-  private onLoadingStart = (e: CustomEvent<{ efId: string }>) => {
-    if (e.detail.efId !== this.efId) return;
+  private onLoadingStart = (e:  EventOf<'ef-loading-start'>) => {
+    if (!isEfId(e.detail.efId, this.efId)) return;
     this.startLoading();
   }
-  private onLoadingEnd = (e: CustomEvent<{ efId: string }>) => {
-    if (e.detail.efId !== this.efId) return;
+  private onLoadingEnd = (e:  EventOf<'ef-loading-end'>) => {
+    if (!isEfId(e.detail.efId, this.efId)) return;
     this.stopLoading();
   }
 
@@ -256,11 +259,14 @@ export class EfButton extends EfElement {
       <button
         type="${this.type}"
         @click=${this.#onInternalClick}
+        @focus=${() => this.emit('ef-focus', {})}
+        @blur=${() => this.emit('ef-blur', {})}
+        @mouseenter=${() => this.emit('ef-hover', { hovering: true })}
+        @mouseleave=${() => this.emit('ef-hover', { hovering: false })}
         ?disabled=${this.disabled || this.loading}
         aria-busy=${this.loader ? String(this.loading) : null}
         aria-pressed=${ariaPressed}
         aria-expanded=${this.getAttribute('aria-expanded')}
-        part="button"
       >
         ${this.icon && this.iconPosition === 'start' 
           ? iconCode : null

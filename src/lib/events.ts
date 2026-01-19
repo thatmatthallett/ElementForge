@@ -10,8 +10,8 @@ export const eventDefinitions = {
   'ef-change': {} as { value: unknown },
   'ef-click': {} as { originalEvent: MouseEvent; source?: 'keyboard' | 'mouse' },
   'ef-input': {} as { value: unknown },
-  'ef-focus': undefined as undefined,
-  'ef-blur': undefined as undefined,
+  'ef-focus': {} as {},
+  'ef-blur': {} as {},
   'ef-hover': {} as { hovering: boolean },
   'ef-validate': {} as { status?: StatusSet; message?: string },
 
@@ -21,13 +21,13 @@ export const eventDefinitions = {
 
   // Select component events
   'ef-select': {} as { value: string | number },
-  'ef-select-open': undefined as undefined,
-  'ef-select-close': undefined as undefined,
+  'ef-select-open': {} as {},
+  'ef-select-close': {} as {},
 
   // Loading component events
-  'ef-loading': {} as { efId: string; active: boolean },
-  'ef-loading-start': {} as { efId: string },
-  'ef-loading-end': {} as { efId: string },
+  'ef-loading': {} as { active: boolean },
+  'ef-loading-start': {} as {},
+  'ef-loading-end': {} as {},
 } as const;
 
 /**
@@ -40,6 +40,11 @@ export const efEvents = Object.keys(eventDefinitions) as Array<keyof typeof even
  * Typed event map.
  * Generated automatically from eventDefinitions.
  */
+type WithEfId<T> = T extends undefined ? { efId: string } : T & { efId: string };
+
 export type ComponentEvents = {
-  [K in keyof typeof eventDefinitions]: typeof eventDefinitions[K]
+  [K in keyof typeof eventDefinitions]: WithEfId<typeof eventDefinitions[K]>
 };
+
+export type EventOf<K extends keyof ComponentEvents> =
+  CustomEvent<ComponentEvents[K]>;

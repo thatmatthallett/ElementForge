@@ -12,3 +12,7 @@ export function isColorSet(value: string): value is ColorSet {
 export function isButtonType(value: string | null): value is 'button' | 'submit' | 'reset' {
   return value === 'button' || value === 'submit' || value === 'reset';
 }
+
+export function isEfId(value1: string, value2: string): boolean {
+  return value1 === value2;
+}

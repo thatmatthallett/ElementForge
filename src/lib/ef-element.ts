@@ -4,13 +4,21 @@ import type { ComponentEvents } from './events';
 import * as a11y from './ally';
 import type { AssertRoleOptions } from './ally/assertRole';
 import type { StatusSet } from '../tokens/statusTokens';
-import { createComponentId, dsLogger, observeAttributes } from '../utils';
+import {
+  createComponentId,
+  dsLogger,
+  isEfId,
+  observeAttributes,
+ } from '../utils';
+
+type DebounceKey = string;
 
 export class EfElement extends LitElement {
   private static _sheet?: CSSStyleSheet;
   private _styleEl?: HTMLStyleElement;
   private _attributeObserverCleanup: (() => void) | null = null;
   private _listeners: Array<() => void> = [];
+  private _scheduled = new Set<string>();
   private _warnings = new Set<string>();
   
   public componentName: string;
@@ -120,12 +128,14 @@ export class EfElement extends LitElement {
    */
   protected emit<T extends keyof ComponentEvents>(
     type: T,
-    detail: ComponentEvents[T],
+    detail: Omit<ComponentEvents[T], 'efId'>,
     options?: Omit<CustomEventInit, 'detail'>
   ): boolean {
+    const finalDetail = Object.freeze({ efId: this.efId, ...(detail ?? {}) });
+    
     return this.dispatchEvent(
       new CustomEvent(type, {
-        detail,
+        detail: finalDetail,
         bubbles: true,
         composed: true,
         cancelable: false,
@@ -154,6 +164,20 @@ export class EfElement extends LitElement {
     // default: no-op
   }
 
+  /* Debounce Helper */
+  protected schedule<K extends DebounceKey>(key: K, fn: () => void) {
+    if (!this._scheduled) this._scheduled = new Set<K>();
+    if (this._scheduled.has(key)) return;
+
+    this._scheduled.add(key);
+
+    queueMicrotask(() => {
+      this._scheduled.delete(key);
+      fn();
+    });
+  }
+
+
   /* Warn Once Helper */
   protected warnOnce(key: string, message: string) {
     if (this._warnings.has(key)) return;
@@ -163,20 +187,28 @@ export class EfElement extends LitElement {
   }
 
   /* component status helpers */
-  #onValidate(e: CustomEvent<{ status?: StatusSet; message?: string }>) {
-    const { status, message } = e.detail;
+  #onValidate(e: CustomEvent<ComponentEvents['ef-validate']>) {
+    const { status, message, efId } = e.detail;
     
-    if (status) { this.updateStatus(status, message); }
-    else { this.clearStatus(); }
+    if (status) { this.updateStatus(efId, status, message); }
+    else { this.clearStatus(efId); }
   }
 
-  public updateStatus(status: StatusSet, message?: string) {
-    this.status = status;
-    this.statusMessage = message ?? undefined;
+  public updateStatus(efId: string,status: StatusSet, message?: string ) {
+    if (!isEfId(efId, this.efId)) return;
+
+    this.schedule('status', () => {
+      this.status = status;
+      this.statusMessage = message ?? undefined;
+    });
   }
-  public clearStatus() {
-    this.status = undefined;
-    this.statusMessage = undefined;
+  public clearStatus(efId: string) {
+    if (!isEfId(efId, this.efId)) return;
+
+    this.schedule('status', () => {
+      this.status = undefined;
+      this.statusMessage = undefined;
+    });
   }
   protected renderStatusMessage() {
     if (!this.statusMessage) return null;

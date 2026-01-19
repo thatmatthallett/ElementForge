@@ -60,13 +60,13 @@ export class EfIcon extends EfElement {
       );
 
     if (changedProps.has('width'))
-      this.updateWidth();
+      this.schedule('width', () => this.updateWidth());
 
     if (changedProps.has('height'))
-      this.updateHeight();
+      this.schedule('height', () => this.updateHeight());
 
     if (changedProps.has('strokeWidth'))
-      this.updateStrokeWidth();
+      this.schedule('strokeWidth', () => this.updateStrokeWidth());
 
     this.updateAria()
   }
