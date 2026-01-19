@@ -67,6 +67,9 @@ export class EfButton extends EfElement {
   @property({ type: String })
   toggleIcon: IconName | null = null;
 
+  @property({ type: String, reflect: true })
+  variant: 'solid' | 'ghost' | 'link' | 'outline' | 'soft' = 'solid';
+
   connectedCallback(): void {
     super.connectedCallback();
 
