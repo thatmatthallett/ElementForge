@@ -8,6 +8,7 @@ import { icons } from '../../assets/icons/icons';
 import { 
   type ColorSet,
   colorSetValues,
+  resolveColor,
   strokeWidthTokens,
   type StrokeWidthPreset
 } from '../../tokens';
@@ -98,7 +99,7 @@ export class EfIcon extends EfElement {
       return;
     }
 
-    this.style.setProperty('--ef-icon-color', `var(--color-${this.color})`);
+    this.style.setProperty('--ef-icon-color', resolveColor(this.color));
   }
 
   private updateHeight(): void {

@@ -1,5 +1,6 @@
 :host {
-  --ef-btn-bg: var(--ef-color-primary);
+  --ef-btn-base-color: var(--ef-color-primary);
+  --ef-btn-bg: var(--ef-btn-base-color);
   --ef-btn-bg-hover: oklch(from var(--ef-btn-bg) calc(l + 0.05) c h);
   --ef-btn-bg-active: oklch(from var(--ef-btn-bg) calc(l - 0.05) c h);
   --ef-btn-border: transparent;
@@ -14,73 +15,39 @@
 }
 
 [data-theme="dark"] :host([color="primary"]) {
-  --ef-btn-bg: var(--ef-color-primary);
-  --ef-btn-bg-hover: oklch(from var(--ef-color-primary) calc(l + 0.05) c h);
-  --ef-btn-bg-active: oklch(from var(--ef-color-primary) calc(l - 0.05) c h);
-  --ef-btn-text: oklch(0.97 0 0);
-  --ef-btn-border: transparent;
-  --ef-btn-focus-ring: oklch(from var(--ef-color-primary) calc(l + 0.25) c h);
+  --ef-btn-base-color: var(--ef-color-primary);
 }
 
 [data-theme="light"] :host([color="primary"]) {
-  --ef-btn-bg: var(--ef-color-primary);
-  --ef-btn-bg-hover: oklch(from var(--ef-color-primary) calc(l - 0.05) c h);
-  --ef-btn-bg-active: oklch(from var(--ef-color-primary) calc(l - 0.10) c h);
-  --ef-btn-text: oklch(0.15 0 0);
-  --ef-btn-border: transparent;
-  --ef-btn-focus-ring: oklch(from var(--ef-color-primary) calc(l + 0.20) c h);
+  --ef-btn-base-color: var(--ef-color-primary);
 }
 
 [data-theme="dark"] :host([color="secondary"]) {
-  --ef-btn-bg: var(--ef-color-surface-alt);
-  --ef-btn-bg-hover: oklch(from var(--ef-color-surface-alt) calc(l + 0.05) c h);
-  --ef-btn-bg-active: oklch(from var(--ef-color-surface-alt) calc(l - 0.05) c h);
-  --ef-btn-text: var(--ef-color-text);
-  --ef-btn-border: var(--ef-color-border);
-  --ef-btn-focus-ring: oklch(0.80 0 0);
+  --ef-btn-base-color: var(--ef-color-surface-alt);
 }
 
 [data-theme="light"] :host([color="secondary"]) {
-  --ef-btn-bg: var(--ef-color-surface-alt);
-  --ef-btn-bg-hover: oklch(from var(--ef-color-surface-alt) calc(l - 0.05) c h);
-  --ef-btn-bg-active: oklch(from var(--ef-color-surface-alt) calc(l - 0.10) c h);
-  --ef-btn-text: var(--ef-color-text);
-  --ef-btn-border: var(--ef-color-border);
-  --ef-btn-focus-ring: oklch(0.30 0 0);
+  --ef-btn-base-color: var(--ef-color-surface-alt);
 }
 
 :host([color="ghost"]) {
+  --ef-btn-base-color: var(--ef-color-text);
   --ef-btn-bg: transparent;
-  --ef-btn-bg-hover: oklch(from var(--ef-color-text) calc(l - 0.90) c h / 0.1);
-  --ef-btn-bg-active: oklch(from var(--ef-color-text) calc(l - 0.90) c h / 0.15);
-  --ef-btn-text: var(--ef-color-text);
-  --ef-btn-border: transparent;
-  --ef-btn-focus-ring: oklch(from var(--ef-color-text) calc(l + 0.30) c h);
+  --ef-btn-bg-hover: oklch(from var(--ef-btn-base-color) calc(l - 0.90) c h / 0.1);
+  --ef-btn-bg-active: oklch(from var(--ef-btn-base-color) calc(l - 0.90) c h / 0.15);
+  --ef-btn-text: var(--ef-btn-base-color);
 }
 
 :host([color="danger"]) {
-  --ef-btn-bg: var(--ef-color-error);
-  --ef-btn-bg-hover: oklch(from var(--ef-color-error) calc(l + 0.05) c h);
-  --ef-btn-bg-active: oklch(from var(--ef-color-error) calc(l - 0.05) c h);
-  --ef-btn-text: oklch(0.97 0 0);
-  --ef-btn-border: transparent;
-  --ef-btn-focus-ring: oklch(from var(--ef-color-error) calc(l + 0.25) c h);
+  --ef-btn-base-color: var(--ef-color-error);
 }
 
 :host([color="success"]) {
-  --ef-btn-bg: var(--ef-color-success);
-  --ef-btn-bg-hover: oklch(from var(--ef-color-success) calc(l + 0.05) c h);
-  --ef-btn-bg-active: oklch(from var(--ef-color-success) calc(l - 0.05) c h);
-  --ef-btn-text: oklch(0.15 0 0);
-  --ef-btn-focus-ring: oklch(from var(--ef-color-success) calc(l + 0.25) c h);
+  --ef-btn-base-color: var(--ef-color-success);
 }
 
 :host([color="warning"]) {
-  --ef-btn-bg: var(--ef-color-warning);
-  --ef-btn-bg-hover: oklch(from var(--ef-color-warning) calc(l + 0.05) c h);
-  --ef-btn-bg-active: oklch(from var(--ef-color-warning) calc(l - 0.05) c h);
-  --ef-btn-text: oklch(0.15 0 0);
-  --ef-btn-focus-ring: oklch(from var(--ef-color-warning) calc(l + 0.25) c h);
+  --ef-btn-base-color: var(--ef-color-warning);
 }
 
 

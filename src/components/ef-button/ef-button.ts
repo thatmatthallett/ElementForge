@@ -7,8 +7,13 @@ import {
   forwardAttribute,
   matchesAttributeCategory,
   isButtonType,
-  createComponentId } from '../../utils'
-import { type ColorSet } from '../../tokens'
+  createComponentId
+} from '../../utils'
+import { 
+  type ColorSet, 
+  colorSetValues,
+  resolveColor
+} from '../../tokens'
 
 /**
  * litPortfolio Button Element.
@@ -101,6 +106,9 @@ export class EfButton extends EfElement {
         dsLogger.warn( 'ef-button', 'icon-only usage detected without aria-label. Add aria-label to describe the button action.' );
       }
     }
+
+    // color updating
+    if (changedProps.has('color')) { this.updateColor(); }
 
     // Warn if loading is enabled but loader is not
     if (this.loading && !this.loader && !this._loaderWarning) {
@@ -200,6 +208,18 @@ export class EfButton extends EfElement {
     this.stopLoading();
   }
 
+  private updateColor() {
+    if (!colorSetValues.includes(this.color as any)) {
+      dsLogger.warn('ef-icon', `invalid "color" value: ${this.color}`, 'ef-icon#color');
+      this.style.removeProperty('--ef-icon-color');
+      return;
+    }
+
+    const cssVar = resolveColor(this.color);
+    this.style.setProperty('--ef-btn-base-color', cssVar);
+  }
+
+
   /**
    * Event Passthrough
    */
@@ -229,7 +249,6 @@ export class EfButton extends EfElement {
     return html`
       <button
         type="${this.type}"
-        color="${this.color}"
         @click=${this.#onInternalClick}
         ?disabled=${this.disabled || this.loading}
         aria-busy=${this.loader ? String(this.loading) : null}
