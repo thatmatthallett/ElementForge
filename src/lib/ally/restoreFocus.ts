@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function restoreFocus(el: EfElement) {
@@ -8,7 +9,7 @@ export function restoreFocus(el: EfElement) {
       previouslyFocused.focus();
     } else {
       if (import.meta.env.DEV) {
-        el.log('Focus restoration warning: previous element no longer exists');
+        dsLogger.warn(el.componentName, 'Focus restoration warning: previous element no longer exists');
       }
     }
   };

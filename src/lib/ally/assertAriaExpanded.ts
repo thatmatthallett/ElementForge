@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function assertAriaExpanded(el: EfElement, expanded: boolean) {
@@ -6,12 +7,12 @@ export function assertAriaExpanded(el: EfElement, expanded: boolean) {
   const attr = el.getAttribute('aria-expanded');
 
   if (attr === null) {
-    el.log('Missing aria-expanded attribute on expandable component');
+    dsLogger.warn(el.componentName, 'Missing aria-expanded attribute on expandable component');
     return;
   }
 
   const value = attr === 'true';
 
   if (value !== expanded)
-    el.log(`aria-expanded="${attr}" does not match component state (${expanded})`);
+    dsLogger.warn(el.componentName, `aria-expanded="${attr}" does not match component state (${expanded})`);
 }

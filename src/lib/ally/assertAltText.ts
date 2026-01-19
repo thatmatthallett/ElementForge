@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function assertAltText(el: EfElement) {
@@ -5,6 +6,6 @@ export function assertAltText(el: EfElement) {
 
   const alt = el.getAttribute('alt');
   if (!alt) {
-    el.log('Missing alt text for image/icon component');
+    dsLogger.warn(el.componentName, 'Missing alt text for image/icon component');
   }
 }

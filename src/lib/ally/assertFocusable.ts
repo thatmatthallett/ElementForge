@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function assertFocusable(el: EfElement) {
@@ -8,7 +9,7 @@ export function assertFocusable(el: EfElement) {
 
   // Disabled elements should NOT be focusable
   if (disabled && tabindex !== null) {
-    el.log('Disabled component should not be focusable (remove tabindex)');
+    dsLogger.warn(el.componentName, 'Disabled component should not be focusable (remove tabindex)');
     return;
   }
 
@@ -19,5 +20,5 @@ export function assertFocusable(el: EfElement) {
     el.getAttribute('aria-pressed') !== null;
 
   if (isInteractive && tabindex === null && !disabled) 
-    el.log('Interactive component is not focusable (missing tabindex="0")');
+    dsLogger.warn(el.componentName, 'Interactive component is not focusable (missing tabindex="0")');
 }

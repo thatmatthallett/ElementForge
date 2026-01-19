@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function assertRequiredProps(el: EfElement, props: string[]) {
@@ -7,7 +8,7 @@ export function assertRequiredProps(el: EfElement, props: string[]) {
     const value = (el as any)[prop];
 
     if (value === undefined || value === null || value === '') {
-      el.log(`Missing required property: "${prop}"`);
+      dsLogger.warn(el.componentName, `Missing required property: "${prop}"`);
     }
   }
 }

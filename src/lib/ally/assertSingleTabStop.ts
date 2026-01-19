@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function assertSingleTabStop(el: EfElement) {
@@ -10,7 +11,7 @@ export function assertSingleTabStop(el: EfElement) {
   if (!focusables) return;
 
   if (focusables.length > 1) {
-    el.log(
+    dsLogger.warn(el.componentName,
       `Component has multiple focusable elements (${focusables.length}). ` +
       `Ensure only the host or a single internal element is focusable.`
     );

@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function assertLabel(el: EfElement) {
@@ -9,6 +10,6 @@ export function assertLabel(el: EfElement) {
     el.textContent?.trim();
 
   if (!hasLabel) {
-    el.log('Component is missing an accessible label');
+    dsLogger.warn(el.componentName, 'Component is missing an accessible label');
   }
 }

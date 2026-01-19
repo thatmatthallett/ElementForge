@@ -1,31 +1,17 @@
-const efEvents = [
-  'ef-change',
-  'ef-click',
-  'ef-input',
-  'ef-focus',
-  'ef-blur',
-  'ef-hover',
-  'ef-validate',
-  'ef-open',
-  'ef-close',
-  'ef-select',
-  'ef-select-open',
-  'ef-select-close',
-  'ef-loading',
-  'ef-loading-start',
-  'ef-loading-end',
-  // Add more as your design system grows
-];
+import type { ComponentEvents } from '../../src/lib/events';
+
+export const efEvents = Object.keys( {} as ComponentEvents ) as (keyof ComponentEvents)[];
 
 for (const eventName of efEvents) {
   window.addEventListener(
     eventName,
-    e => logEfEvent(e),
+    e => logEfEvent(e as CustomEvent<ComponentEvents[typeof eventName]>),
     { capture: true }
   );
 }
 
-function logEfEvent(e) {
+
+function logEfEvent(e: CustomEvent) {
   const time = new Date().toISOString().split('T')[1].replace('Z', '');
   const name = e.type;
   const detail = e.detail ?? {};

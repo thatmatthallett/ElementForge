@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export interface AssertRoleOptions {
@@ -17,12 +18,12 @@ export function assertRole(
 
   // 1. Must not exist
   if (options.mustNotExist && role !== null) {
-    el.log(`Host should not have a role, but found role="${role}"`);
+    dsLogger.warn(el.componentName, `Host should not have a role, but found role="${role}"`);
   }
 
   // 2. Must be a specific role
   if (options.mustBe && role !== options.mustBe) {
-    el.log(`Expected role="${options.mustBe}" but found "${role ?? 'none'}"`);
+    dsLogger.warn(el.componentName, `Expected role="${options.mustBe}" but found "${role ?? 'none'}"`);
   }
 
   // 3. Must not be one or more specific roles
@@ -32,7 +33,7 @@ export function assertRole(
       : [options.mustNotBe];
 
     if (forbidden.includes(role ?? '')) {
-      el.log(`Host must not have role="${role}"`);
+      dsLogger.warn(el.componentName, `Host must not have role="${role}"`);
     }
   }
 }

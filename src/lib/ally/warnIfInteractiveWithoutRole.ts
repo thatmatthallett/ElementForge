@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function warnIfInteractiveWithoutRole(el: EfElement) {
@@ -10,6 +11,6 @@ export function warnIfInteractiveWithoutRole(el: EfElement) {
   const hasRole = el.hasAttribute('role');
 
   if (isInteractive && !hasRole) {
-    el.log('Interactive element missing role attribute');
+    dsLogger.warn(el.componentName, 'Interactive element missing role attribute');
   }
 }

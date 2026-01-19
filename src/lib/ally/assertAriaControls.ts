@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function assertAriaControls(el: EfElement, targetId: string) {
@@ -6,15 +7,15 @@ export function assertAriaControls(el: EfElement, targetId: string) {
   const attr = el.getAttribute('aria-controls');
 
   if (!attr) {
-    el.log('Missing aria-controls attribute');
+    dsLogger.warn(el.componentName, 'Missing aria-controls attribute');
     return;
   }
 
   if (attr !== targetId) {
-    el.log(`aria-controls="${attr}" does not match expected target "${targetId}"`);
+    dsLogger.warn(el.componentName, `aria-controls="${attr}" does not match expected target "${targetId}"`);
     return;
   }
 
   if (!document.getElementById(targetId))
-    el.log(`aria-controls references missing element id="${targetId}"`);
+    dsLogger.warn(el.componentName, `aria-controls references missing element id="${targetId}"`);
 }

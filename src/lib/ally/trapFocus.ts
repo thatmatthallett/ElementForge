@@ -1,9 +1,10 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function trapFocus(el: EfElement) {
   const root = el.shadowRoot;
   if (!root) {
-    if (import.meta.env.DEV) el.log('Cannot trap focus: no shadowRoot found');
+    if (import.meta.env.DEV) dsLogger.warn(el.componentName, 'Cannot trap focus: no shadowRoot found');
     return;
   }
 
@@ -12,7 +13,7 @@ export function trapFocus(el: EfElement) {
   );
 
   if (focusables.length === 0) {
-    if (import.meta.env.DEV) el.log('Focus trap warning: no focusable elements inside component');
+    if (import.meta.env.DEV) dsLogger.warn(el.componentName, 'Focus trap warning: no focusable elements inside component');
     return;
   }
 
@@ -39,7 +40,7 @@ export function trapFocus(el: EfElement) {
   root.addEventListener('keydown', handler);
 
   if (import.meta.env.DEV) {
-    el.log('Focus trap activated');
+    dsLogger.warn(el.componentName, 'Focus trap activated');
   }
 
   return () => root.removeEventListener('keydown', handler);

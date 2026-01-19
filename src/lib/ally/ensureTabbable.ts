@@ -1,3 +1,4 @@
+import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export function ensureTabbable(el: EfElement) {
@@ -8,6 +9,6 @@ export function ensureTabbable(el: EfElement) {
   }
 
   if (import.meta.env.DEV && !hadTabindex) {
-    el.log('Added tabindex="0" to make component tabbable');
+    dsLogger.warn(el.componentName, 'Added tabindex="0" to make component tabbable');
   }
 }
