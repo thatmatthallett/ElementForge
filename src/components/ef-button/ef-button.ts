@@ -8,6 +8,7 @@ import {
   matchesAttributeCategory,
   isButtonType,
   createComponentId } from '../../utils'
+import { type ColorSet } from '../../tokens'
 
 /**
  * litPortfolio Button Element.
@@ -33,7 +34,7 @@ export class EfButton extends EfElement {
   efId: string = createComponentId('efButton');
 
   @property({ type: String, reflect: true })
-  color: ColorSet = 'blue';
+  color: ColorSet = 'primary';
 
   @property({ type: Boolean, reflect: true })
   disabled = false;
@@ -228,7 +229,7 @@ export class EfButton extends EfElement {
     return html`
       <button
         type="${this.type}"
-        class="${this.color}"
+        color="${this.color}"
         @click=${this.#onInternalClick}
         ?disabled=${this.disabled || this.loading}
         aria-busy=${this.loader ? String(this.loading) : null}

@@ -1,5 +1,5 @@
 import { iconNames, type IconName } from '../assets/icons/icon-types';
-import { colorSetValues, type ColorSet } from '../types/colorSet';
+import { colorSetValues, type ColorSet } from '../tokens/colorSet';
 
 export function isIconName(value: string): value is IconName {
   return iconNames.includes(value as IconName);

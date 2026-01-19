@@ -6,10 +6,11 @@ import stylesText from './ef-icon.css?raw';
 
 import { icons } from '../../assets/icons/icons';
 import { 
+  type ColorSet,
   colorSetValues,
   strokeWidthTokens,
   type StrokeWidthPreset
-} from '../../types';
+} from '../../tokens';
 
 /**
  * litPortfolio Icon Element.
