@@ -5,8 +5,7 @@ import stylesText from './ef-button.css?raw'
 import {
   forwardAttribute,
   matchesAttributeCategory,
-  isButtonType,
-  createComponentId
+  isButtonType
 } from '../../utils'
 import { 
   type ColorSet, 
@@ -32,9 +31,6 @@ export class EfButton extends EfElement {
   static stylesText = stylesText;
   static formAssociated = true;
   private internals = this.attachInternals();
-
-  @property({ type: String })
-  efId: string = createComponentId('efButton');
 
   @property({ type: String, reflect: true })
   color: ColorSet = 'primary';
@@ -79,22 +75,11 @@ export class EfButton extends EfElement {
     this.ally.assertSingleTabStop();
 
     // Handle Clicks
-    this.addEventListener('click', this.#preventHostClick);
+    this.listen(this, 'click', this.#preventHostClick as EventListener);
 
     // Handle Loading Events
-    window.addEventListener('ef-loading-start', this.onLoadingStart as EventListener);
-    window.addEventListener('ef-loading-end', this.onLoadingEnd as EventListener);
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-
-    // Remove Click Handler
-    this.removeEventListener('click', this.#preventHostClick);
-
-    // Remove Loading Handlers
-    window.removeEventListener('ef-loading-start', this.onLoadingStart as EventListener);
-    window.removeEventListener('ef-loading-end', this.onLoadingEnd as EventListener);
+    this.listen(window, 'ef-loading-start', this.onLoadingStart as EventListener);
+    this.listen(window, 'ef-loading-end', this.onLoadingEnd as EventListener);
   }
 
   updated(changedProps: Map<string, unknown>) {
@@ -164,9 +149,18 @@ export class EfButton extends EfElement {
     }
   }
 
-  public startLoading() { this.loading = true; }
-  public stopLoading() { this.loading = false; }
-  public toggleLoading() { this.loading = !this.loading; }
+  public startLoading() {
+    this.loading = true;
+    this.emit('ef-loading', { efId: this.efId, active: true })
+  }
+  public stopLoading() {
+    this.loading = false;
+    this.emit('ef-loading', { efId: this.efId, active: false })
+  }
+  public toggleLoading() {
+    this.loading = !this.loading;
+    this.emit('ef-loading', { efId: this.efId, active: this.loading })
+  }
   
   protected onAttributeChanged(name: string, _oldValue: string | null, newValue: string | null) {
     const attributs = ['aria-','disabled','type','form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'tabindex', 'name', 'value']

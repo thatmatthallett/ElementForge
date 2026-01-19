@@ -53,7 +53,11 @@ export class EfIcon extends EfElement {
       this.updateColor();
 
     if (changedProps.has('name') && !this.name)
-      dsLogger.error('ef-icon', 'missing required "name" attribute. See: src/assets/icons/icon-types.ts', 'ef-icon#name');
+      dsLogger.error(
+        this.componentName,
+        'missing required "name" attribute. See: src/assets/icons/icon-types.ts',
+        `${this.componentName}#name`
+      );
 
     if (changedProps.has('width'))
       this.updateWidth();
@@ -159,9 +163,9 @@ export class EfIcon extends EfElement {
 
     // Fallback + error
     dsLogger.error(
-      'ef-icon',
+      this.componentName,
       'missing required "name" attribute or valid src/slot.',
-      'ef-icon#name'
+      `${this.componentName}}#name`
     );
 
     return html``;

@@ -4,6 +4,8 @@
  *
  * Use `undefined` for events that do not carry a detail payload.
  */
+import type { StatusSet } from "../tokens";
+
 export type ComponentEvents = {
   // Generic UI events
   'ef-change': { value: unknown };
@@ -14,10 +16,8 @@ export type ComponentEvents = {
   'ef-input': { value: unknown };
   'ef-focus': undefined;
   'ef-blur': undefined;
-
-  // Icon component events
-  'ef-icon-load': { name: string };
-  'ef-icon-error': { name: string; error: Error };
+  'ef-hover': { hovering: boolean };
+  "ef-validate": { status?: StatusSet ; message?: string };
 
   // Modal events
   'ef-open': { source: 'keyboard' | 'mouse' | 'programmatic' };
@@ -29,8 +29,10 @@ export type ComponentEvents = {
   'ef-select-close': undefined;
 
   // Loading component events
-  'ef-loading-start':  { efId: string };
-  'ef-loading-end': { efId: string };
+  'ef-loading': { efId: string; active: boolean;};
+  'ef-loading-start':  { efId: string }; // event emmmited to trigger loading
+  'ef-loading-end': { efId: string }; // event emmmited to remove loading
+  
 
   // Add more component-specific events here...
 };

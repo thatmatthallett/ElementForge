@@ -6,12 +6,6 @@
   :root {
     color-scheme: dark;
 
-    --ef-color-black: oklch(0.2795 0.0181 241.71);
-    --ef-color-gray: oklch(0.3392 0.0244 248.55);
-    --ef-color-blue: oklch(0.3987 0.0709 229.86);
-    --ef-color-slate: oklch(0.6256 0.0294 211.13);
-    --ef-color-lgray: oklch(0.8793 0.0094 150.67);
-
     /* Primary */
     --ef-color-primary: oklch(0.72 0.17 47.5);
     --ef-color-primary-dark: oklch(0.58 0.14 47.2);
@@ -164,5 +158,15 @@
     justify-content: center;
     min-width: 320px;
     min-height: 100vh;
+  }
+
+  h1.display.logo {
+    font-family: var(--ef-font-display);
+    font-size: 3rem;
+    font-weight: var(--ef-weight-display-strong);
+    line-height: var(--ef-line-tight);
+    letter-spacing: var(--ef-tracking-tight);
+    text-transform: uppercase;
+    margin-block: 0
   }
 }

@@ -10,24 +10,15 @@
     <script src="/src/assets/eventLogger.js"></script>
   </head>
   <body>
-    <my-element>
-      <h1>Vite + Lit</h1>
-      <h1>Element Forge</h1>
-    </my-element>
-
-    <div>
+    <div style="display:flex; gap:.75rem; align-items: center; justify-content: center; margin-bottom: 2rem;">
       <ef-icon name="ef-hex-anvil" width="10rem"></ef-icon>
+      <h1 class="display logo">Element<br/>Forge</h1>
     </div>
 
     <div>
       <ef-button id="loadToggle" color="secondary" shape="pill">Test Load Event</ef-button>
       <ef-button id="loadToggle2" color="info" shape="square">Test Load Method</ef-button>
       <ef-button color="success" variant="link">Test Load Method</ef-button>
-    </div>
-    <div>
-      <ef-icon name="ad-circle-filled"></ef-icon>
-      <ef-icon name="address-book" width="5rem" strokeWidth="1"></ef-icon>
-      <ef-icon name="loader-2" strokeWidth="bold" spinner></ef-icon>
     </div>
     
     <div style="display:flex; gap: 3rem; margin-block: 2rem;">
@@ -78,9 +69,7 @@
 
 
     btnToggler.addEventListener('ef-click', e => {
-      console.log(btnToggler.toggled);
-      //btnToggler.toggled = !btnToggler.toggled;
-
+      btnToggler.toggled = !btnToggler.toggled;
     });
 
 

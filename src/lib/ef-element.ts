@@ -1,9 +1,10 @@
-import { LitElement } from 'lit';
+import { LitElement, html } from 'lit';
 import { property } from 'lit/decorators.js'
 import type { ComponentEvents } from './events';
 import * as a11y from './ally';
 import type { AssertRoleOptions } from './ally/assertRole';
-import { dsLogger,observeAttributes } from '../utils';
+import type { StatusSet } from '../tokens/statusTokens';
+import { createComponentId, dsLogger, observeAttributes } from '../utils';
 
 export class EfElement extends LitElement {
   private static _sheet?: CSSStyleSheet;
@@ -11,9 +12,19 @@ export class EfElement extends LitElement {
   private _attributeObserverCleanup: (() => void) | null = null;
   private _listeners: Array<() => void> = [];
   private _warnings = new Set<string>();
+  
+  public componentName: string;
+
+  @property({ type: String })
+  efId!: string;
 
   @property({ attribute: 'data-theme', reflect: true })
   theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';
+
+  @property({ type: String, reflect: true })
+  status?: StatusSet;
+  @property({ type: String })
+  statusMessage?: string
 
 
   /* Accessibility Helpers */
@@ -33,13 +44,16 @@ export class EfElement extends LitElement {
   };
   /* Attribute Observation Boolean */
   protected observeAttributes = false;
-  
-  /**
-   * A static tagName property for consistent logging.
-   * You can set this in each component:
-   *   static tagName = 'ef-icon';
-   */
-  static tagName?: string;
+
+  constructor() {
+    super();
+    this.componentName = this.tagName.toLowerCase();
+    const normalized = this.componentName
+      .split('-')
+      .map((p, i) => i === 0 ? p : p[0].toUpperCase() + p.slice(1))
+      .join('');
+    
+    this.efId = createComponentId(normalized); }
 
 
   connectedCallback() {
@@ -52,8 +66,10 @@ export class EfElement extends LitElement {
         (name, oldValue, newValue) => {
         this.onAttributeChanged(name, oldValue, newValue);
       }
-  );
-
+    );
+    
+    // Handle Loading Events
+    this.listen(window, 'ef-validate', this.#onValidate as EventListener)
   }
 
   disconnectedCallback() {
@@ -65,6 +81,8 @@ export class EfElement extends LitElement {
 
     super.disconnectedCallback();
   }
+
+
 
   /* Stylesheet cache for adopted styles */
   private applyComponentStyles() {
@@ -116,29 +134,6 @@ export class EfElement extends LitElement {
     );
   }
 
-  /**
-   * A dev‑mode logger that only runs in development.
-   * You can expand this later for warnings, analytics, etc.
-   */
-  public log(message: string, ...args: unknown[]) {
-    if (import.meta.env.DEV) {
-      const tag = (this.constructor as typeof EfElement).tagName ?? this.tagName.toLowerCase();
-      console.debug(`[${tag}] ${message}`, ...args);
-    }
-  }
-
-  /**
-   * A lifecycle hook wrapper that logs updates.
-   * Useful for debugging component behavior during development.
-   */
-  protected updated(changedProps: Map<string, unknown>) {
-    super.updated(changedProps);
-
-    if (import.meta.env.DEV && changedProps.size > 0) {
-      this.log('updated', Object.fromEntries(changedProps));
-    }
-  }
-
   /* Global Event Listeners w/ Cleanup */
   protected listen(
     target: EventTarget,
@@ -164,6 +159,32 @@ export class EfElement extends LitElement {
     if (this._warnings.has(key)) return;
     
     this._warnings.add(key);
-    dsLogger.warn(this.tagName.toLowerCase(), message);
+    dsLogger.warn(this.componentName, message);
+  }
+
+  /* component status helpers */
+  #onValidate(e: CustomEvent<{ status?: StatusSet; message?: string }>) {
+    const { status, message } = e.detail;
+    
+    if (status) { this.updateStatus(status, message); }
+    else { this.clearStatus(); }
+  }
+
+  public updateStatus(status: StatusSet, message?: string) {
+    this.status = status;
+    this.statusMessage = message ?? undefined;
+  }
+  public clearStatus() {
+    this.status = undefined;
+    this.statusMessage = undefined;
+  }
+  protected renderStatusMessage() {
+    if (!this.statusMessage) return null;
+
+    return html`
+      <span class="ef-status-message ${this.status}">
+        ${this.statusMessage}
+      </span>
+    `;
   }
 }
