@@ -3,13 +3,14 @@ import { property } from 'lit/decorators.js'
 import type { ComponentEvents } from './events';
 import * as a11y from './ally';
 import type { AssertRoleOptions } from './ally/assertRole';
-import { observeAttributes } from '../utils';
+import { dsLogger,observeAttributes } from '../utils';
 
 export class EfElement extends LitElement {
   private static _sheet?: CSSStyleSheet;
   private _styleEl?: HTMLStyleElement;
   private _attributeObserverCleanup: (() => void) | null = null;
   private _listeners: Array<() => void> = [];
+  private _warnings = new Set<string>();
 
   @property({ attribute: 'data-theme', reflect: true })
   theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';
@@ -158,4 +159,11 @@ export class EfElement extends LitElement {
     // default: no-op
   }
 
+  /* Warn Once Helper */
+  protected warnOnce(key: string, message: string) {
+    if (this._warnings.has(key)) return;
+    
+    this._warnings.add(key);
+    dsLogger.warn(this.tagName.toLowerCase(), message);
+  }
 }

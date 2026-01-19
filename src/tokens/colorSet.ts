@@ -1,4 +1,4 @@
-export const colorSetValues = [
+export const colorValues = [
   'primary',
   'secondary',
   'success',
@@ -12,4 +12,4 @@ export const colorSetValues = [
 ] as const;
 
 
-export type ColorSet = (typeof colorSetValues)[number];
+export type ColorSet = (typeof colorValues)[number];

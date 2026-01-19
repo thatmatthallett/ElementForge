@@ -2,8 +2,7 @@ import { html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import { EfElement } from '../../lib/ef-element'
 import stylesText from './ef-button.css?raw'
-import { 
-  dsLogger,
+import {
   forwardAttribute,
   matchesAttributeCategory,
   isButtonType,
@@ -11,8 +10,11 @@ import {
 } from '../../utils'
 import { 
   type ColorSet, 
-  colorSetValues,
-  resolveColor
+  colorValues,
+  resolveColor,
+  type ShapeSet,
+  shapeValues,
+  shapeRadius
 } from '../../tokens'
 
 /**
@@ -30,10 +32,6 @@ export class EfButton extends EfElement {
   static stylesText = stylesText;
   static formAssociated = true;
   private internals = this.attachInternals();
-  private _expandedWarning = false;
-  private _iconOnlyWarning = false;
-  private _loaderWarning = false;
-  private _toggleWarning = false;
 
   @property({ type: String })
   efId: string = createComponentId('efButton');
@@ -55,6 +53,9 @@ export class EfButton extends EfElement {
   loading = false;
   @property({ type: String })
   loadingIcon: LoadingIconName = 'loader-2';
+
+  @property({ type: String, reflect: true })
+  shape: ShapeSet = 'rounded';
 
   @property({ type: String, reflect: true })
   type: HTMLButtonElement['type'] = 'button';
@@ -101,37 +102,33 @@ export class EfButton extends EfElement {
     const hasAriaLabel = this.hasAttribute('aria-label');
 
     if (!hasText && hasIcon && !hasAriaLabel) {
-      if (import.meta.env.DEV && !this._iconOnlyWarning) {
-        this._iconOnlyWarning = true;
-        dsLogger.warn( 'ef-button', 'icon-only usage detected without aria-label. Add aria-label to describe the button action.' );
-      }
+      this.warnOnce('iconOnlyNoAria',
+        'icon-only usage detected without aria-label. Add aria-label to describe the button action.'
+      );
     }
 
     // color updating
     if (changedProps.has('color')) { this.updateColor(); }
 
+    // shape updating
+    if (changedProps.has('shape')) { this.updateShape(); }
+
     // Warn if loading is enabled but loader is not
-    if (this.loading && !this.loader && !this._loaderWarning) {
-      this._loaderWarning = true;
-      dsLogger.warn(
-        'ef-button',
+    if (this.loading && !this.loader) {
+      this.warnOnce('loadingNoLoader',
         'loading is enabled but loader=false. Enable loader to display loading visuals.'
       );
     }
 
     // Warn if toggle is not set but toggledIcon or toggled is used
-    if (!this.toggle && (this.toggled || this.toggleIcon) && !this._toggleWarning) {
-      this._toggleWarning = true;
-      dsLogger.warn(
-        'ef-button',
+    if (!this.toggle && (this.toggled || this.toggleIcon)) {
+      this.warnOnce('togglePropsWithoutToggle',
         'Toggle-related props (toggled or toggledIcon) are set but toggle mode is disabled. Add toggle to enable toggle behavior.'
       );
     }
 
-    if (this.toggle && this.hasAttribute('aria-expanded') && !this._expandedWarning) {
-      this._expandedWarning = true;
-      dsLogger.warn(
-        'ef-button',
+    if (this.toggle && this.hasAttribute('aria-expanded')) {
+      this.warnOnce('ariaExpandedWithToggle',
         'aria-expanded is set on a toggle button. aria-pressed will be suppressed to avoid conflicting ARIA states.'
       );
      }
@@ -209,16 +206,28 @@ export class EfButton extends EfElement {
   }
 
   private updateColor() {
-    if (!colorSetValues.includes(this.color as any)) {
-      dsLogger.warn('ef-icon', `invalid "color" value: ${this.color}`, 'ef-icon#color');
+    if (!colorValues.includes(this.color as any)) {
+      this.warnOnce('invalidColor',
+        `invalid "color" value: ${this.color} - ef-button#color`
+      );
       this.style.removeProperty('--ef-icon-color');
       return;
     }
 
-    const cssVar = resolveColor(this.color);
-    this.style.setProperty('--ef-btn-base-color', cssVar);
+    this.style.setProperty('--ef-btn-base-color', resolveColor(this.color));
   }
 
+  private updateShape() {
+    if (!shapeValues.includes(this.shape as any)) {
+      this.warnOnce('invalidShape',
+        `invalid "shape" value: ${this.shape} - ef-button#shape`
+      );
+      this.style.removeProperty('--ef-btn-radius');
+      return;
+    }
+
+    this.style.setProperty('--ef-btn-radius', shapeRadius[this.shape]);
+  }
 
   /**
    * Event Passthrough

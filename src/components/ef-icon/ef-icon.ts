@@ -7,7 +7,7 @@ import stylesText from './ef-icon.css?raw';
 import { icons } from '../../assets/icons/icons';
 import { 
   type ColorSet,
-  colorSetValues,
+  colorValues,
   resolveColor,
   strokeWidthTokens,
   type StrokeWidthPreset
@@ -93,8 +93,8 @@ export class EfIcon extends EfElement {
       return;
     }
 
-    if (!colorSetValues.includes(this.color as any)) {
-      dsLogger.warn('ef-icon', `invalid "color" value: ${this.color}`, 'ef-icon#color');
+    if (!colorValues.includes(this.color as any)) {
+      this.warnOnce('invalidColor', `invalid "color" value: ${this.color} - ef-icon#color`);
       this.style.removeProperty('--ef-icon-color');
       return;
     }
@@ -108,7 +108,7 @@ export class EfIcon extends EfElement {
     if (CSS.supports('height', finalHeight)) {
       this.style.setProperty('--ef-icon-height', finalHeight);
     } else {
-      dsLogger.warn('ef-icon', `invalid "height" value: ${finalHeight}`, 'ef-icon#height');
+      this.warnOnce('invalidHeight', `invalid "height" value: ${finalHeight} - ef-icon#height`);
       this.style.removeProperty('--ef-icon-height'); }
   }
 
@@ -121,7 +121,7 @@ export class EfIcon extends EfElement {
     if (CSS.supports('width', this.width)) {
       this.style.setProperty('--ef-icon-width', this.width);
     } else {
-      dsLogger.warn('ef-icon', `invalid "width" value: ${this.width}`, 'ef-icon#width');
+      this.warnOnce('invalidWidth', `invalid "width" value: ${this.width} - ef-icon#width`);
       this.style.removeProperty('--ef-icon-width'); // fall back to CSS default
     }
 
@@ -140,7 +140,7 @@ export class EfIcon extends EfElement {
     if (CSS.supports('stroke-width', this.strokeWidth)) {
       this.style.setProperty('--ef-icon-stroke-width', this.strokeWidth);
     } else {
-      dsLogger.warn('ef-icon', `invalid "strokeWidth" value: ${this.strokeWidth}`, 'ef-icon#strokeWidth');
+      this.warnOnce('invalidStrokeWidth', `invalid "strokeWidth" value: ${this.strokeWidth} - ef-icon#strokeWidth`);
       this.style.removeProperty('--ef-icon-stroke-width');
     }
   }
