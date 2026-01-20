@@ -18,6 +18,8 @@ export class EfElement extends LitElement {
   private _styleEl?: HTMLStyleElement;
   private _attributeObserverCleanup: (() => void) | null = null;
   private _listeners: Array<() => void> = [];
+  private _pendingStatus?: StatusSet;
+  private _pendingMessage?: string;
   private _scheduled = new Set<string>();
   private _warnings = new Set<string>();
   
@@ -197,9 +199,12 @@ export class EfElement extends LitElement {
   public updateStatus(efId: string,status: StatusSet, message?: string ) {
     if (!isEfId(efId, this.efId)) return;
 
+    this._pendingStatus = status;
+    this._pendingMessage = message;
+    
     this.schedule('status', () => {
-      this.status = status;
-      this.statusMessage = message ?? undefined;
+      this.status = this._pendingStatus;
+      this.statusMessage = this._pendingMessage;
     });
   }
   public clearStatus(efId: string) {
