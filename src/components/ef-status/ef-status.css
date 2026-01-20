@@ -43,11 +43,8 @@
     color: var(--ef-color-info);
   }
 
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
-/* When message is present, animate in */
-:host([message]) .ef-status-wrapper {
-  opacity: 1;
-  transform: translateY(0);
-}
-

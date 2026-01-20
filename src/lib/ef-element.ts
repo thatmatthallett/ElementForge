@@ -220,7 +220,7 @@ export class EfElement extends LitElement {
     return html`
       <ef-status
         status=${this.status ?? nothing}
-        message=${this.statusMessage}
+        statusMessage=${this.statusMessage}
       ></ef-status>
     `;
   }

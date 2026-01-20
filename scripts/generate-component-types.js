@@ -1,16 +1,23 @@
 import fs from "fs";
 import path from "path";
 
+/* -------------------------------------------------------
+   CONFIG
+------------------------------------------------------- */
 const COMPONENT_DIR = "./src/components";
-const OUTPUT = "./src/types/ef-jsx.d.ts";
+const TYPES_DIR = "./src/types";
+
+const JSX_OUT = path.join(TYPES_DIR, "ef-jsx.d.ts");
+const DOM_OUT = path.join(TYPES_DIR, "ef-dom.d.ts");
+const HTML_OUT = path.join(TYPES_DIR, "ef-html.json");
+
 const EF_ELEMENT_PATH = "./src/lib/ef-element.ts";
-const baseProps = extractProps(EF_ELEMENT_PATH);
 
 /* -------------------------------------------------------
-   Utility: recursively find all .ts files
+   UTILITIES
 ------------------------------------------------------- */
 function getComponentFiles(dir) {
-  return fs.readdirSync(dir).flatMap(file => {
+  return fs.readdirSync(dir).flatMap((file) => {
     const full = path.join(dir, file);
     if (fs.statSync(full).isDirectory()) return getComponentFiles(full);
     if (file.endsWith(".ts")) return [full];
@@ -18,32 +25,33 @@ function getComponentFiles(dir) {
   });
 }
 
+function tagFromFilename(file) {
+  return path.basename(file).replace(".ts", "");
+}
+
+function toKebab(str) {
+  return str.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+}
+
 /* -------------------------------------------------------
-   Extract Lit @property definitions
+   PROP EXTRACTION
 ------------------------------------------------------- */
 function extractProps(file) {
   const source = fs.readFileSync(file, "utf8");
-  const props = {};
-
-  // Normalize whitespace to make regex more reliable
   const clean = source.replace(/\s+/g, " ");
 
-  /* -------------------------------------------------------
-     1) @property(...) foo: type;
-  ------------------------------------------------------- */
+  const props = {};
+
+  // 1) @property(...) foo: type; (supports ?, !)
   const typedRegex =
     /@property\s*\([^)]*\)\s*(public\s+|private\s+|protected\s+)?(?<name>[a-zA-Z0-9_]+)\??!?\s*:\s*(?<type>[^;\n]+)/g;
-
 
   let match;
   while ((match = typedRegex.exec(clean))) {
     props[match.groups.name] = match.groups.type.trim();
   }
 
-  /* -------------------------------------------------------
-     2) @property({ type: X }) foo;
-        → infer type from decorator
-  ------------------------------------------------------- */
+  // 2) @property({ type: X }) foo;
   const decoratorTypeRegex =
     /@property\s*\(\s*\{\s*type\s*:\s*(?<litType>Boolean|String|Number)\s*}\s*\)\s*(public\s+|private\s+|protected\s+)?(?<name>[a-zA-Z0-9_]+)\s*[=;]/g;
 
@@ -59,10 +67,7 @@ function extractProps(file) {
     props[match.groups.name] = tsType;
   }
 
-  /* -------------------------------------------------------
-     3) @property() foo = value;
-        → infer type from initializer
-  ------------------------------------------------------- */
+  // 3) @property() foo = value;
   const inferredRegex =
     /@property\s*\([^)]*\)\s*(public\s+|private\s+|protected\s+)?(?<name>[a-zA-Z0-9_]+)\s*=\s*(?<value>true|false|[0-9]+|"[^"]*"|'[^']*')/g;
 
@@ -76,10 +81,7 @@ function extractProps(file) {
     props[match.groups.name] = tsType;
   }
 
-  /* -------------------------------------------------------
-     4) @property() foo;
-        → no type, no initializer → default to string
-  ------------------------------------------------------- */
+  // 4) @property() foo;
   const bareRegex =
     /@property\s*\([^)]*\)\s*(public\s+|private\s+|protected\s+)?(?<name>[a-zA-Z0-9_]+)\s*;/g;
 
@@ -89,16 +91,12 @@ function extractProps(file) {
     }
   }
 
-  /* -------------------------------------------------------
-    5) @property() get/set name()
-  ------------------------------------------------------- */
+  // 5) @property() get/set name()
   const accessorRegex =
     /@property\s*\([^)]*\)\s*(public\s+|private\s+|protected\s+)?(?:get|set)\s+(?<name>[a-zA-Z0-9_]+)\s*\(/g;
 
   while ((match = accessorRegex.exec(clean))) {
     const name = match.groups.name;
-
-    // If type wasn't already inferred, default to string
     if (!props[name]) {
       props[name] = "string";
     }
@@ -108,55 +106,108 @@ function extractProps(file) {
 }
 
 /* -------------------------------------------------------
-   Convert filename → tag name
+   CLASS NAME EXTRACTION
 ------------------------------------------------------- */
-function tagFromFilename(file) {
-  return path.basename(file).replace(".ts", "");
+function extractClassName(file) {
+  const source = fs.readFileSync(file, "utf8");
+  const match = source.match(/export\s+class\s+(?<className>[A-Za-z0-9_]+)/);
+  return match?.groups.className || null;
 }
 
 /* -------------------------------------------------------
-   Build JSX namespace entries
+   MAIN GENERATION
 ------------------------------------------------------- */
 function generate() {
+  if (!fs.existsSync(TYPES_DIR)) {
+    fs.mkdirSync(TYPES_DIR, { recursive: true });
+  }
+
   const files = getComponentFiles(COMPONENT_DIR);
 
-  const entries = [];
+  // Inherited props from base element
+  const baseProps = extractProps(EF_ELEMENT_PATH);
+
+  const components = [];
 
   for (const file of files) {
     const tag = tagFromFilename(file);
-
     if (!tag.startsWith("ef-")) continue;
 
+    const className = extractClassName(file);
     const componentProps = extractProps(file);
-
-    // merge inherited props
     const props = { ...baseProps, ...componentProps };
 
-    const propLines = Object.entries(props)
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([name, type]) => `      ${name}?: ${type};`)
-      .join("\n");
-
-    entries.push({
-      tag,
-      block: `    "${tag}": {\n${propLines}\n    };`
-    });
+    components.push({ tag, className, props });
   }
 
-  const fileContent = `// AUTO-GENERATED FILE -- DO NOT EDIT
+  /* -------------------------------------------------------
+     1) JSX TYPES
+  ------------------------------------------------------- */
+  let jsx = `// AUTO-GENERATED FILE -- DO NOT EDIT
 // Generated by scripts/generate-jsx.js
 
 declare namespace JSX {
   interface IntrinsicElements {
-${entries.map(e => e.block).join("\n")}
+`;
+
+  for (const c of components) {
+    const sorted = Object.entries(c.props).sort(([a], [b]) =>
+      a.localeCompare(b)
+    );
+
+    jsx += `    "${c.tag}": {\n`;
+    for (const [name, type] of sorted) {
+      jsx += `      ${name}?: ${type};\n`;
+    }
+    jsx += `    };\n`;
   }
+
+  jsx += `  }
 }
 
 export {};
 `;
 
-  fs.writeFileSync(OUTPUT, fileContent);
-  console.log("Generated:", OUTPUT);
+  fs.writeFileSync(JSX_OUT, jsx);
+
+  /* -------------------------------------------------------
+     2) DOM TYPES
+  ------------------------------------------------------- */
+  let dom = `// AUTO-GENERATED FILE -- DO NOT EDIT
+// Generated by scripts/generate-jsx.js
+
+declare global {
+  interface HTMLElementTagNameMap {
+`;
+
+  for (const c of components) {
+    if (!c.className) continue;
+    dom += `    "${c.tag}": ${c.className};\n`;
+  }
+
+  dom += `  }
+}
+
+export {};
+`;
+
+  fs.writeFileSync(DOM_OUT, dom);
+
+  /* -------------------------------------------------------
+     3) HTML INTELLISENSE
+  ------------------------------------------------------- */
+  const htmlData = {
+    tags: components.map((c) => ({
+      name: c.tag,
+      attributes: Object.keys(c.props).map((p) => ({
+        name: toKebab(p),
+      })),
+    })),
+  };
+
+  fs.writeFileSync(HTML_OUT, JSON.stringify(htmlData, null, 2));
+
+  console.log("Generated:", JSX_OUT, DOM_OUT, HTML_OUT);
 }
 
 generate();

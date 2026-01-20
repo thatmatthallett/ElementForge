@@ -1,5 +1,5 @@
 import { html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement } from 'lit/decorators.js';
 import { EfElement } from '../../lib/ef-element';
 import type { StatusSet } from '../../tokens/';
 import stylesText from './ef-status.css?raw';
@@ -7,12 +7,6 @@ import stylesText from './ef-status.css?raw';
 @customElement('ef-status')
 export class EfStatus extends EfElement {
   static stylesText = stylesText;
-
-  @property({ type: String })
-  status?: StatusSet;
-
-  @property({ type: String })
-  message?: string;
 
   private getIconForStatus(status?: StatusSet): IconName {
     switch (status) {
@@ -25,8 +19,9 @@ export class EfStatus extends EfElement {
   }
 
   render() {
-    console.log('Rendering ef-status-message:', this.status, this.message);
-    if (!this.message) return nothing;
+    console.log('Rendering ef-status with message:', this.statusMessage);
+    console.log('Status:', this.status);
+    if (!this.statusMessage) return nothing;
 
     // Errors + warnings should interrupt politely
     const ariaLive =
@@ -38,12 +33,12 @@ export class EfStatus extends EfElement {
 
     return html`
       <div
-        class="ef-status-wrapper ${this.status}"
+        class="ef-status-wrapper ${this.status} ${this.statusMessage ? 'show' : ''}"
         role="status"
         aria-live=${ariaLive}
       >
         <ef-icon name=${iconName} class="status-icon"></ef-icon>
-        <span class="status-text">${this.message}</span>
+        <span class="status-text">${this.statusMessage}</span>
       </div>
     `;
   }

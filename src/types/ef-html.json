@@ -1,0 +1,115 @@
+{
+  "tags": [
+    {
+      "name": "ef-button",
+      "attributes": [
+        {
+          "name": "ef-id"
+        },
+        {
+          "name": "theme"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "status-message"
+        },
+        {
+          "name": "color"
+        },
+        {
+          "name": "icon"
+        },
+        {
+          "name": "icon-position"
+        },
+        {
+          "name": "loading-icon"
+        },
+        {
+          "name": "shape"
+        },
+        {
+          "name": "type"
+        },
+        {
+          "name": "toggled"
+        },
+        {
+          "name": "toggle-icon"
+        },
+        {
+          "name": "variant"
+        },
+        {
+          "name": "disabled"
+        },
+        {
+          "name": "loader"
+        },
+        {
+          "name": "loading"
+        },
+        {
+          "name": "toggle"
+        }
+      ]
+    },
+    {
+      "name": "ef-icon",
+      "attributes": [
+        {
+          "name": "ef-id"
+        },
+        {
+          "name": "theme"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "status-message"
+        },
+        {
+          "name": "color"
+        },
+        {
+          "name": "height"
+        },
+        {
+          "name": "width"
+        },
+        {
+          "name": "stroke-width"
+        },
+        {
+          "name": "spinner"
+        },
+        {
+          "name": "name"
+        }
+      ]
+    },
+    {
+      "name": "ef-status",
+      "attributes": [
+        {
+          "name": "ef-id"
+        },
+        {
+          "name": "theme"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "status-message"
+        },
+        {
+          "name": "message"
+        }
+      ]
+    }
+  ]
+}
