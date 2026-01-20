@@ -1,0 +1,40 @@
+:host {
+  --ef-badge-base-color: var(--ef-color-primary);
+  --ef-badge-bg: var(--ef-badge-base-color);
+  --ef-badge-bg-hover: oklch(from var(--ef-btn-bg) calc(l + 0.05) c h);
+  --ef-badge-bg-active: oklch(from var(--ef-btn-bg) calc(l - 0.05) c h);
+  --ef-badge-border: transparent;
+  --ef-badge-border-hover: transparent;
+  --ef-badge-text: var(--ef-color-surface);
+  --ef-badge-focus-ring: oklch(from var(--ef-btn-bg) calc(l + 0.20) c h);
+
+  --ef-badge-padding-block: .75rem;
+  --ef-badge-padding-inline: .75rem;
+  --ef-badge-icon-width: 1.5rem;
+  --ef-badge-icon-height: 1.5rem;
+  --ef-badge-radius: 0.375rem;
+}
+
+:host([variant="outline"]) {
+  --ef-btn-bg: transparent;
+  --ef-btn-bg-hover: oklch(from var(--ef-btn-base-color) calc(l + 0.05) c h / 0.10);
+  --ef-btn-bg-active: oklch(from var(--ef-btn-base-color) calc(l - 0.05) c h / 0.15);
+
+  --ef-btn-border: var(--ef-btn-base-color);
+  --ef-btn-border-hover: var(--ef-btn-base-color);
+
+  --ef-btn-text: var(--ef-btn-base-color);
+}
+
+.ef-badge {
+
+  &:has(ef-icon) {
+    --ef-badge-padding-block: calc(var(--ef-badge-padding-inline) - 0.25rem);
+  }
+
+  ef-icon {
+    --ef-icon-width: var(--ef-badge-icon-width);
+    --ef-icon-height: var(--ef-badge-icon-height);
+  }
+
+}
