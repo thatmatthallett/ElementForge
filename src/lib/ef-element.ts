@@ -34,7 +34,7 @@ export class EfElement extends LitElement {
   @property({ type: String, reflect: true })
   status?: StatusSet;
   @property({ type: String })
-  statusMessage?: string
+  statusMessage?: string;
 
 
   /* Accessibility Helpers */

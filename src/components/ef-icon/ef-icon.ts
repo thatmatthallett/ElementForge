@@ -35,8 +35,8 @@ export class EfIcon extends EfElement {
     this._name = normalized;
     this.requestUpdate('name', old);
   }
+  
   @property({ type: String, reflect: true })
-  // default to width, width must be set first to default correctly
   height?: string;
   
   @property({ type: String, reflect: true })
