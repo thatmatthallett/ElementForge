@@ -25,7 +25,7 @@ export class EfElement extends LitElement {
   
   public componentName: string;
 
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   efId!: string;
 
   @property({ attribute: 'data-theme', reflect: true })

@@ -1,6 +1,7 @@
 import { html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { EfElement } from '../../lib/ef-element';
+import { isIconName } from '../../utils';
 import type { StatusSet } from '../../tokens/';
 import stylesText from './ef-status.css?raw';
 
@@ -11,9 +12,12 @@ export class EfStatus extends EfElement {
   @property({ type: String, reflect: true})
   fontSize: string = '0.875rem';
 
+  @property({ type: String, reflect: true })
+  icon?: IconName | null;
+
   updated(changedProps: Map<string, unknown>) {
     if (changedProps.has('fontSize'))
-      this.schedule('fontSize', () => this.updateFontSize());  
+      this.schedule('fontSize', () => this.updateFontSize());
   }
 
   private getIconForStatus(status?: StatusSet): IconName {
@@ -36,31 +40,42 @@ export class EfStatus extends EfElement {
       this.style.setProperty(' --ef-status-font-size', this.fontSize);
     } else {
       this.warnOnce('invalidFontSize', `invalid "fontSize" value: ${this.fontSize} - ef-status#fontSize`);
-      this.style.removeProperty(' --ef-status-font-size'); // fall back to CSS default
+      this.style.removeProperty('--ef-status-font-size'); // fall back to CSS default
     }
   }
 
   render() {
-    console.log('Rendering ef-status with message:', this.statusMessage);
-    console.log('Status:', this.status);
-    if (!this.statusMessage) return nothing;
-
     // Errors + warnings should interrupt politely
     const ariaLive =
       this.status === 'error' || this.status === 'warning'
         ? 'assertive'
         : 'polite';
 
-    const iconName = this.getIconForStatus(this.status);
+    let iconName = this.icon ? this.icon : this.getIconForStatus(this.status);
+        
+    if (!isIconName(iconName)) {
+      this.warnOnce('invalidIcon', `invalid "icon" value: ${iconName} - ef-status#icon`);
+      iconName = this.getIconForStatus(this.status);
+    }
+
+    const hasCustomIcon = !!this.querySelector('[slot="icon"]');
+
+    const slotted = this.textContent?.trim();
+    const message = slotted || this.statusMessage;
+
+    if (!message) return nothing;
 
     return html`
       <div
-        class="ef-status-wrapper ${this.status} ${this.statusMessage ? 'show' : ''}"
+        class="ef-status-wrapper ${this.status} ${this.statusMessage ? 'show' : nothing}"
         role="status"
         aria-live=${ariaLive}
+        aria-atomic="true"
       >
-        <ef-icon name=${iconName} class="status-icon"></ef-icon>
-        <span class="status-text">${this.statusMessage}</span>
+        ${hasCustomIcon ?
+          html`<slot name="icon"></slot>` : 
+          html`<ef-icon name=${iconName} class="status-icon"></ef-icon>` }
+        <span class="status-text">${message}</span>
       </div>
     `;
   }
