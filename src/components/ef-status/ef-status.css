@@ -1,0 +1,53 @@
+:host {
+  display: block;
+  overflow: hidden;
+
+  --ef-status-font-size: var(--ef-size-sm, 0.875rem);
+}
+
+.ef-status-wrapper {
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+
+  opacity: 0;
+  transform: translateY(-.25rem);
+  transition:
+    opacity 150ms var(--ef-ease-out),
+    transform 150ms var(--ef-ease-out);
+
+  .status-icon {
+    --ef-icon-height: var(--ef-status-font-size);
+    --ef-icon-width: var(--ef-status-font-size);
+  }
+
+  .status-text {
+    line-height: var(--ef-line-normal);
+    font-size: var(--ef-status-font-size);
+  }
+
+  /* Token-driven colors */
+  &.error {
+    color: var(--ef-color-error);
+  }
+
+  &.warning {
+    color: var(--ef-color-warning);
+  }
+
+  &.success {
+    color: var(--ef-color-success);
+  }
+
+  &.info {
+    color: var(--ef-color-info);
+  }
+
+}
+
+/* When message is present, animate in */
+:host([message]) .ef-status-wrapper {
+  opacity: 1;
+  transform: translateY(0);
+}
+

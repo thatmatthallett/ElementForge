@@ -1,4 +1,4 @@
-import { LitElement, html } from 'lit';
+import { LitElement, html, nothing } from 'lit';
 import { property } from 'lit/decorators.js'
 import type { ComponentEvents } from './events';
 import * as a11y from './ally';
@@ -179,7 +179,6 @@ export class EfElement extends LitElement {
     });
   }
 
-
   /* Warn Once Helper */
   protected warnOnce(key: string, message: string) {
     if (this._warnings.has(key)) return;
@@ -219,9 +218,11 @@ export class EfElement extends LitElement {
     if (!this.statusMessage) return null;
 
     return html`
-      <span class="ef-status-message ${this.status}">
-        ${this.statusMessage}
-      </span>
+      <ef-status
+        status=${this.status ?? nothing}
+        message=${this.statusMessage}
+      ></ef-status>
     `;
   }
+
 }
