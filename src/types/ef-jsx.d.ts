@@ -36,7 +36,7 @@ declare namespace JSX {
     };
     "ef-status": {
       efId?: string;
-      message?: string;
+      fontSize?: string = '0.875rem';
       status?: StatusSet;
       statusMessage?: string;
       theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';

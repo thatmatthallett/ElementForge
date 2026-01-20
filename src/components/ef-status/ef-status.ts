@@ -1,5 +1,5 @@
-import { html, nothing } from 'lit';
-import { customElement } from 'lit/decorators.js';
+import { html, nothing, type PropertyValues } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
 import { EfElement } from '../../lib/ef-element';
 import type { StatusSet } from '../../tokens/';
 import stylesText from './ef-status.css?raw';
@@ -8,13 +8,35 @@ import stylesText from './ef-status.css?raw';
 export class EfStatus extends EfElement {
   static stylesText = stylesText;
 
+  @property({ type: String, reflect: true})
+  fontSize: string = '0.875rem';
+
+  updated(changedProps: Map<string, unknown>) {
+    if (changedProps.has('fontSize'))
+      this.schedule('fontSize', () => this.updateFontSize());  
+  }
+
   private getIconForStatus(status?: StatusSet): IconName {
     switch (status) {
-      case 'error': return 'alert-circle';
-      case 'warning': return 'alert-triangle';
-      case 'success': return 'circle-check';
-      case 'info': return 'info-circle';
-      default: return 'info-circle';
+      case 'error': return 'alert-circle-filled';
+      case 'warning': return 'alert-triangle-filled';
+      case 'success': return 'circle-check-filled';
+      case 'info': return 'info-circle-filled';
+      default: return 'info-circle-filled';
+    }
+  }
+
+  private updateFontSize() {
+    if (this.fontSize === '0.875rem') {
+      this.style.removeProperty(' --ef-status-font-size');
+      return;
+    }
+
+    if (CSS.supports('font-size', this.fontSize)) {
+      this.style.setProperty(' --ef-status-font-size', this.fontSize);
+    } else {
+      this.warnOnce('invalidFontSize', `invalid "fontSize" value: ${this.fontSize} - ef-status#fontSize`);
+      this.style.removeProperty(' --ef-status-font-size'); // fall back to CSS default
     }
   }
 

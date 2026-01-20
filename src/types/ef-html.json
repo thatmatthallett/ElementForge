@@ -107,7 +107,7 @@
           "name": "status-message"
         },
         {
-          "name": "message"
+          "name": "font-size"
         }
       ]
     }

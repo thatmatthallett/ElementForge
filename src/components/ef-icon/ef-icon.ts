@@ -50,7 +50,7 @@ export class EfIcon extends EfElement {
 
   updated(changedProps: Map<string, unknown>) {
     if (changedProps.has('color'))
-      this.updateColor();
+      this.schedule('color', () => this.updateColor());
 
     if (changedProps.has('name') && !this.name)
       dsLogger.error(
