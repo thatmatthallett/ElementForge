@@ -1,4 +1,4 @@
-import { html, nothing, type PropertyValues } from 'lit';
+import { html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { EfElement } from '../../lib/ef-element';
 import type { StatusSet } from '../../tokens/';
