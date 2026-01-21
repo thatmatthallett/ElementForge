@@ -10,6 +10,12 @@
     --ef-color-primary: oklch(0.72 0.17 47.5);
     --ef-color-primary-dark: oklch(0.58 0.14 47.2);
     --ef-color-primary-light: oklch(0.78 0.14 47.8);
+    --ef-radial-gradient-primary: radial-gradient(
+        farthest-corner circle at 48% 101% in oklab,
+      oklch(58% 0.14 47.5) 0%, 33%,
+      oklch(72% 0.17 47.5) 50%, 89%,
+      oklch(78% 0.14 47.8) 100%
+    );
 
     /* Secondary */
     --ef-color-secondary: oklch(0.45 0.06 246.3);

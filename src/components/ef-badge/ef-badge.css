@@ -1,35 +1,94 @@
 :host {
   --ef-badge-base-color: var(--ef-color-primary);
   --ef-badge-bg: var(--ef-badge-base-color);
-  --ef-badge-bg-hover: oklch(from var(--ef-btn-bg) calc(l + 0.05) c h);
-  --ef-badge-bg-active: oklch(from var(--ef-btn-bg) calc(l - 0.05) c h);
+  --ef-badge-bg-hover: oklch(from var(--ef-badge-bg) calc(l + 0.05) c h);
+  --ef-badge-bg-active: oklch(from var(--ef-badge-bg) calc(l - 0.05) c h);
   --ef-badge-border: transparent;
   --ef-badge-border-hover: transparent;
   --ef-badge-text: var(--ef-color-surface);
-  --ef-badge-focus-ring: oklch(from var(--ef-btn-bg) calc(l + 0.20) c h);
-
-  --ef-badge-padding-block: .75rem;
-  --ef-badge-padding-inline: .75rem;
-  --ef-badge-icon-width: 1.5rem;
-  --ef-badge-icon-height: 1.5rem;
+  --ef-badge-focus-ring: oklch(from var(--ef-badge-bg) calc(l + 0.20) c h);
   --ef-badge-radius: 0.375rem;
+
+  --ef-badge-padding-block: .375rem;
+  --ef-badge-padding-inline: .5rem;
+  --ef-badge-font-size: 0.75rem;
+  --ef-badge-icon-width: 1rem;
+  --ef-badge-icon-height: 1rem;
+  
+  display: inline-block;
+  align-self: start;
+}
+
+:host([variant="subtle"]) {
+  --ef-badge-bg: var(--ef-color-surface-100);
+  --ef-badge-text: var(--ef-badge-base-color);
+  --ef-badge-border: transparent;
 }
 
 :host([variant="outline"]) {
-  --ef-btn-bg: transparent;
-  --ef-btn-bg-hover: oklch(from var(--ef-btn-base-color) calc(l + 0.05) c h / 0.10);
-  --ef-btn-bg-active: oklch(from var(--ef-btn-base-color) calc(l - 0.05) c h / 0.15);
+  --ef-badge-bg: transparent;
+  --ef-badge-bg-hover: oklch(from var(--ef-badge-base-color) calc(l + 0.05) c h / 0.10);
+  --ef-badge-bg-active: oklch(from var(--ef-badge-base-color) calc(l - 0.05) c h / 0.15);
 
-  --ef-btn-border: var(--ef-btn-base-color);
-  --ef-btn-border-hover: var(--ef-btn-base-color);
+  --ef-badge-border: var(--ef-badge-base-color);
+  --ef-badge-border-hover: var(--ef-badge-base-color);
 
-  --ef-btn-text: var(--ef-btn-base-color);
+  --ef-badge-text: var(--ef-badge-base-color);
+}
+
+:host([size="sm"]) {
+  --ef-badge-padding-block: 0.25rem;
+  --ef-badge-padding-inline: 0.375rem;
+  --ef-badge-font-size: 0.625rem;
+  --ef-badge-icon-width: 0.75rem;
+  --ef-badge-icon-height: 0.75rem;
+}
+
+:host([size="lg"]) {
+  --ef-badge-padding-block: 0.375rem;
+  --ef-badge-padding-inline: 0.625rem;
+  --ef-badge-font-size: 0.875rem;
+  --ef-badge-icon-width: 1.25rem;
+  --ef-badge-icon-height: 1.25rem;
+}
+
+:host([size="xl"]) {
+  --ef-badge-font-size: 1rem;
+  --ef-badge-padding-block: 0.375rem;
+  --ef-badge-padding-inline: 0.75rem;
+  --ef-badge-icon-width: 1.5rem;
+  --ef-badge-icon-height: 1.5rem;
+}
+
+:host([size="xxl"]) {
+  --ef-badge-font-size: 1.125rem;
+  --ef-badge-padding-block: 0.4375rem;
+  --ef-badge-padding-inline: 0.875rem;
+  --ef-badge-icon-width: 1.75rem;
+  --ef-badge-icon-height: 1.75rem;
 }
 
 .ef-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding-block: var(--ef-badge-padding-block);
+  padding-inline: var(--ef-badge-padding-inline);
+  border-radius: var(--ef-badge-radius);
+  background: var(--ef-badge-bg);
+  color: var(--ef-badge-text);
+  border: 1px solid var(--ef-badge-border);
+  font-size: var(--ef-badge-font-size);
+  line-height: 1;
+  white-space: nowrap;
+
+  .badge-count {
+    font-weight: var(--ef-weight-ui-strong);
+  }
 
   &:has(ef-icon) {
-    --ef-badge-padding-block: calc(var(--ef-badge-padding-inline) - 0.25rem);
+    --ef-badge-padding-inline: calc(var(--ef-badge-padding-inline) + 0.25rem);
   }
 
   ef-icon {

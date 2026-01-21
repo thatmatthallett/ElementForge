@@ -1,16 +1,19 @@
 <svg
-   width="6.3495317mm"
-   height="4.2913079mm"
-   viewBox="0 0 6.3495317 4.2913079"
-   version="1.1"
-   id="svg1"
-   xml:space="preserve"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"><defs
-     id="defs1" /><g
-     id="layer2"
-     transform="translate(-69.503074,-12.705091)"><path
+  class="ef-logo-icon"
+  fill="currentColor"
+  width="6.3495317mm"
+  height="4.2913079mm"
+  viewBox="0 0 6.3495317 4.2913079"
+  version="1.1"
+  id="svg1"
+  xml:space="preserve"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:svg="http://www.w3.org/2000/svg">
+  <defs id="defs1" />
+  <g id="layer2" transform="translate(-69.503074,-12.705091)">
+    <path
        d="m 71.641434,14.242313 c 0.18725,0.117169 0.38014,0.313841 0.41961,0.537153 0.14519,0.82147 -0.69809,1.284172 -1.38717,1.330251 -0.004,0.2947 -0.004,0.589401 -0.002,0.884104 0.36708,-2.64e-4 0.82949,0.01008 1.1888,-0.0089 0.0976,-0.580795 0.56066,-0.937573 1.14908,-0.831261 0.24211,0.04199 0.45616,0.182088 0.59167,0.387127 0.10808,0.162075 0.12403,0.260823 0.13944,0.451529 l 1.09323,0.0019 0.0509,-0.0172 c 0.0265,-0.12105 0.014,-0.609886 0.0138,-0.766016 -0.33151,-0.0461 -0.79039,-0.17701 -0.96459,-0.478278 -0.78012,-1.349323 0.95297,-2.118669 1.9154,-2.346637 l 0.003,-0.670776 c -1.38079,-2.6e-5 -2.84318,-0.02382 -4.21756,0.0013 0.002,0.505545 -0.002,1.020591 0.006,1.525236 z m -0.44467,-0.127403 -0.001,-1.398802 c -0.55043,-3.7e-4 -1.14594,-0.01227 -1.69269,0.0026 -0.002,0.875115 0.97288,1.250595 1.69369,1.396538 z"
-       fill="currentColor"
        id="path2-23"
-       style="font-family:none;display:inline;mix-blend-mode:normal;fill-rule:nonzero;stroke:none;stroke-width:0.16989;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0" /></g></svg>
+       style="font-family:none;display:inline;mix-blend-mode:normal;fill-rule:nonzero;stroke:none;stroke-width:0.16989;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0" />
+  </g>
+</svg>

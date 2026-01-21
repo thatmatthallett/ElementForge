@@ -17,7 +17,8 @@ svg {
   width: var(--ef-icon-width);
   height: var(--ef-icon-height);
 
-  &.icons-tabler-filled {
+  &.icons-tabler-filled,
+  &.ef-logo-icon {
     fill: var(--ef-icon-color);
   }
 

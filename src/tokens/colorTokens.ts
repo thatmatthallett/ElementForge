@@ -4,7 +4,11 @@
 
 export const colorTokens = {
   primary: 'var(--ef-color-primary)',
+  primaryDark: 'var(--ef-color-primary-dark)',
+  primaryLight: 'var(--ef-color-primary-light)',
   secondary: 'var(--ef-color-secondary)',
+  secondaryDark: 'var(--ef-color-secondary-dark)',
+  secondaryLight: 'var(--ef-color-secondary-light)',
 
   success: 'var(--ef-color-success)',
   warning: 'var(--ef-color-warning)',

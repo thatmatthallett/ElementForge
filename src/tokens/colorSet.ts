@@ -1,6 +1,10 @@
 export const colorValues = [
   'primary',
+  'primaryDark',
+  'primaryLight',
   'secondary',
+  'secondaryDark',
+  'secondaryLight',
   'success',
   'warning',
   'danger',

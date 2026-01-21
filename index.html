@@ -10,9 +10,10 @@
     <script type="module" src="/src/assets/eventLogger.js"></script>
   </head>
   <body>
-    <div style="display:flex; gap:.75rem; align-items: center; justify-content: center; margin-bottom: 2rem;">
-      <ef-icon name="ef-hex-anvil" width="10rem"></ef-icon>
+    <div style="display:flex; gap:.75rem; align-items: center; justify-content: center; margin-bottom: 2rem; position: relative;">
+      <ef-icon color="primaryDark" name="ef-hex-anvil" width="10rem"></ef-icon>
       <h1 class="display logo">Element<br/>Forge</h1>
+      <ef-badge color="secondary" size="lg" style="position: absolute; top: .5rem; left: 5.75rem;">Alpha</ef-badge>
     </div>
 
     <div>
@@ -31,6 +32,8 @@
     
     <div>
       <ef-button id="testLoader" loader icon="User">Loading Button</ef-button>
+      <ef-badge color="secondary" size="xl" >XL Badge</ef-badge>
+      <ef-badge color="secondary" size="xxl" >XXL Badge</ef-badge>
     </div>
     <div style="margin-top: 2rem;">
       <ef-button aria-label="task-marker-1" id="testToggler" color="danger" shape="pill" icon="circle-check" toggle toggleIcon="circle-check-filled" status="info" statusMessage="Testing Status"></ef-button>

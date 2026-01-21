@@ -1,6 +1,41 @@
 {
   "tags": [
     {
+      "name": "ef-badge",
+      "attributes": [
+        {
+          "name": "ef-id"
+        },
+        {
+          "name": "theme"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "status-message"
+        },
+        {
+          "name": "color"
+        },
+        {
+          "name": "count"
+        },
+        {
+          "name": "icon"
+        },
+        {
+          "name": "size"
+        },
+        {
+          "name": "shape"
+        },
+        {
+          "name": "variant"
+        }
+      ]
+    },
+    {
       "name": "ef-button",
       "attributes": [
         {
@@ -108,6 +143,9 @@
         },
         {
           "name": "font-size"
+        },
+        {
+          "name": "icon"
         }
       ]
     }

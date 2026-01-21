@@ -3,6 +3,18 @@
 
 declare namespace JSX {
   interface IntrinsicElements {
+    "ef-badge": {
+      color?: ColorSet = 'primary';
+      count?: number;
+      efId?: string;
+      icon?: IconName | null = null;
+      shape?: ShapeSet = 'rounded';
+      size?: 'sm' | 'md' | 'lg' = 'md';
+      status?: StatusSet;
+      statusMessage?: string;
+      theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';
+      variant?: 'solid' | 'subtle' | 'outline' = 'solid';
+    };
     "ef-button": {
       color?: ColorSet = 'primary';
       disabled?: boolean;
@@ -37,6 +49,7 @@ declare namespace JSX {
     "ef-status": {
       efId?: string;
       fontSize?: string = '0.875rem';
+      icon?: IconName | null;
       status?: StatusSet;
       statusMessage?: string;
       theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';
