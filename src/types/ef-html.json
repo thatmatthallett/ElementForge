@@ -1,6 +1,61 @@
 {
   "tags": [
     {
+      "name": "ef-alert",
+      "attributes": [
+        {
+          "name": "ef-id"
+        },
+        {
+          "name": "theme"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "status-message"
+        },
+        {
+          "name": "color"
+        },
+        {
+          "name": "duration"
+        },
+        {
+          "name": "icon"
+        },
+        {
+          "name": "shape"
+        },
+        {
+          "name": "variant"
+        },
+        {
+          "name": "dismissible"
+        },
+        {
+          "name": "static"
+        }
+      ]
+    },
+    {
+      "name": "ef-alert-container",
+      "attributes": [
+        {
+          "name": "ef-id"
+        },
+        {
+          "name": "theme"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "status-message"
+        }
+      ]
+    },
+    {
       "name": "ef-badge",
       "attributes": [
         {
@@ -61,6 +116,9 @@
         },
         {
           "name": "loading-icon"
+        },
+        {
+          "name": "size"
         },
         {
           "name": "shape"

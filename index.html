@@ -8,12 +8,32 @@
     <link rel="stylesheet" href="./src/styles/index.css" />
     <script type="module" src="/src/components/index.ts"></script>
     <script type="module" src="/src/assets/eventLogger.js"></script>
+
+    <style>
+      ef-alert > p {
+        margin-block-end: 0;
+      }
+    </style>
   </head>
   <body>
     <div style="display:flex; gap:.75rem; align-items: center; justify-content: center; margin-bottom: 2rem; position: relative;">
       <ef-icon color="primaryDark" name="ef-hex-anvil" width="10rem"></ef-icon>
       <h1 class="display logo">Element<br/>Forge</h1>
       <ef-badge color="secondary" size="lg" style="position: absolute; top: .5rem; left: 5.75rem;">Alpha</ef-badge>
+    </div>
+
+    <div style="margin-block: 2rem; margin-inline: auto;">
+      <ef-alert static dismissible color="secondary" role="status">
+        <h4 slot="title">Testing Alert Title</h4>
+        <p>Testing Alert Body</p>
+        <div slot="actions">
+          <ef-button color="secondaryLight">Action</ef-button>
+        </div>
+      </ef-alert>
+      
+      <ef-alert icon="photo-filled" static dismissible color="success" variant="outline" role="status">
+        <p>Testing Alert Body</p>
+      </ef-alert>
     </div>
 
     <div>

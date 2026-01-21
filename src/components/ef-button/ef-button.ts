@@ -1,13 +1,13 @@
-import { html } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
-import { EfElement } from '../../lib/ef-element'
-import stylesText from './ef-button.css?raw'
+import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { EfElement } from '../../lib/ef-element';
+import stylesText from './ef-button.css?raw';
 import {
   forwardAttribute,
   matchesAttributeCategory,
   isButtonType,
   isEfId
-} from '../../utils'
+} from '../../utils';
 import { 
   type ColorSet, 
   colorValues,
@@ -15,7 +15,7 @@ import {
   type ShapeSet,
   shapeValues,
   shapeRadius
-} from '../../tokens'
+} from '../../tokens';
 import { type EventOf } from '../../lib/events';
 
 /**
@@ -50,6 +50,9 @@ export class EfButton extends EfElement {
   loading = false;
   @property({ type: String })
   loadingIcon: LoadingIconName = 'loader-2';
+
+  @property({ type: String, reflect: true })
+  size: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' = 'md';
 
   @property({ type: String, reflect: true })
   shape: ShapeSet = 'rounded';
@@ -210,7 +213,7 @@ export class EfButton extends EfElement {
       this.warnOnce('invalidColor',
         `invalid "color" value: ${this.color} - ef-button#color`
       );
-      this.style.removeProperty('--ef-icon-color');
+      this.style.removeProperty('--ef-btn-base-color');
       return;
     }
 

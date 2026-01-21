@@ -3,6 +3,7 @@
 
 declare global {
   interface HTMLElementTagNameMap {
+    "ef-alert": EfAlert;
     "ef-badge": EfBadge;
     "ef-button": EfButton;
     "ef-icon": EfIcon;

@@ -3,13 +3,32 @@
 
 declare namespace JSX {
   interface IntrinsicElements {
+    "ef-alert": {
+      color?: ColorSet = 'primary';
+      dismissible?: boolean;
+      duration?: number;
+      efId?: string;
+      icon?: IconName | null = null;
+      shape?: ShapeSet = 'rounded';
+      static?: boolean;
+      status?: StatusSet;
+      statusMessage?: string;
+      theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';
+      variant?: 'solid' | 'outline' = "solid";
+    };
+    "ef-alert-container": {
+      efId?: string;
+      status?: StatusSet;
+      statusMessage?: string;
+      theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';
+    };
     "ef-badge": {
       color?: ColorSet = 'primary';
       count?: number;
       efId?: string;
       icon?: IconName | null = null;
       shape?: ShapeSet = 'rounded';
-      size?: 'sm' | 'md' | 'lg' = 'md';
+      size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' = 'md';
       status?: StatusSet;
       statusMessage?: string;
       theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';
@@ -25,6 +44,7 @@ declare namespace JSX {
       loading?: boolean;
       loadingIcon?: LoadingIconName = 'loader-2';
       shape?: ShapeSet = 'rounded';
+      size?: 'sm' | 'md' | 'lg' | 'xl' | 'xxl' = 'md';
       status?: StatusSet;
       statusMessage?: string;
       theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';

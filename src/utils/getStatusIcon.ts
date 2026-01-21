@@ -1,6 +1,4 @@
-import { type StatusSet } from '../tokens';
-
-export function getStatusIcon(status?: StatusSet, filled?: boolean): IconName {
+export function getStatusIcon(status?: string, filled?: boolean): IconName {
   let iconName: IconName = 'info-circle-filled';
   switch (status) {
     case 'error': iconName = 'alert-circle'; break;

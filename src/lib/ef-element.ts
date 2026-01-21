@@ -1,5 +1,5 @@
 import { LitElement, html, nothing } from 'lit';
-import { property } from 'lit/decorators.js'
+import { property } from 'lit/decorators.js';
 import type { ComponentEvents } from './events';
 import * as a11y from './ally';
 import type { AssertRoleOptions } from './ally/assertRole';

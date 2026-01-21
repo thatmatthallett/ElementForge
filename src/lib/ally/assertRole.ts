@@ -2,7 +2,7 @@ import { dsLogger } from '../../utils';
 import type { EfElement } from '../ef-element';
 
 export interface AssertRoleOptions {
-  mustBe?: string;
+  mustBe?: string | string[];
   mustNotBe?: string | string[];
   mustNotExist?: boolean;
 }
@@ -23,7 +23,14 @@ export function assertRole(
 
   // 2. Must be a specific role
   if (options.mustBe && role !== options.mustBe) {
-    dsLogger.warn(el.componentName, `Expected role="${options.mustBe}" but found "${role ?? 'none'}"`);
+    const expected = Array.isArray(options.mustBe) 
+      ? options.mustBe
+      : [options.mustBe];
+      
+    if (!expected.includes(role ?? '')) {
+      const expectedList = expected.map(r => `"${r}"`).join(', ');
+      dsLogger.warn( el.componentName, `Expected role to be one of: ${expectedList}, but found "${role ?? 'none'}"` );
+    }
   }
 
   // 3. Must not be one or more specific roles

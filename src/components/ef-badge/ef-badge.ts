@@ -1,11 +1,11 @@
-import { html, nothing } from 'lit'
-import { customElement, property } from 'lit/decorators.js'
-import { EfElement } from '../../lib/ef-element'
-import stylesText from './ef-badge.css?raw'
+import { html, nothing } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { EfElement } from '../../lib/ef-element';
+import stylesText from './ef-badge.css?raw';
 import {
   forwardAttribute,
   matchesAttributeCategory
-} from '../../utils'
+} from '../../utils';
 import { 
   type ColorSet, 
   colorValues,
@@ -13,7 +13,7 @@ import {
   type ShapeSet,
   shapeValues,
   shapeRadius
-} from '../../tokens'
+} from '../../tokens';
 
 /**
  * Element Forge Badge Element.

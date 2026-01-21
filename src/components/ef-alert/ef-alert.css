@@ -1,0 +1,105 @@
+:host {
+  --ef-alert-base-color: var(--ef-color-primary);
+  --ef-alert-bg: var(--ef-alert-base-color);
+  --ef-alert-border: transparent;
+  --ef-alert-text: var(--ef-color-surface);
+  --ef-alert-focus-ring: oklch(from var(--ef-alert-bg) calc(l + 0.20) c h);
+
+  --ef-alert-padding-block: .5rem;
+  --ef-alert-padding-inline: .75rem;
+  --ef-alert-icon-width: 1.5rem;
+  --ef-alert-icon-height: 1.5rem;
+  --ef-alert-radius: 0.375rem;
+
+  .ef-alert-wrapper ef-button {
+    --ef-btn-icon-width: 1rem;
+    --ef-btn-icon-height: 1rem;
+    --ef-btn-bg: var(--ef-color-surface);
+    --ef-btn-bg-hover: oklch(from var(--ef-btn-bg) calc(l + 0.05) c h);
+    --ef-btn-bg-active: oklch(from var(--ef-btn-bg) calc(l - 0.05) c h);
+    --ef-btn-border: var(--ef-alert-bg);
+    --ef-btn-border-hover: oklch(from var(--ef-btn-border) calc(l + 0.05) c h);
+    --ef-btn-text: var(--ef-alert-bg);
+    --ef-btn-padding-block: .125rem;
+    --ef-btn-padding-inline: .125rem;
+  }
+}
+
+:host([variant="outline"]) {
+  --ef-alert-bg: var(--ef-color-surface);
+  --ef-alert-border: var(--ef-alert-base-color);
+  --ef-alert-text: var(--ef-color-text);
+
+  .ef-alert-wrapper {
+    > ef-icon {
+      --ef-icon-color: var(--ef-alert-base-color);
+    }
+    
+    ef-button {
+      --ef-btn-bg: var(--ef-alert-base-color);
+      --ef-btn-border: transparent;
+      --ef-btn-border-hover: transparent;
+    }
+  }
+}
+
+
+.ef-alert-wrapper {
+  position: relative;
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  grid-template-areas:
+    'icon content actions';
+  gap: 0 1rem;
+  align-items: center;
+  justify-items: start;
+  width: 100%;
+  background-color: var(--ef-alert-bg);
+  border: 1px solid var(--ef-alert-border);
+  border-radius: var(--ef-alert-radius);
+  padding-block: var(--ef-alert-padding-block);
+  padding-inline: var(--ef-alert-padding-inline);
+  margin-block-end: 1rem;
+  color: var(--ef-alert-text);
+  cursor: default;
+  user-select: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+
+  .content {
+    grid-area: content;
+
+    ::slotted(*) {
+      margin-block-start: 0;
+      margin-block-end: .125rem;
+    }
+
+    ::slotted(*:last-child) {
+      margin-block-end: 0;
+    }
+  }
+
+  .actions {
+    grid-area: actions;
+    padding-inline-end: .5rem;
+  }
+
+  slot[name="icon"]::slotted(*), ef-icon {
+    grid-area: icon;
+  }
+
+  ef-button.dismiss-button {
+    position: absolute;
+    top: -.5rem;
+    right: -.5rem;
+
+    ef-icon {
+      --ef-icon-width: var(--ef-btn-icon-width);
+      --ef-icon-height: var(--ef-btn-icon-height);
+      --ef-icon-color: var(--ef-alert-bg);
+    }
+  }
+}

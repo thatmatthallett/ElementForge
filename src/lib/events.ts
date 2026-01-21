@@ -21,6 +21,7 @@ export const eventDefinitions = {
 
   // Select component events
   'ef-select': {} as { value: string | number },
+  'ef-selected': {} as {},
   'ef-select-open': {} as {},
   'ef-select-close': {} as {},
 
@@ -28,6 +29,13 @@ export const eventDefinitions = {
   'ef-loading': {} as { active: boolean },
   'ef-loading-start': {} as {},
   'ef-loading-end': {} as {},
+
+  // Alert component events
+  'ef-alert': {} as { alertEfId: string },
+  'ef-alert-auto-dismiss': {} as {},
+  'ef-alert-dismiss': {} as {},
+  'ef-alert-open': {} as {},
+  'ef-alert-close': {} as {},
 } as const;
 
 /**
