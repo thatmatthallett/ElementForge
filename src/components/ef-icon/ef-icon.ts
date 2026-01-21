@@ -14,7 +14,7 @@ import {
 } from '../../tokens';
 
 /**
- * litPortfolio Icon Element.
+ * Element Forge Icon Element.
  *
  */
 @customElement('ef-icon')

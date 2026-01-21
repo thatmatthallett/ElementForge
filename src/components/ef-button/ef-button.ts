@@ -19,7 +19,7 @@ import {
 import { type EventOf } from '../../lib/events';
 
 /**
- * litPortfolio Button Element.
+ * Element Forge Button Element.
  *
  * @slot - This element has a slots
  */

@@ -1,10 +1,14 @@
 import { html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { EfElement } from '../../lib/ef-element';
-import { isIconName } from '../../utils';
-import type { StatusSet } from '../../tokens/';
+import { getStatusIcon, isIconName } from '../../utils';
 import stylesText from './ef-status.css?raw';
 
+/**
+ * Element Forge Status Element.
+ *
+ * @slot - This element has a slots
+ */
 @customElement('ef-status')
 export class EfStatus extends EfElement {
   static stylesText = stylesText;
@@ -18,16 +22,6 @@ export class EfStatus extends EfElement {
   updated(changedProps: Map<string, unknown>) {
     if (changedProps.has('fontSize'))
       this.schedule('fontSize', () => this.updateFontSize());
-  }
-
-  private getIconForStatus(status?: StatusSet): IconName {
-    switch (status) {
-      case 'error': return 'alert-circle-filled';
-      case 'warning': return 'alert-triangle-filled';
-      case 'success': return 'circle-check-filled';
-      case 'info': return 'info-circle-filled';
-      default: return 'info-circle-filled';
-    }
   }
 
   private updateFontSize() {
@@ -51,11 +45,11 @@ export class EfStatus extends EfElement {
         ? 'assertive'
         : 'polite';
 
-    let iconName = this.icon ? this.icon : this.getIconForStatus(this.status);
+    let iconName = this.icon ? this.icon : getStatusIcon(this.status, true);
         
     if (!isIconName(iconName)) {
       this.warnOnce('invalidIcon', `invalid "icon" value: ${iconName} - ef-status#icon`);
-      iconName = this.getIconForStatus(this.status);
+      iconName = getStatusIcon(this.status, true);
     }
 
     const hasCustomIcon = !!this.querySelector('[slot="icon"]');

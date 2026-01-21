@@ -16,7 +16,7 @@ import {
 } from '../../tokens'
 
 /**
- * litPortfolio Badge Element.
+ * Element Forge Badge Element.
  *
  * @slot - This element has a slots
  */
