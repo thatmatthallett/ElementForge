@@ -5,8 +5,48 @@
   z-index: 9999;
 }
 
+:host([position="top-left"]) {
+  --ef-alert-container-top: 1rem;
+  --ef-alert-container-left: 1rem;
+}
+
+:host([position="top-center"]) {
+  --ef-alert-container-top: 1rem;
+  --ef-alert-container-left: 50%;
+  --ef-alert-container-transform: translateX(-50%);
+}
+
+:host([position="top-right"]) {
+  --ef-alert-container-top: 1rem;
+  --ef-alert-container-right: 1rem;
+}
+
+:host([position="bottom-left"]) {
+  --ef-alert-container-bottom: 1rem;
+  --ef-alert-container-left: 1rem;
+}
+
+:host([position="bottom-center"]) {
+  --ef-alert-container-bottom: 1rem;
+  --ef-alert-container-left: 50%;
+  --ef-alert-container-transform: translateX(-50%);
+}
+
+:host([position="bottom-right"]) {
+  --ef-alert-container-bottom: 1rem;
+  --ef-alert-container-right: 1rem;
+}
+
+
 .ef-alert-container {
   position: absolute;
+  inset:
+    var(--ef-alert-container-top, auto)
+    var(--ef-alert-container-right, auto)
+    var(--ef-alert-container-bottom, auto)
+    var(--ef-alert-container-left, auto);
+  transform: var(--ef-alert-container-transform, none);
+
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -15,39 +55,6 @@
 
 .ef-alert-container ef-alert {
   pointer-events: auto;
-}
-
-/* Position presets */
-.top-right {
-  top: 1rem;
-  right: 1rem;
-}
-
-.top-left {
-  top: 1rem;
-  left: 1rem;
-}
-
-.top-center {
-  top: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-.bottom-right {
-  bottom: 1rem;
-  right: 1rem;
-}
-
-.bottom-left {
-  bottom: 1rem;
-  left: 1rem;
-}
-
-.bottom-center {
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
 }
 
 /* Live region (visually hidden) */

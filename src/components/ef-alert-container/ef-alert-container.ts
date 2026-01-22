@@ -8,6 +8,8 @@ import { repeat } from 'lit/directives/repeat.js';
 import { ref, createRef } from 'lit/directives/ref.js';
 import { createComponentId } from '../../utils';
 
+type PositionOverride = { top?: string; right?: string; bottom?: string; left?: string; transform?: string };
+
 
 /**
  * Element Forge Alert Container Element.
@@ -45,6 +47,32 @@ export class EfAlertContainer extends EfElement {
   }
 
   firstUpdated() { this._liveRegion = this._liveRegionRef.value!; }
+
+  set positionOverride(val: PositionOverride | null | undefined) {
+    if (!val || typeof val !== 'object') return;
+
+    for (const [key, value] of Object.entries(val)) {
+      if (!value) continue;
+
+      if (!['top', 'right', 'bottom', 'left', 'transform'].includes(key)) {
+        this.warnOnce?.('alertContainerPositionOverrideKey',
+          `Invalid position key "${key}" in postionOverride. Expected top, right, bottom, left, or transform.`
+        );
+        continue;
+      }
+
+      const cssProp = key === 'transform' ? 'transform' : key;
+
+      if (!CSS.supports(cssProp, value)) {
+        this.warnOnce?.('alertContainerPositionOverrideValue',
+          `Invalid CSS value "${value}" for "${key}" in postionOverride.`
+        );
+        continue;
+      }
+
+      this.style.setProperty(`--ef-alert-container-${key}`, value);
+    }
+  }
 
   // Imperative API
   pushAlert(detail: AlertRequestDetail) {
@@ -90,7 +118,7 @@ export class EfAlertContainer extends EfElement {
 
   render() {
     return html`
-      <div class="ef-alert-container ${this.position}">
+      <div class="ef-alert-container">
         ${repeat(
           this._alerts,
           a => a.efId,
