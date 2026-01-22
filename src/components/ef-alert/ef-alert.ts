@@ -22,8 +22,6 @@ import {
  */
 @customElement('ef-alert')
 export class EfAlert extends EfElement {
-  static stylesText = stylesText;
-
   @property({ type: String, reflect: true })
   color: ColorSet = 'primary';
 
@@ -48,9 +46,18 @@ export class EfAlert extends EfElement {
   @state() private _timer?: number;
 
   get isStatic() { return this.static || (!this.dismissible && !this.duration); }
+  
+  static stylesText = stylesText;
+  private remaining = 0; 
+  private timeoutId: number | null = null;
+  private lastTick = 0;
 
   connectedCallback() {
     super.connectedCallback();
+
+    requestAnimationFrame(() => this.setAttribute('open', ''));
+    if (this.isStatic)
+      this.setAttribute('open', '');
     
     // Accessibility role
     if (this.static)
@@ -58,9 +65,8 @@ export class EfAlert extends EfElement {
     
     // Auto-dismiss timer
     if (!this.isStatic && this.duration) {
-      this._timer = window.setTimeout(() => {
-        this.emit('ef-alert-auto-dismiss', {});
-      }, this.duration);
+      this.remaining = this.duration;
+      this.startTimer();
     }
   }
   
@@ -89,6 +95,36 @@ export class EfAlert extends EfElement {
   }
 
   private _onDismiss() { this.emit('ef-alert-dismiss', {}); }
+
+  private startClose() {
+    this.setAttribute('closing', '');
+    setTimeout(() => this._onDismiss(), 150); // matches exit duration
+  }
+
+  private startTimer() {
+    if (this.isStatic) return;
+
+    this.lastTick = performance.now();
+    this.timeoutId = window.setTimeout(() => this.startClose(), this.remaining);
+  }
+
+  private pauseTimer() {
+    if (this.timeoutId === null) return;
+
+    window.clearTimeout(this.timeoutId);
+    this.timeoutId = null;
+
+    const now = performance.now();
+    this.remaining -= now - this.lastTick;
+  }
+
+  private resumeTimer() {
+    if (this.isStatic) return;
+    if (this.timeoutId) return;
+
+    this.lastTick = performance.now();
+    this.timeoutId = window.setTimeout(() => this.startClose(), this.remaining);
+  }
 
   private updateColor() {
     if (!colorValues.includes(this.color as any)) {
@@ -125,7 +161,11 @@ export class EfAlert extends EfElement {
     const hasCustomIcon = !!this.querySelector('[slot="icon"]');
 
     return html`
-      <div class="ef-alert-wrapper">
+      <div
+        class="ef-alert-wrapper"
+        @mouseenter=${this.pauseTimer}
+        @mouseleave=${this.resumeTimer}
+      >
         ${hasCustomIcon ?
           html`<slot name="icon"></slot>` : 
           html`<ef-icon name=${iconName} class="status-icon"></ef-icon>` }
@@ -137,7 +177,7 @@ export class EfAlert extends EfElement {
           <slot name="actions"></slot>
         </span>
         ${!this.isStatic && this.dismissible ? html`
-          <ef-button aria-label="Dismiss Alert" class="dismiss-button" variant="outline" shape="pill" @click=${this._onDismiss}>
+          <ef-button aria-label="Dismiss Alert" class="dismiss-button" variant="outline" shape="pill" @click=${this.startClose}>
             <ef-icon name="x"></ef-icon>
           </ef-button>
         ` : null}

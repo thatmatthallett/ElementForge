@@ -33,7 +33,17 @@ export class EfAlertContainer extends EfElement {
   
   private _liveRegion!: HTMLElement;
   private _liveRegionRef = createRef<HTMLDivElement>();
-  
+
+  private get isTopAnchored() {
+    const top = this.style.getPropertyValue('--ef-alert-container-top');
+    const bottom = this.style.getPropertyValue('--ef-alert-container-bottom');
+
+    if (top) return true;
+    if (bottom) return false;
+
+    // fallback to preset
+    return this.position.startsWith('top');
+  }
 
   connectedCallback() {
     super.connectedCallback();
@@ -76,7 +86,6 @@ export class EfAlertContainer extends EfElement {
 
   // Imperative API
   pushAlert(detail: AlertRequestDetail) {
-    console.log('pushAlert', detail);
     return this.createAlert(detail);
   }
   
@@ -97,12 +106,15 @@ export class EfAlertContainer extends EfElement {
   };
 
   private createAlert(detail: AlertRequestDetail) {
-    console.log('createAlert', detail);
     this._announce(detail.message);
 
     const efId = createComponentId("efAlert");
 
-    this._alerts = [...this._alerts, { ...detail, efId }];
+    if(this.isTopAnchored) {
+      this._alerts = [{ ...detail, efId }, ...this._alerts];
+    } else {
+      this._alerts = [...this._alerts, { ...detail, efId }];
+    }
 
     return efId;
   }
@@ -126,7 +138,7 @@ export class EfAlertContainer extends EfElement {
             <ef-alert
               .efId=${a.efId}
               .color=${a.color ?? 'primary'}
-              .duration=${a.duration ?? 5000}
+              .duration=${a.duration ?? null}
               .dismissible=${a.dismissible ?? true}
               .icon=${a.icon ?? null}
               .shape=${a.shape ?? 'rounded'}

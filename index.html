@@ -133,13 +133,10 @@
     });
 
     alertBtn.addEventListener('ef-click', e => {
-      console.log('alert action clicked!', e.detail);
+      const randnum = Math.floor(Math.random() * 1000);
+      alertContainer.pushAlert({ message: `This is a test alert - ${randnum}`, duration: 3000 });
 
-      const path = e.composedPath();
-      const alertHost = path.find( node => node instanceof HTMLElement && node.tagName === 'EF-ALERT' );
-      if (alertHost) { console.log('Action came from inside ef-alert:', alertHost); }
-
-      console.log(document.querySelector(`ef-button[efid="${e.detail.efId}"]`))
+      // console.log(document.querySelector(`ef-button[efid="${e.detail.efId}"]`))
     });
 
 
