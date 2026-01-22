@@ -1,4 +1,5 @@
 import type { StatusSet } from '../tokens';
+import type { AlertRequestDetail } from '../types/alertRequestDetail'; 
 
 /**
  * Single source of truth for all design system events.
@@ -31,7 +32,7 @@ export const eventDefinitions = {
   'ef-loading-end': {} as {},
 
   // Alert component events
-  'ef-alert': {} as { alertEfId: string },
+  'ef-alert-request': {} as { detail: AlertRequestDetail },
   'ef-alert-auto-dismiss': {} as {},
   'ef-alert-dismiss': {} as {},
   'ef-alert-open': {} as {},

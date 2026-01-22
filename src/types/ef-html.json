@@ -52,6 +52,9 @@
         },
         {
           "name": "status-message"
+        },
+        {
+          "name": "position"
         }
       ]
     },

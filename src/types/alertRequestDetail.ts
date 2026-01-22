@@ -5,7 +5,7 @@ export interface AlertRequestDetail {
   color?: ColorSet;
   duration?: number;
   dismissible?: boolean;
-  icon?: string | null;
+  icon?: IconName | null;
   shape?: ShapeSet;
   variant?: 'solid' | 'outline';
 

@@ -6,6 +6,8 @@
 }
 
 .ef-alert-container {
+  background: pink;
+
   position: absolute;
   display: flex;
   flex-direction: column;

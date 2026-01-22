@@ -4,7 +4,9 @@ import { EfElement } from '../../lib/ef-element';
 import stylesText from './ef-alert-container.css?raw';
 import { type EventOf } from '../../lib/events';
 import { type AlertRequestDetail } from '../../types/alertRequestDetail';
-import type { EfAlert } from '../ef-alert/ef-alert';
+import { repeat } from 'lit/directives/repeat.js';
+import { ref, createRef } from 'lit/directives/ref.js';
+
 
 /**
  * Element Forge Alert Container Element.
@@ -24,9 +26,11 @@ export class EfAlertContainer extends EfElement {
     | 'bottom-right'
     | 'bottom-center' = 'top-right';
 
-  @state() private _alerts: Array<{ id: string; template: unknown }> = [];
-
+  @state() private _alerts: Array<AlertRequestDetail & { efId: string }> = [];
+  
   private _liveRegion!: HTMLElement;
+  private _liveRegionRef = createRef<HTMLDivElement>();
+  
 
   connectedCallback() {
     super.connectedCallback();
@@ -39,13 +43,16 @@ export class EfAlertContainer extends EfElement {
     this.listen(this, 'ef-alert-auto-dismiss', this.#onDismiss as EventListener);
   }
 
+  firstUpdated() { this._liveRegion = this._liveRegionRef.value!; }
+
   // Imperative API
   pushAlert(detail: AlertRequestDetail) {
+    console.log('pushAlert', detail);
     return this.createAlert(detail);
   }
-
-  removeAlert(id: string) {
-    this._alerts = this._alerts.filter(a => a.efId !== id);
+  
+  removeAlert(efId: string) {
+    this._alerts = this._alerts.filter(a => a.efId !== efId);
   }
 
   clearAlerts() {
@@ -57,39 +64,23 @@ export class EfAlertContainer extends EfElement {
   };
 
   #onDismiss = (e: EventOf<'ef-alert-dismiss'> | EventOf<'ef-alert-auto-dismiss'>) => {
-    const alert = e.target as EfAlert;
-    const efId = alert.efId;
-    if (efId) this.remove(efId);
+    this.removeAlert(e.detail.efId);
   };
 
   private createAlert(detail: AlertRequestDetail) {
-    const id = crypto.randomUUID();
-
-    // Announce for screen readers
+    console.log('createAlert', detail);
     this._announce(detail.message);
 
-    const template = detail.render
-      ? detail.render()
-      : html`
-          <ef-alert
-            data-id=${id}
-            color=${detail.color ?? 'primary'}
-            duration=${detail.duration ?? 5000}
-            ?dismissible=${detail.dismissible ?? true}
-            icon=${detail.icon ?? ''}
-            shape=${detail.shape ?? 'rounded'}
-            variant=${detail.variant ?? 'solid'}
-          >
-            ${detail.message}
-          </ef-alert>
-        `;
+    const efId = crypto.randomUUID();
 
-    this._alerts = [...this._alerts, { id, template }];
-    return id;
+    this._alerts = [...this._alerts, { ...detail, efId }];
+
+    return efId;
   }
 
   private _announce(message?: string) {
-    if (!message) return;
+    if (!message || !this._liveRegion) return;
+
     this._liveRegion.textContent = '';
     requestAnimationFrame(() => {
       this._liveRegion.textContent = message;
@@ -99,7 +90,22 @@ export class EfAlertContainer extends EfElement {
   render() {
     return html`
       <div class="ef-alert-container ${this.position}">
-        ${this._alerts.map(a => a.template)}
+        ${repeat(
+          this._alerts,
+          a => a.efId,
+          a => html`
+            <ef-alert
+              .color=${a.color ?? 'primary'}
+              .duration=${a.duration ?? 5000}
+              .dismissible=${a.dismissible ?? true}
+              .icon=${a.icon ?? null}
+              .shape=${a.shape ?? 'rounded'}
+              .variant=${a.variant ?? 'solid'}
+            >
+              ${a.message}
+            </ef-alert>
+          `
+        )}
       </div>
 
       <!-- Centralized aria-live region -->
@@ -107,7 +113,7 @@ export class EfAlertContainer extends EfElement {
         class="ef-alert-live"
         aria-live="polite"
         aria-atomic="true"
-        ${el => (this._liveRegion = el)}
+        ${ref(this._liveRegionRef)}
       ></div>
     `;
   }

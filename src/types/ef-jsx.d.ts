@@ -18,6 +18,7 @@ declare namespace JSX {
     };
     "ef-alert-container": {
       efId?: string;
+      position?: | 'top-left' | 'top-right' | 'top-center' | 'bottom-left' | 'bottom-right' | 'bottom-center' = 'top-right';
       status?: StatusSet;
       statusMessage?: string;
       theme?: 'light' | 'dark' | 'forge' | 'dim' | 'high-contrast';
