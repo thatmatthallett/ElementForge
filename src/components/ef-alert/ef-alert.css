@@ -43,7 +43,6 @@
   }
 }
 
-
 .ef-alert-wrapper {
   position: relative;
   display: grid;
@@ -53,6 +52,7 @@
   gap: 0 1rem;
   align-items: center;
   justify-items: start;
+  box-sizing: border-box;
   width: 100%;
   background-color: var(--ef-alert-bg);
   border: 1px solid var(--ef-alert-border);

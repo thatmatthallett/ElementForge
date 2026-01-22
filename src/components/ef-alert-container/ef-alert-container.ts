@@ -6,6 +6,7 @@ import { type EventOf } from '../../lib/events';
 import { type AlertRequestDetail } from '../../types/alertRequestDetail';
 import { repeat } from 'lit/directives/repeat.js';
 import { ref, createRef } from 'lit/directives/ref.js';
+import { createComponentId } from '../../utils';
 
 
 /**
@@ -71,7 +72,7 @@ export class EfAlertContainer extends EfElement {
     console.log('createAlert', detail);
     this._announce(detail.message);
 
-    const efId = crypto.randomUUID();
+    const efId = createComponentId("efAlert");
 
     this._alerts = [...this._alerts, { ...detail, efId }];
 
@@ -95,6 +96,7 @@ export class EfAlertContainer extends EfElement {
           a => a.efId,
           a => html`
             <ef-alert
+              .efId=${a.efId}
               .color=${a.color ?? 'primary'}
               .duration=${a.duration ?? 5000}
               .dismissible=${a.dismissible ?? true}
