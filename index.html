@@ -46,19 +46,20 @@
       </ef-alert>
     </div>
 
-    <div>
+    <div style="display: inline-flex; gap: 1rem; align-items: center; margin-block-end: 2rem;">
       <ef-button id="loadToggle" color="secondary" shape="pill">Test Load Event</ef-button>
       <ef-button id="loadToggle2" color="info" shape="square">Test Load Method</ef-button>
       <ef-button color="success" variant="link">Test Load Method</ef-button>
+      <ef-button id="testLoader" loader icon="User">Loading Button</ef-button>
+      <ef-button aria-label="task-marker-1" id="testToggler" color="danger" shape="pill" icon="circle-check" toggle toggleIcon="circle-check-filled" status="info" statusMessage="Testing Status"></ef-button>
     </div>
     
     <div>
-      <ef-button id="testLoader" loader icon="User">Loading Button</ef-button>
-      <ef-badge color="secondary" size="xl" >XL Badge</ef-badge>
-      <ef-badge color="secondary" size="xxl" >XXL Badge</ef-badge>
-    </div>
-    <div style="margin-top: 2rem;">
-      <ef-button aria-label="task-marker-1" id="testToggler" color="danger" shape="pill" icon="circle-check" toggle toggleIcon="circle-check-filled" status="info" statusMessage="Testing Status"></ef-button>
+      <ef-badge color="primary" size="sm" >SM Badge</ef-badge>
+      <ef-badge color="secondary" size="md" >MD Badge</ef-badge>
+      <ef-badge color="success" size="lg" >LG Badge</ef-badge>
+      <ef-badge color="warning" size="xl" >XL Badge</ef-badge>
+      <ef-badge color="danger" size="xxl" >XXL Badge</ef-badge>
     </div>
 
     <div style="margin-top:2rem">
