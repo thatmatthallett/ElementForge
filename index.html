@@ -16,17 +16,24 @@
     </style>
   </head>
   <body>
-    <div style="display:flex; gap:.75rem; align-items: center; justify-content: center; margin-bottom: 2rem; position: relative;">
+    <div style="display:flex; gap:.75rem; align-items: center; justify-content: center; position: relative;">
       <ef-icon color="primaryDark" name="ef-hex-anvil" width="10rem"></ef-icon>
       <h1 class="display logo">Element<br/>Forge</h1>
       <ef-badge color="secondary" size="lg" style="position: absolute; top: .5rem; left: 5.75rem;">Alpha</ef-badge>
     </div>
 
+    <div style="display:flex; gap: 3rem; margin-block: 3rem;">
+      <ef-icon name="ef-ef" width="3rem"></ef-icon>
+      <ef-icon name="ef-anvil" width="3rem"></ef-icon>
+      <ef-icon name="ef-hex-anvil" width="3rem"></ef-icon>
+      <ef-icon name="ef-hex-ef" width="3rem"></ef-icon>
+      <ef-icon name="ef-hex-anvil-ef" width="6rem" height="3rem"></ef-icon>
+    </div>
+
     <div style="margin-block: 2rem; margin-inline: auto;">
       <ef-alert-container></ef-alert-container>
-      <ef-alert>hello world</ef-alert>
 
-      <!-- <ef-alert static dismissible color="secondary" role="status">
+      <ef-alert id="testAlert" static dismissible color="secondary" role="status">
         <h4 slot="title">Testing Alert Title</h4>
         <p>Testing Alert Body</p>
         <div slot="actions">
@@ -36,21 +43,13 @@
       
       <ef-alert icon="photo-filled" static dismissible color="success" variant="outline" role="status">
         <p>Testing Alert Body</p>
-      </ef-alert> -->
+      </ef-alert>
     </div>
 
     <div>
       <ef-button id="loadToggle" color="secondary" shape="pill">Test Load Event</ef-button>
       <ef-button id="loadToggle2" color="info" shape="square">Test Load Method</ef-button>
       <ef-button color="success" variant="link">Test Load Method</ef-button>
-    </div>
-    
-    <div style="display:flex; gap: 3rem; margin-block: 2rem;">
-      <ef-icon name="ef-ef" width="3rem"></ef-icon>
-      <ef-icon name="ef-anvil" width="3rem"></ef-icon>
-      <ef-icon name="ef-hex-anvil" width="3rem"></ef-icon>
-      <ef-icon name="ef-hex-ef" width="3rem"></ef-icon>
-      <ef-icon name="ef-hex-anvil-ef" width="6rem" height="3rem"></ef-icon>
     </div>
     
     <div>
@@ -112,6 +111,8 @@
     const btn2 = document.querySelector('#loadToggle');
     const btn3 = document.querySelector('#loadToggle2');
     const btnToggler = document.querySelector('#testToggler');
+    const alertBtn = document.querySelector('#testAlert');
+    const alertContainer = document.querySelector('ef-alert-container');
 
     btn.addEventListener('ef-click', e => {
       triggerLoading(btn);
@@ -127,9 +128,18 @@
       btn.toggleLoading();
     });
 
-
     btnToggler.addEventListener('ef-click', e => {
       btnToggler.toggled = !btnToggler.toggled;
+    });
+
+    alertBtn.addEventListener('ef-click', e => {
+      console.log('alert action clicked!', e.detail);
+
+      const path = e.composedPath();
+      const alertHost = path.find( node => node instanceof HTMLElement && node.tagName === 'EF-ALERT' );
+      if (alertHost) { console.log('Action came from inside ef-alert:', alertHost); }
+
+      console.log(document.querySelector(`ef-button[efid="${e.detail.efId}"]`))
     });
 
 

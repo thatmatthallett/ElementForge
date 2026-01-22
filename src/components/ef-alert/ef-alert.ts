@@ -47,6 +47,7 @@ export class EfAlert extends EfElement {
 
   @state() private _timer?: number;
 
+  get isStatic() { return this.static || (!this.dismissible && !this.duration); }
 
   connectedCallback() {
     super.connectedCallback();
@@ -56,7 +57,7 @@ export class EfAlert extends EfElement {
       this.ally.assertRole({ mustBe: ['alert', 'status'] });
     
     // Auto-dismiss timer
-    if (!this.static && this.duration) {
+    if (!this.isStatic && this.duration) {
       this._timer = window.setTimeout(() => {
         this.emit('ef-alert-auto-dismiss', {});
       }, this.duration);
@@ -79,6 +80,12 @@ export class EfAlert extends EfElement {
     // shape updating
     if (changedProps.has('shape'))
       this.schedule('shape', () => this.updateShape());
+
+    if (this.static && (this.duration || this.dismissible)) {
+      this.warnOnce('alertStatic',
+        "'static' overrides 'dismissible' and 'duration'. This alert will behave as static. Remove 'static' or remove ephemeral props."
+      );
+    }
   }
 
   private _onDismiss() { this.emit('ef-alert-dismiss', {}); }
@@ -129,7 +136,7 @@ export class EfAlert extends EfElement {
         <span class="actions">
           <slot name="actions"></slot>
         </span>
-        ${this.dismissible ? html`
+        ${!this.isStatic && this.dismissible ? html`
           <ef-button aria-label="Dismiss Alert" class="dismiss-button" variant="outline" shape="pill" @click=${this._onDismiss}>
             <ef-icon name="x"></ef-icon>
           </ef-button>
