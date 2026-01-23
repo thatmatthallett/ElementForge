@@ -1,4 +1,27 @@
-import type { Preview } from '@storybook/web-components-vite'
+import type { Preview, Decorator } from '@storybook/web-components-vite';
+
+import '../src/styles/tokens.css';
+import '../src/styles/fonts.css';
+
+import '../src/assets/eventLogger.js';
+
+export const globalTypes = {
+  theme: {
+    name: 'Theme',
+    defaultValue: 'light',
+    toolbar: {
+      icon: 'mirror',
+      items: ['light', 'dark'],
+    },
+  },
+};
+
+export const decorators: Decorator[] = [
+  (Story, context) => {
+    document.documentElement.dataset.theme = context.globals.theme;
+    return Story();
+  },
+];
 
 const preview: Preview = {
   parameters: {

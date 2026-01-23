@@ -1,0 +1,125 @@
+  :root {
+    color-scheme: dark;
+
+    /* Primary */
+    --ef-color-primary: oklch(0.72 0.17 47.5);
+    --ef-color-primary-dark: oklch(0.58 0.14 47.2);
+    --ef-color-primary-light: oklch(0.78 0.14 47.8);
+    --ef-radial-gradient-primary: radial-gradient(
+        farthest-corner circle at 48% 101% in oklab,
+      oklch(58% 0.14 47.5) 0%, 33%,
+      oklch(72% 0.17 47.5) 50%, 89%,
+      oklch(78% 0.14 47.8) 100%
+    );
+
+    /* Secondary */
+    --ef-color-secondary: oklch(0.45 0.06 246.3);
+    --ef-color-secondary-dark: oklch(0.36 0.04 246.8);
+    --ef-color-secondary-light: oklch(0.62 0.05 246.0);
+
+    /* Neutrals - Dark Mode Defaults [data-theme="dark"] */
+    --ef-color-surface: oklch(0.22 0 0); /* Graphite */
+    --ef-color-surface-alt: oklch(0.28 0 0); /* Slightly lighter panel */
+    --ef-color-border: oklch(0.40 0 0); /* Dark border */
+    --ef-color-text: oklch(0.97 0 0); /* Light text */
+    --ef-color-text-secondary: oklch(0.80 0 0);
+
+    /* Semantic */
+    --ef-color-success: oklch(0.75 0.14 142);
+    --ef-color-warning: oklch(0.87 0.17 83);
+    --ef-color-error: oklch(0.63 0.17 28);
+    --ef-color-info: oklch(0.66 0.15 254);
+
+    /* Font Families */
+    --ef-font-display: 'Satoshi', system-ui, sans-serif;
+    --ef-font-body: 'Inter', system-ui, sans-serif;
+    --ef-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* Font Weights (semantic, variable‑font friendly) */
+      /* Body/UI */
+    --ef-weight-body: 400;
+    --ef-weight-body-strong: 500;
+    --ef-weight-ui: 500;
+    --ef-weight-ui-strong: 600;
+
+      /* Display / Branding */
+    --ef-weight-display: 700;
+    --ef-weight-display-strong: 900;
+
+      /* Code */
+    --ef-weight-code: 400;
+    --ef-weight-code-strong: 700;
+
+    /* Font Sizes (modular scale) */
+    --ef-size-xs: 0.75rem;   /* 12px */
+    --ef-size-sm: 0.875rem;  /* 14px */
+    --ef-size-md: 1rem;      /* 16px */
+    --ef-size-lg: 1.125rem;  /* 18px */
+    --ef-size-xl: 1.25rem;   /* 20px */
+    --ef-size-2xl: 1.5rem;   /* 24px */
+    --ef-size-3xl: 1.875rem; /* 30px */
+    --ef-size-4xl: 2.25rem;  /* 36px */
+
+    /*  Line Heights */
+    --ef-line-tight: 1.1;
+    --ef-line-normal: 1.4;
+    --ef-line-relaxed: 1.6;
+
+    /* Letter Spacing */
+    --ef-tracking-tight: -0.01em;
+    --ef-tracking-normal: 0;
+    --ef-tracking-wide: 0.02em;
+
+    [data-theme="light"] {
+      color-scheme: light;
+
+      --ef-color-surface: oklch(0.97 0 0);
+      --ef-color-surface-alt: oklch(0.92 0 0);
+      --ef-color-border: oklch(0.86 0 0);
+      --ef-color-text: oklch(0.15 0 0);
+      --ef-color-text-secondary: oklch(0.38 0 0);
+    }
+
+    [data-theme="forge"] {
+      --ef-color-primary: oklch(0.75 0.20 47.5); /* hotter ember */
+      --ef-color-primary-dark: oklch(0.60 0.16 47.2);
+      --ef-color-primary-light: oklch(0.82 0.16 47.8);
+
+      --ef-color-secondary: oklch(0.48 0.07 246.3); /* slightly richer steel */
+      --ef-color-secondary-dark: oklch(0.38 0.05 246.8);
+      --ef-color-secondary-light: oklch(0.65 0.06 246.0);
+    }
+
+    [data-theme="dim"] {
+      --ef-color-surface: oklch(0.28 0 0);
+      --ef-color-surface-alt: oklch(0.32 0 0);
+      --ef-color-border: oklch(0.36 0 0);
+      --ef-color-text: oklch(0.92 0 0);
+      --ef-color-text-secondary: oklch(0.75 0 0);
+    }
+
+    [data-theme="high-contrast"] {
+      --ef-color-surface: oklch(0.15 0 0);
+      --ef-color-surface-alt: oklch(0.20 0 0);
+      --ef-color-border: oklch(0.95 0 0);
+      --ef-color-text: oklch(1 0 0);
+      --ef-color-text-secondary: oklch(0.90 0 0);
+
+      --ef-color-success: oklch(0.85 0.20 142);
+      --ef-color-warning: oklch(0.95 0.20 83);
+      --ef-color-error: oklch(0.75 0.20 28);
+      --ef-color-info: oklch(0.80 0.20 254);
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      color-scheme: light;
+      
+      --ef-color-surface: oklch(0.97 0 0);
+      --ef-color-surface-alt: oklch(0.92 0 0);
+      --ef-color-border: oklch(0.86 0 0);
+      --ef-color-text: oklch(0.15 0 0);
+      --ef-color-text-secondary: oklch(0.38 0 0);
+    }
+  }
