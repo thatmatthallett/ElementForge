@@ -87,10 +87,6 @@
     font-weight: var(--ef-weight-ui-strong);
   }
 
-  &:has(ef-icon) {
-    --ef-badge-padding-inline: calc(var(--ef-badge-padding-inline) + 0.25rem);
-  }
-
   ef-icon {
     --ef-icon-width: var(--ef-badge-icon-width);
     --ef-icon-height: var(--ef-badge-icon-height);

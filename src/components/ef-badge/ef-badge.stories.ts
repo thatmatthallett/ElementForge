@@ -1,26 +1,36 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
-import './ef-badge.js';
+import './ef-badge.ts';
+import '../ef-icon/ef-icon.ts';
+import { iconNames } from '../../assets/icons/icon-types';
+import { colorValues } from '../../tokens/colorSet';
 
 const meta: Meta = {
   title: 'Components/ef-badge',
   component: 'ef-badge',
 
   args: {
-    text: 'Badge',
-    variant: 'primary',
+    color: 'primary',
+    icon: null,    
     size: 'md',
     shape: 'rounded',
-    uppercase: false,
+    variant: 'solid',
+    text: 'Badge',
   },
 
   argTypes: {
     text: { control: 'text' },
 
-    variant: {
+    color: {
       control: 'select',
-      options: ['primary', 'neutral', 'info', 'success', 'warning', 'danger'],
+      options: colorValues,
     },
+
+    icon: {
+      control: 'select',
+      options: iconNames,
+    },
+
 
     size: {
       control: 'select',
@@ -31,8 +41,12 @@ const meta: Meta = {
       control: 'select',
       options: ['square', 'rounded', 'pill'],
     },
+    
 
-    uppercase: { control: 'boolean' },
+    variant: {
+      control: 'select',
+      options: ['solid', 'subtle', 'outline'],
+    },
   },
 };
 
@@ -43,10 +57,11 @@ type Story = StoryObj;
 export const Default: Story = {
   render: (args) => html`
     <ef-badge
-      variant=${args.variant}
+      color=${args.color}
+      icon=${args.icon}
       size=${args.size}
       shape=${args.shape}
-      ?uppercase=${args.uppercase}
+      variant=${args.variant}
     >
       ${args.text}
     </ef-badge>
