@@ -4,17 +4,6 @@ import '../src/styles/index.css';
 
 import '../src/assets/eventLogger.js';
 
-export const globalTypes = {
-  theme: {
-    name: 'Theme',
-    defaultValue: 'light',
-    toolbar: {
-      icon: 'mirror',
-      items: ['light', 'dark'],
-    },
-  },
-};
-
 export const decorators: Decorator[] = [
   (Story, context) => {
     document.documentElement.dataset.theme = context.globals.theme;

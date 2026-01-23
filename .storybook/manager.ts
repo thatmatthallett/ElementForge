@@ -1,6 +1,5 @@
 import { addons } from 'storybook/manager-api';
-import ElementForgeTheme from './elementForgeTheme';
+import lightTheme from './elementForgeTheme';
 
-addons.setConfig({
-  theme: ElementForgeTheme,
-});
+
+addons.setConfig({ theme: lightTheme, });

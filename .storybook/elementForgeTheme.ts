@@ -8,28 +8,28 @@ export default create({
   brandImage: '../src/assets/logos/ef-hex-anvil-ef.svg',
 
   // Primary brand colors
-  colorPrimary: '#bb5b24',
-  colorSecondary: '#395975',
+  colorPrimary: '#395975',
+  colorSecondary: '#f77e36',
 
   // App surfaces
-  appBg: '#f5f5f5',
-  appContentBg: '#ffffff',
-  appBorderColor: '#e5e7eb',
+  appBg: '#e4e4e4',
+  appContentBg: '#f5f5f5',
+  appBorderColor: '#d1d1d1',
   appBorderRadius: 8,
 
   // Text
-  textColor: '#111827',
-  textInverseColor: '#ffffff',
+  textColor: '#0b0b0b',
+  textInverseColor: '#f5f5f5',
 
   // Toolbar
-  barBg: '#ffffff',
-  barTextColor: '#374151',
-  barSelectedColor: '#4f46e5',
+  barBg: '#f5f5f5',
+  barTextColor: '#0b0b0b',
+  barSelectedColor: '#2c3f51',
 
   // Forms
-  inputBg: '#ffffff',
-  inputBorder: '#d1d5db',
-  inputTextColor: '#111827',
+  inputBg: '#f5f5f5',
+  inputBorder: '#6e8aa3',
+  inputTextColor: '#0b0b0b',
   inputBorderRadius: 6,
 
   // Typography
