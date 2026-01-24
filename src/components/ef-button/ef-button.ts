@@ -64,6 +64,8 @@ export class EfButton extends EfElement {
   toggle = false;
   @property({ type: Boolean, reflect: true })
   toggled: boolean = false;
+  @property({ type: Boolean, reflect: true })
+  toggleManual = false;
   @property({ type: String })
   toggleIcon: IconName | null = null;
 
@@ -107,6 +109,16 @@ export class EfButton extends EfElement {
     if (changedProps.has('shape'))
       this.schedule('shape', () => this.updateShape());
 
+    if (changedProps.has('toggled') && this.toggleManual) {
+      const previous = changedProps.get('toggled');
+
+      if (typeof previous === 'boolean') {
+        this.emit('ef-toggle', {
+          previous: previous,
+          now: this.toggled });
+      }
+    }
+
     // Warn if loading is enabled but loader is not
     if (this.loading && !this.loader) {
       this.warnOnce('loadingNoLoader',
@@ -142,7 +154,15 @@ export class EfButton extends EfElement {
       return;
     }
 
-    if (this.toggle) { this.toggled = !this.toggled; }
+    if (this.toggle && !this.toggleManual) {
+      const toggledState = this.toggled;
+      this.toggled = !this.toggled;
+
+      this.emit('ef-toggle', {
+        previous: toggledState,
+        now: this.toggled,
+      });
+    }
 
     this.emit('ef-click', { originalEvent: event });
   }
@@ -245,6 +265,7 @@ export class EfButton extends EfElement {
       ? String(this.toggled)
       : null;
     const currentIcon = this.toggle && this.toggled ? this.toggleIcon ?? this.icon : this.icon;
+    console.log(currentIcon);
 
     const loaderCode = html`
       <span class="loader ${this.loading ? 'mode-loading' : 'mode-normal'}">

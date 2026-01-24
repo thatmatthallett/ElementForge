@@ -15,6 +15,7 @@ export const eventDefinitions = {
   'ef-blur': {} as {},
   'ef-hover': {} as { hovering: boolean },
   'ef-validate': {} as { status?: StatusSet; message?: string },
+  'ef-toggle': {} as { previous: boolean; now: boolean },
 
   // Modal events
   'ef-open': {} as { source: 'keyboard' | 'mouse' | 'programmatic' },

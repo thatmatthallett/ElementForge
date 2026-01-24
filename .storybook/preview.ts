@@ -1,18 +1,39 @@
 import type { Preview, Decorator } from '@storybook/web-components-vite';
 
-import '../src/styles/index.css';
+import '../src/styles/tokens.css';
 
 import '../src/assets/eventLogger.js';
+import { background } from 'storybook/theming';
+
+export const globalTypes = {
+  theme: {
+    name: 'Theme',
+    defaultValue: 'light',
+    toolbar: {
+      icon: 'mirror',
+      items: ['light', 'dark'],
+    },
+  },
+};
 
 export const decorators: Decorator[] = [
   (Story, context) => {
-    document.documentElement.dataset.theme = context.globals.theme;
+    const theme = context.globals.theme || 'light';
+    document.documentElement.dataset.theme = theme;
     return Story();
   },
 ];
 
+export const parameters = { backgrounds: { disable: true }, };
+
 const preview: Preview = {
   parameters: {
+    backgrounds: {
+      options: {
+        dark: { name: 'Dark', value: 'var(--ef-color-surface)' },
+        light: { name: 'Light', value: 'var(--ef-color-surface)' },
+      }
+    },
     controls: {
       matchers: {
        color: /(background|color)$/i,

@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/web-components';
 import { html } from 'lit';
-import './ef-badge.ts';
-import '../ef-icon/ef-icon.ts';
+import '../index.ts';
 import { iconNames } from '../../assets/icons/icon-types';
 import { colorValues } from '../../tokens/colorSet';
 
