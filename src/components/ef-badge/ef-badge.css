@@ -14,6 +14,9 @@
   --ef-badge-font-size: 0.75rem;
   --ef-badge-icon-width: 1rem;
   --ef-badge-icon-height: 1rem;
+
+  --ef-badge-anchor-offset-block: 1rem;
+  --ef-badge-anchor-offset-inline: 1rem;
   
   display: inline-block;
   align-self: start;
@@ -92,4 +95,68 @@
     --ef-icon-height: var(--ef-badge-icon-height);
   }
 
+}
+
+/* anchor positioning */
+
+:host([anchorElement]), :host([anchorName]) {
+  position: absolute;
+}
+
+/* ──────────────────────────────── */
+/* BLOCK AXIS (vertical)            */
+/* ──────────────────────────────── */
+
+:host([anchorPositionBlock="top-outside"]) {
+  bottom: calc(anchor(top) + var(--ef-badge-anchor-offset-block));
+}
+
+:host([anchorPositionBlock="top-inside"]) {
+  top: calc(anchor(top) + var(--ef-badge-anchor-offset-block));
+}
+
+:host([anchorPositionBlock="bottom-outside"]) {
+  top: calc(anchor(bottom) + var(--ef-badge-anchor-offset-block));
+}
+
+:host([anchorPositionBlock="bottom-inside"]) {
+  bottom: calc(anchor(bottom) + var(--ef-badge-anchor-offset-block));
+}
+
+:host([anchorPositionBlock="center"]) {
+  top: calc(anchor(center) + var(--ef-badge-anchor-offset-block));
+  transform: translateY(-50%);
+}
+
+/* ──────────────────────────────── */
+/* INLINE AXIS (horizontal)         */
+/* ──────────────────────────────── */
+
+:host([anchorPositionInline="left-outside"]) {
+  right: calc(anchor(left) + var(--ef-badge-anchor-offset-inline));
+}
+
+:host([anchorPositionInline="left-inside"]) {
+  left: calc(anchor(left) + var(--ef-badge-anchor-offset-inline));
+}
+
+:host([anchorPositionInline="right-outside"]) {
+  left: calc(anchor(right) + var(--ef-badge-anchor-offset-inline));
+}
+
+:host([anchorPositionInline="right-inside"]) {
+  right: calc(anchor(right) + var(--ef-badge-anchor-offset-inline));
+}
+
+:host([anchorPositionInline="center"]) {
+  left: calc(anchor(center) + var(--ef-badge-anchor-offset-inline));
+  transform: translateX(-50%);
+}
+
+/* ──────────────────────────────────── */
+/* Centered (horizontal and vertical)   */
+/* ──────────────────────────────────── */
+
+:host([anchorPositionBlock="center"][anchorPositionInline="center"]) {
+  transform: translateX(-50%) translateY(-50%);
 }
