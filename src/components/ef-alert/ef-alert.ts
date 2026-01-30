@@ -10,6 +10,7 @@ import {
   type ColorSet, 
   colorValues,
   resolveColor,
+  resolveTextColor,
   type ShapeSet,
   shapeValues,
   shapeRadius
@@ -127,15 +128,19 @@ export class EfAlert extends EfElement {
   }
 
   private updateColor() {
+    if (this.color === 'primary') return;
+    
     if (!colorValues.includes(this.color as any)) {
       this.warnOnce('invalidColor',
         `invalid "color" value: ${this.color} - ef-alert#color`
       );
       this.style.removeProperty('--ef-alert-base-color');
+      this.style.removeProperty('--ef-alert-text');
       return;
     }
 
     this.style.setProperty('--ef-alert-base-color', resolveColor(this.color));
+    this.style.setProperty('--ef-alert-text', resolveTextColor(this.color));
   }
 
   private updateShape() {

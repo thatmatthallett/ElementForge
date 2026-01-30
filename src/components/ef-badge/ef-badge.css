@@ -5,7 +5,7 @@
   --ef-badge-bg-active: oklch(from var(--ef-badge-bg) calc(l - 0.05) c h);
   --ef-badge-border: transparent;
   --ef-badge-border-hover: transparent;
-  --ef-badge-text: var(--ef-color-text-opposite);
+  --ef-badge-text: var(--ef-color-on-primary);
   --ef-badge-focus-ring: oklch(from var(--ef-badge-bg) calc(l + 0.20) c h);
   --ef-badge-radius: 0.375rem;
 

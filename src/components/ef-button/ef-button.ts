@@ -231,6 +231,8 @@ export class EfButton extends EfElement {
   }
 
   private updateColor() {
+    if (this.color === 'primary') return;
+
     if (!colorValues.includes(this.color as any)) {
       this.warnOnce('invalidColor',
         `invalid "color" value: ${this.color} - ef-button#color`

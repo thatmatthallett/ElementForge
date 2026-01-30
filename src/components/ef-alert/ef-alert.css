@@ -2,7 +2,7 @@
   --ef-alert-base-color: var(--ef-color-primary);
   --ef-alert-bg: var(--ef-alert-base-color);
   --ef-alert-border: transparent;
-  --ef-alert-text: var(--ef-color-surface);
+  --ef-alert-text: var(--ef-color-on-primary);
   --ef-alert-focus-ring: oklch(from var(--ef-alert-bg) calc(l + 0.20) c h);
 
   --ef-alert-padding-block: .5rem;
@@ -15,19 +15,19 @@
   --ef-alert-exit-duration: 150ms;
   --ef-alert-ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
   --ef-alert-ease-exit: cubic-bezier(0.4, 0, 1, 1);
+}
 
-  .ef-alert-wrapper ef-button {
-    --ef-btn-icon-width: 1rem;
-    --ef-btn-icon-height: 1rem;
-    --ef-btn-bg: var(--ef-color-surface);
-    --ef-btn-bg-hover: oklch(from var(--ef-btn-bg) calc(l + 0.05) c h);
-    --ef-btn-bg-active: oklch(from var(--ef-btn-bg) calc(l - 0.05) c h);
-    --ef-btn-border: var(--ef-alert-bg);
-    --ef-btn-border-hover: oklch(from var(--ef-btn-border) calc(l + 0.05) c h);
-    --ef-btn-text: var(--ef-alert-bg);
-    --ef-btn-padding-block: .125rem;
-    --ef-btn-padding-inline: .125rem;
-  }
+::slotted(ef-button) {
+  --ef-btn-icon-width: 1rem;
+  --ef-btn-icon-height: 1rem;
+  --ef-btn-bg: var(--ef-alert-text);
+  --ef-btn-bg-hover: oklch(from var(--ef-btn-bg) calc(l + 0.05) c h);
+  --ef-btn-bg-active: oklch(from var(--ef-btn-bg) calc(l - 0.05) c h);
+  --ef-btn-border: var(--ef-color-surface);
+  --ef-btn-border-hover: oklch(from var(--ef-btn-border) calc(l + 0.05) c h);
+  --ef-btn-text: var(--ef-alert-bg);
+  --ef-btn-padding-block: .5rem;
+  --ef-btn-padding-inline: .75rem;
 }
 
 :host([variant="outline"]) {

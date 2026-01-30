@@ -13,6 +13,7 @@ import {
   type ColorSet, 
   colorValues,
   resolveColor,
+  resolveTextColor,
   type ShapeSet,
   shapeValues,
   shapeRadius
@@ -88,15 +89,19 @@ export class EfBadge extends EfBadgeBase {
   }
 
   private updateColor() {
+    if (this.color === 'primary') return;
+    
     if (!colorValues.includes(this.color as any)) {
       this.warnOnce('invalidColor',
         `invalid "color" value: ${this.color} - ef-badge#color`
       );
       this.style.removeProperty('--ef-badge-base-color');
+      this.style.removeProperty('--ef-badge-text');
       return;
     }
 
     this.style.setProperty('--ef-badge-base-color', resolveColor(this.color));
+    this.style.setProperty('--ef-badge-text', resolveTextColor(this.color));
   }
 
   private updateShape() {
