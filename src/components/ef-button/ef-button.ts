@@ -1,5 +1,6 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import { EfElement } from '../../lib/ef-element';
 import stylesText from './ef-button.css?raw';
 import {
@@ -12,6 +13,7 @@ import {
   type ColorSet, 
   colorValues,
   resolveColor,
+  resolveTextColor,
   type ShapeSet,
   shapeValues,
   shapeRadius
@@ -234,10 +236,12 @@ export class EfButton extends EfElement {
         `invalid "color" value: ${this.color} - ef-button#color`
       );
       this.style.removeProperty('--ef-btn-base-color');
+      this.style.removeProperty('--ef-btn-text');
       return;
     }
 
     this.style.setProperty('--ef-btn-base-color', resolveColor(this.color));
+    this.style.setProperty('--ef-btn-text', resolveTextColor(this.color));
   }
 
   private updateShape() {
@@ -288,9 +292,9 @@ export class EfButton extends EfElement {
         @mouseenter=${() => this.emit('ef-hover', { hovering: true })}
         @mouseleave=${() => this.emit('ef-hover', { hovering: false })}
         ?disabled=${this.disabled || this.loading}
-        aria-busy=${this.loader ? String(this.loading) : null}
-        aria-pressed=${ariaPressed}
-        aria-expanded=${this.getAttribute('aria-expanded')}
+        aria-busy=${ifDefined(this.loader ? String(this.loading): undefined)}
+        aria-pressed=${ifDefined(ariaPressed)}
+        aria-expanded=${ifDefined(this.getAttribute('aria-expanded'))}
       >
         ${this.icon && this.iconPosition === 'start' 
           ? iconCode : null

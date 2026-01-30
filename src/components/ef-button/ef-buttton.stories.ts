@@ -89,7 +89,22 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: (args) => html`
-    <ef-button>
+    <ef-button
+      color=${args.color}
+      icon=${args.icon}
+      iconPosition=${args.iconPosition}
+      ?disabled=${args.disabled}
+      ?loader=${args.loader}
+      ?loading=${args.loading}
+      loadingIcon=${args.loadingIcon}
+      size=${args.size}
+      shape=${args.shape}
+      type=${args.type}
+      ?toggle=${args.toggle}
+      ?toggled=${args.toggled}
+      toggleIcon=${args.toggleIcon}
+      variant=${args.variant}
+    >
       ${args.text}
     </ef-button>
   `,

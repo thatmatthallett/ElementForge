@@ -27,3 +27,26 @@ export type ColorToken = keyof typeof colorTokens;
 
 // Helper to resolve a color name to its CSS variable
 export const resolveColor = (color: ColorToken) => colorTokens[color];
+
+export const textColorTokens = {
+  primary: 'var(--ef-color-on-primary)',
+  primaryDark: 'var(--ef-color-on-primary-dark)',
+  primaryLight: 'var(--ef-color-on-primary-light)',
+  secondary: 'var(--ef-color-on-secondary)',
+  secondaryDark: 'var(--ef-color-on-secondary-dark)',
+  secondaryLight: 'var(--ef-color-on-secondary-light)',
+
+  success: 'var(--ef-color-on-success)',
+  warning: 'var(--ef-color-on-warning)',
+  danger: 'var(--ef-color-on-error)',
+  info: 'var(--ef-color-on-info)',
+
+  text: 'var(--ef-color-on-text)',
+  subtle: 'var(--ef-color-on-text-secondary)',
+
+  surface: 'var(--ef-color-on-surface)',
+  surfaceAlt: 'var(--ef-color-on-surface-alt)',
+} as const;
+
+// Helper to resolve a color name to its CSS variable
+export const resolveTextColor = (color: ColorToken) => textColorTokens[color];

@@ -12,10 +12,18 @@
       oklch(78% 0.14 47.8) 100%
     );
 
+    --ef-color-on-primary: oklch(0.30 0.03 47.5);
+    --ef-color-on-primary-dark: oklch(1 0 47.5); /* lighter text for darker bg */
+    --ef-color-on-primary-light: oklch(0.20 0.02 47.5); /* darker text for lighter bg */
+
     /* Secondary */
     --ef-color-secondary: oklch(0.45 0.06 246.3);
     --ef-color-secondary-dark: oklch(0.36 0.04 246.8);
     --ef-color-secondary-light: oklch(0.62 0.05 246.0);
+    
+    --ef-color-on-secondary: oklch(0.92 0.02 246.3); /* icy white */
+    --ef-color-on-secondary-dark: oklch(0.96 0.01 246.8);
+    --ef-color-on-secondary-light: oklch(0.22 0.02 246.0); /* steel charcoal */
 
     /* Neutrals - Dark Mode Defaults html[data-theme="dark"] */
     --ef-color-surface: oklch(0.22 0 0); /* Graphite */
@@ -27,10 +35,22 @@
     --ef-color-text-secondary-opposite: oklch(0.38 0 0);
 
     /* Semantic */
+      /* SUCCESS */
     --ef-color-success: oklch(0.75 0.14 142);
+    --ef-color-on-success: oklch(0.20 0.02 142);
+
+      /* WARNING */
     --ef-color-warning: oklch(0.87 0.17 83);
+    --ef-color-on-warning: oklch(0.22 0.02 83);
+
+      /* ERROR */
     --ef-color-error: oklch(0.63 0.17 28);
+    --ef-color-on-error: oklch(0.95 0.02 28);
+
+      /* INFO */
     --ef-color-info: oklch(0.66 0.15 254);
+    --ef-color-on-info: oklch(0.95 0.02 254);
+
 
     /* Font Families */
     --ef-font-display: 'Satoshi', system-ui, sans-serif;
