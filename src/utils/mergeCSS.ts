@@ -1,0 +1,1 @@
+export const mergeCss = (...parts: string[]) => parts.filter(Boolean).join('\n\n');

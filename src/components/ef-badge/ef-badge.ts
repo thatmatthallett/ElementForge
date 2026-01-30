@@ -1,10 +1,13 @@
 import { html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { EfElement } from '../../lib/ef-element';
+import { AnchorPositioning } from '../../mixins/anchor-positioning'
 import stylesText from './ef-badge.css?raw';
+import sharedAnchorStyles from '../../shared/anchor-position.css?raw';
 import {
   forwardAttribute,
-  matchesAttributeCategory
+  matchesAttributeCategory,
+  mergeCss
 } from '../../utils';
 import { 
   type ColorSet, 
@@ -14,29 +17,17 @@ import {
   shapeValues,
   shapeRadius
 } from '../../tokens';
-import { type anchorPositionBlockSet, type anchorPositionInlineSet } from '../../types/anchorPositions';
 
 /**
  * Element Forge Badge Element.
  *
  * @slot - This element has a slots
  */
-@customElement('ef-badge')
-export class EfBadge extends EfElement {
-  static stylesText = stylesText
+class EfBadgeBase extends AnchorPositioning(EfElement) {}
 
-  @property({ type: String })
-  anchorElement?: String;
-  @property({ type: String, reflect: true })
-  anchorName?: String;
-  @property({ type: String, reflect: true })
-  anchorPositionBlock?: anchorPositionBlockSet;
-  @property({ type: String, reflect: true })
-  anchorPositionInline?: anchorPositionInlineSet;
-  @property({ type: String })
-  anchorOffsetBlock: String = '1rem';
-  @property({ type: String })
-  anchorOffsetInline: String = '1rem';
+@customElement('ef-badge')
+export class EfBadge extends EfBadgeBase {
+  static stylesText = mergeCss(sharedAnchorStyles, stylesText);
 
   @property({ type: String, reflect: true })
   color: ColorSet = 'primary';
@@ -77,16 +68,6 @@ export class EfBadge extends EfElement {
       );
     }
 
-    // anchor updating
-    if (changedProps.has('anchorElement') ||
-      changedProps.has('anchorName') ||
-      changedProps.has('anchorPositionBlock') ||
-      changedProps.has('anchorPositionInline') ||
-      changedProps.has('anchorOffsetBlock') ||
-      changedProps.has('anchorOffsetInline')) {
-      this.schedule('anchor', () => this.updateAnchor());
-    }
-
     // color updating
     if (changedProps.has('color'))
       this.schedule('color', () => this.updateColor());
@@ -105,61 +86,6 @@ export class EfBadge extends EfElement {
     
     forwardAttribute(this, el, name, newValue);
   }
-
-private previousAnchorEl?: HTMLElement;
-
-private updateAnchor() {
-  // If neither is set, do nothing (no warning unless user attempted anchor usage)
-  if (!this.anchorElement && !this.anchorName) {
-    this.style.removeProperty('position-anchor');
-    this.style.removeProperty('--ef-badge-anchor-offset-block');
-    this.style.removeProperty('--ef-badge-anchor-offset-inline');
-    return;
-  }
-
-  // If both are set, anchorName wins
-  if (this.anchorElement && this.anchorName) {
-    this.warnOnce('invalidAnchor',
-      `"anchorElement" and "anchorName" are present. Using "anchorName".`
-    );
-  }
-
-  // Resolve anchor name (valid CSS identifier)
-  const anchorName = this.anchorName ?? `--${this.efId}`;
-  this.style.setProperty('position-anchor', anchorName as string);
-
-  // Resolve anchor element if using selector mode
-  let anchorEl: HTMLElement | null = null;
-
-  if (!this.anchorName && this.anchorElement) {
-    anchorEl = document.querySelector(this.anchorElement as string);
-    if (!anchorEl) {
-      this.warnOnce('invalidAnchorElement',
-        `"anchorElement" selector "${this.anchorElement}" matched no elements.`
-      );
-      return;
-    }
-  }
-
-  // Clean up old anchor
-  if (this.previousAnchorEl && this.previousAnchorEl !== anchorEl) {
-    this.previousAnchorEl.style.removeProperty('anchor-name');
-  }
-
-  // Apply anchor-name to target element
-  if (anchorEl) {
-    anchorEl.style.setProperty('anchor-name', anchorName as string);
-    this.previousAnchorEl = anchorEl;
-  }
-
-  // Offsets (no validation)
-  if (this.anchorOffsetBlock && this.anchorOffsetBlock != "1rem")
-    this.style.setProperty('--ef-badge-offset-block', this.anchorOffsetBlock as string);
-
-  if (this.anchorOffsetInline && this.anchorOffsetInline != "1rem")
-    this.style.setProperty('--ef-badge-offset-inline', this.anchorOffsetInline as string);
-}
-
 
   private updateColor() {
     if (!colorValues.includes(this.color as any)) {

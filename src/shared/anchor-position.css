@@ -1,0 +1,66 @@
+:host {
+  --ef-anchor-offset-block: 1rem;
+  --ef-anchor-offset-inline: 1rem;
+}
+
+:host([anchorElement]), :host([anchorName]) {
+  position: absolute;
+}
+
+/* ──────────────────────────────── */
+/* BLOCK AXIS (vertical)            */
+/* ──────────────────────────────── */
+
+:host([anchorPositionBlock="top-outside"]) {
+  bottom: calc(anchor(top) + var(--ef-anchor-offset-block));
+}
+
+:host([anchorPositionBlock="top-inside"]) {
+  top: calc(anchor(top) + var(--ef-anchor-offset-block));
+}
+
+:host([anchorPositionBlock="bottom-outside"]) {
+  top: calc(anchor(bottom) + var(--ef-anchor-offset-block));
+}
+
+:host([anchorPositionBlock="bottom-inside"]) {
+  bottom: calc(anchor(bottom) + var(--ef-anchor-offset-block));
+}
+
+:host([anchorPositionBlock="center"]) {
+  top: calc(anchor(center) + var(--ef-anchor-offset-block));
+  transform: translateY(-50%);
+}
+
+/* ──────────────────────────────── */
+/* INLINE AXIS (horizontal)         */
+/* ──────────────────────────────── */
+
+:host([anchorPositionInline="left-outside"]) {
+  right: calc(anchor(left) + var(--ef-anchor-offset-inline));
+}
+
+:host([anchorPositionInline="left-inside"]) {
+  left: calc(anchor(left) + var(--ef-anchor-offset-inline));
+}
+
+:host([anchorPositionInline="right-outside"]) {
+  left: calc(anchor(right) + var(--ef-anchor-offset-inline));
+}
+
+:host([anchorPositionInline="right-inside"]) {
+  right: calc(anchor(right) + var(--ef-anchor-offset-inline));
+}
+
+:host([anchorPositionInline="center"]) {
+  left: calc(anchor(center) + var(--ef-anchor-offset-inline));
+  transform: translateX(-50%);
+}
+
+/* ──────────────────────────────────── */
+/* Centered (horizontal and vertical)   */
+/* ──────────────────────────────────── */
+
+:host([anchorPositionBlock="center"][anchorPositionInline="center"]) {
+  transform: translateX(-50%) translateY(-50%);
+}
