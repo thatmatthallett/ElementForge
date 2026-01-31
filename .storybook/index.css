@@ -1,0 +1,40 @@
+@import '../src/styles/tokens.css';
+
+@layer theme, base;
+
+@layer theme {
+  @import '../src/styles/fonts.css';
+}
+
+@layer base {
+  :root {
+    font-family: var(--ef-font-body);
+    font-size: var(--ef-size-md);
+    line-height: var(--ef-line-normal);
+    font-weight: var(--ef-weight-code);
+
+    color-scheme: light dark;
+    color: var(--ef-color-text);
+    background-color: var(--ef-color-surface);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    font-weight: var(--ef-weight-body-strong);
+    color: var(--ef-color-secondary);
+    text-decoration: inherit;
+  }
+  a:hover {
+    color: var(--ef-color-secondary-dark);
+  }
+
+  body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+  }
+}

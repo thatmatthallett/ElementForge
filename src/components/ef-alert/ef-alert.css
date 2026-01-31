@@ -33,18 +33,20 @@
 :host([variant="outline"]) {
   --ef-alert-bg: var(--ef-color-surface);
   --ef-alert-border: var(--ef-alert-base-color);
-  --ef-alert-text: var(--ef-color-text);
+  --ef-alert-text: var(--ef-alert-base-color);
 
   .ef-alert-wrapper {
+    color: var(--ef-alert-base-color);
+
     > ef-icon {
       --ef-icon-color: var(--ef-alert-base-color);
     }
-    
-    ef-button {
-      --ef-btn-bg: var(--ef-alert-base-color);
-      --ef-btn-border: transparent;
-      --ef-btn-border-hover: transparent;
-    }
+  }
+
+  ::slotted(ef-button) {
+    --ef-btn-bg: var(--ef-alert-base-color);
+    --ef-btn-border: transparent;
+    --ef-btn-border-hover: transparent;
   }
 }
 

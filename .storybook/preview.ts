@@ -1,6 +1,6 @@
 import type { Preview, Decorator } from '@storybook/web-components-vite';
 
-import '../src/styles/tokens.css';
+import './index.css';
 
 import '../src/assets/eventLogger.js';
 import { background } from 'storybook/theming';
