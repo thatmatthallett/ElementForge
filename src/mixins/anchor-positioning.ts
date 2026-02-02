@@ -20,6 +20,8 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
   anchorElement?: string;
   anchorName?: string;
 
+  protected anchor: HTMLElement | null = null;
+
   private previousAnchorEl?: HTMLElement;
 
   updated(changedProps: Map<string, unknown>) {
@@ -57,27 +59,28 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
     this.style.setProperty('position-anchor', anchorName as string);
 
     // Resolve anchor element if using selector mode
-    let anchorEl: HTMLElement | null = null;
+    this.anchor = null;
 
     if (!this.anchorName && this.anchorElement) {
-      anchorEl = document.querySelector(this.anchorElement as string);
-      if (!anchorEl) {
+      this.anchor = document.querySelector(this.anchorElement as string);
+      if (!this.anchor) {
         this.warnOnce('invalidAnchorElement',
           `"anchorElement" selector "${this.anchorElement}" matched no elements.`
         );
+        this.anchor = null;
         return;
       }
     }
 
     // Clean up old anchor
-    if (this.previousAnchorEl && this.previousAnchorEl !== anchorEl) {
+    if (this.previousAnchorEl && this.previousAnchorEl !== this.anchor) {
       this.previousAnchorEl.style.removeProperty('anchor-name');
     }
 
     // Apply anchor-name to target element
-    if (anchorEl) {
-      anchorEl.style.setProperty('anchor-name', anchorName as string);
-      this.previousAnchorEl = anchorEl;
+    if (this.anchor) {
+      this.anchor.style.setProperty('anchor-name', anchorName as string);
+      this.previousAnchorEl = this.anchor;
     }
 
     // Offsets (no validation)

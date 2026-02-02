@@ -18,6 +18,8 @@ export const eventDefinitions = {
   'ef-toggle': {} as { previous: boolean; now: boolean },
 
   // Modal events
+  'ef-show': {} as {},
+  'ef-hide': {} as {},
   'ef-open': {} as { source: 'keyboard' | 'mouse' | 'programmatic' },
   'ef-close': {} as { reason: 'escape' | 'backdrop' | 'programmatic' },
 
