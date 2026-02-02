@@ -5,6 +5,7 @@ type Constructor<T = {}> = new (...args: any[]) => T;
 
 export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => class extends Base {
   static properties = {
+    anchor: { state: true },
     anchorPositionBlock: { type: String, reflect: true },
     anchorPositionInline: { type: String, reflect: true },
     anchorOffsetBlock: { type: String },
@@ -19,8 +20,7 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
   anchorOffsetInline = '1rem';
   anchorElement?: string;
   anchorName?: string;
-
-  protected anchor: HTMLElement | null = null;
+  anchor: HTMLElement | null = null;
 
   private previousAnchorEl?: HTMLElement;
 

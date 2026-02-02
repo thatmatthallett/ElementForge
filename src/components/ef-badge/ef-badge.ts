@@ -101,7 +101,8 @@ export class EfBadge extends EfBadgeBase {
     }
 
     this.style.setProperty('--ef-badge-base-color', resolveColor(this.color));
-    this.style.setProperty('--ef-badge-text', resolveTextColor(this.color));
+    if (this.variant !== 'outline')
+      this.style.setProperty('--ef-badge-text', resolveTextColor(this.color));
   }
 
   private updateShape() {

@@ -28,10 +28,13 @@ export class EFTooltip extends EfTooltipBase {
   static stylesText = mergeCss(sharedAnchorStyles, stylesText);
 
   @property({ type: String, reflect: true })
-  color: ColorSet = 'primary';
+  color: ColorSet = 'secondary';
 
   @property({ type: String, reflect: true })
   shape: ShapeSet = 'rounded';
+
+  @property({ type: String, reflect: true })
+  variant: 'solid' | 'outline' = 'outline';
 
   controller = new OverlayController({
     overlay: this,
@@ -45,6 +48,10 @@ export class EFTooltip extends EfTooltipBase {
     super();
     this.trigger = ['hover', 'focus'];
     this.delay = 500;
+    this.anchorPositionBlock = 'top-outside';
+    this.anchorPositionInline = 'center';
+    this.anchorOffsetBlock = '1rem';
+    this.anchorOffsetInline = '0rem';
   }
 
   updated(changedProps: Map<string, unknown>) {
@@ -72,7 +79,8 @@ export class EFTooltip extends EfTooltipBase {
     }
 
     this.style.setProperty('--ef-tooltip-base-color', resolveColor(this.color));
-    this.style.setProperty('--ef-tooltip-text', resolveTextColor(this.color));
+    if (this.variant !== 'outline')
+      this.style.setProperty('--ef-tooltip-text', resolveTextColor(this.color));
   }
 
   private updateShape() {

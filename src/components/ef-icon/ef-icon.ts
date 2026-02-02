@@ -87,7 +87,9 @@ export class EfIcon extends EfElement {
     }
 
     // Default behavior: decorative
-    this.setAttribute('aria-hidden', 'true');
+    if (this.hasAttribute('tabindex') && this.tabIndex >= 0)
+      this.setAttribute('aria-hidden', 'true');
+
     this.removeAttribute('role');
   }
 

@@ -22,9 +22,14 @@ export const OverlayControls = <T extends Constructor<EfElement>>(Base: T) => cl
   private _closeTimeout: number | null = null;
   private _triggerDebounce = false;
 
-  connectedCallback() {
-    super.connectedCallback?.();
+  updated(changedProps: Map<string, unknown>) {
+    super.updated(changedProps);
+    
+    if (changedProps.has('anchor'))
+      this._setupListeners();
+  }  
 
+  private _setupListeners() {
     if (!this.anchor) return;
 
     const triggers = Array.isArray(this.trigger) ? this.trigger : [this.trigger];

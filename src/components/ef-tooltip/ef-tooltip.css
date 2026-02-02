@@ -1,0 +1,43 @@
+:host {
+  --ef-tooltip-base-color: var(--ef-color-primary);
+  --ef-tooltip-bg: var(--ef-tooltip-base-color);
+  --ef-tooltip-bg-hover: oklch(from var(--ef-tooltip-bg) calc(l + 0.05) c h);
+  --ef-tooltip-border: transparent;
+  --ef-tooltip-text: var(--ef-color-on-primary);
+  --ef-tooltip-radius: 0.375rem;
+
+  --ef-tooltip-padding-block: .375rem;
+  --ef-tooltip-padding-inline: .5rem;
+
+  --ef-tooltip-transition-duration: 200ms;
+  --ef-tooltip-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  
+  display: inline-block;
+  align-self: start;
+}
+
+:host([variant="outline"]) {
+  --ef-tooltip-bg: var(--ef-color-surface);
+  --ef-tooltip-text: var(--ef-tooltip-base-color);
+  --ef-tooltip-border: var(--ef-tooltip-base-color);
+}
+
+:host([data-open]) .tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.tooltip {
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--ef-tooltip-transition-duration) var(--ef-tooltip-transition-ease),
+    transform var(--ef-tooltip-transition-duration) var(--ef-tooltip-transition-ease);
+
+  background-color: var(--ef-tooltip-bg);
+  color: var(--ef-tooltip-text);
+  border: 1px solid var(--ef-tooltip-border);
+  border-radius: var(--ef-tooltip-radius);
+  padding-block: var(--ef-tooltip-padding-block);
+  padding-inline: var(--ef-tooltip-padding-inline);
+}

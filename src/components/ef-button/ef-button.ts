@@ -271,7 +271,6 @@ export class EfButton extends EfElement {
       ? String(this.toggled)
       : null;
     const currentIcon = this.toggle && this.toggled ? this.toggleIcon ?? this.icon : this.icon;
-    console.log(currentIcon);
 
     const loaderCode = html`
       <span class="loader ${this.loading ? 'mode-loading' : 'mode-normal'}">
