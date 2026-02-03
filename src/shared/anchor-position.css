@@ -5,6 +5,15 @@
 
 :host([anchorElement]), :host([anchorName]) {
   position: absolute;
+  isolation: isolate;
+  position-anchor: var(--ef-anchor-position-anchor);
+}
+
+:host([style*="position-area"]) {
+  position-try-fallbacks: flip-inline, flip-block;
+  position-try-order: most-width;
+  margin-block: var(--ef-anchor-offset-block);
+  margin-inline: var(--ef-anchor-offset-inline);
 }
 
 /* ──────────────────────────────── */

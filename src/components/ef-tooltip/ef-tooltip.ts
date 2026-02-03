@@ -48,8 +48,6 @@ export class EFTooltip extends EfTooltipBase {
     super();
     this.trigger = ['hover', 'focus'];
     this.delay = 500;
-    this.anchorPositionBlock = 'top-outside';
-    this.anchorPositionInline = 'center';
     this.anchorOffsetBlock = '1rem';
     this.anchorOffsetInline = '0rem';
   }

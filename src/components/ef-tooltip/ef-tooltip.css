@@ -13,7 +13,15 @@
   --ef-tooltip-transition-ease: cubic-bezier(0.22, 1, 0.36, 1);
   
   display: inline-block;
-  align-self: start;
+
+  ::after {
+    content: attr(data-tooltip-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 :host([variant="outline"]) {
@@ -25,6 +33,11 @@
 :host([data-open]) .tooltip {
   opacity: 1;
   transform: translateY(0);
+
+  &::after {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .tooltip {
@@ -40,4 +53,20 @@
   border-radius: var(--ef-tooltip-radius);
   padding-block: var(--ef-tooltip-padding-block);
   padding-inline: var(--ef-tooltip-padding-inline);
+
+  &::after {
+    content: ' ';
+    position: absolute;
+    inset: 0;
+    position-anchor: var(--ef-anchor-position-anchor);
+    width: 10px;
+    height: 10px;
+    background-color: red;
+
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity var(--ef-tooltip-transition-duration) var(--ef-tooltip-transition-ease),
+      transform var(--ef-tooltip-transition-duration) var(--ef-tooltip-transition-ease);
+  }
 }

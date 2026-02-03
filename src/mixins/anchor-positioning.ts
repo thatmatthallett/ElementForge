@@ -6,21 +6,23 @@ type Constructor<T = {}> = new (...args: any[]) => T;
 export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => class extends Base {
   static properties = {
     anchor: { state: true },
-    anchorPositionBlock: { type: String, reflect: true },
-    anchorPositionInline: { type: String, reflect: true },
+    anchorElement: { type: String },
+    anchorName: { type: String, reflect: true },
     anchorOffsetBlock: { type: String },
     anchorOffsetInline: { type: String },
-    anchorElement: { type: String },
-    anchorName: { type: String, reflect: true }
+    anchorPositionArea: { type: String, reflect: true },
+    anchorPositionBlock: { type: String, reflect: true },
+    anchorPositionInline: { type: String, reflect: true },
   };
 
-  anchorPositionBlock: anchorPositionBlockSet = 'top-outside';
-  anchorPositionInline: anchorPositionInlineSet = 'right-outside';
-  anchorOffsetBlock = '1rem';
-  anchorOffsetInline = '1rem';
+  anchor: HTMLElement | null = null;
   anchorElement?: string;
   anchorName?: string;
-  anchor: HTMLElement | null = null;
+  anchorOffsetBlock = '1rem';
+  anchorOffsetInline = '1rem';
+  anchorPositionArea: string | null = null;
+  anchorPositionBlock: anchorPositionBlockSet = 'top-inside';
+  anchorPositionInline: anchorPositionInlineSet = 'right-outside';
 
   private previousAnchorEl?: HTMLElement;
 
@@ -30,15 +32,16 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
     // anchor updating
     if (changedProps.has('anchorElement') ||
       changedProps.has('anchorName') ||
-      changedProps.has('anchorPositionBlock') ||
-      changedProps.has('anchorPositionInline') ||
       changedProps.has('anchorOffsetBlock') ||
-      changedProps.has('anchorOffsetInline')) {
-      this.schedule('anchor', () => this.updateAnchor());
+      changedProps.has('anchorOffsetInline') ||
+      changedProps.has('anchorPositionArea') ||
+      changedProps.has('anchorPositionBlock') ||
+      changedProps.has('anchorPositionInline')) {
+      this.schedule('anchor', () => this.updateAnchor(changedProps));
     }
   }
 
-  protected updateAnchor() {
+  protected updateAnchor(changedProps: Map<string, unknown>) {
     // If neither is set, do nothing (no warning unless user attempted anchor usage)
     if (!this.anchorElement && !this.anchorName) {
       this.style.removeProperty('position-anchor');
@@ -56,7 +59,7 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
 
     // Resolve anchor name (valid CSS identifier)
     const anchorName = this.anchorName ?? `--${this.efId}`;
-    this.style.setProperty('position-anchor', anchorName as string);
+    this.style.setProperty('--ef-anchor-position-anchor', anchorName as string);
 
     // Resolve anchor element if using selector mode
     this.anchor = null;
@@ -83,7 +86,29 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
       this.previousAnchorEl = this.anchor;
     }
 
-    // Offsets (no validation)
+    const blockWasSet = changedProps.has('anchorPositionBlock');
+    const inlineWasSet = changedProps.has('anchorPositionInline');
+
+    if (this.anchorPositionArea && (blockWasSet || inlineWasSet)) {
+      this.warnOnce('invalidAnchorPositioning',
+        `"anchorPostionArea" cannot be used with "anchorPositionBlock" or "anchorPositionInline" directly.
+         "anchorPositionBlock" and "anchorPositionInline" are removed when "anchorPositionArea" is set.`
+      );
+    }
+
+    if (this.anchorPositionArea) {
+      if (!CSS.supports('position-area', this.anchorPositionArea)) {
+        this.warnOnce('invalidAnchorPositioning',
+          `"anchorPostionArea" value "${this.anchorPositionArea}" is not supported.`
+        );
+        this.style.removeProperty('position-area');
+      } else {
+        this.removeAttribute('anchorPositionBlock');
+        this.removeAttribute('anchorPositionInline');
+        this.style.setProperty('position-area', this.anchorPositionArea as string);
+      }
+    } 
+
     if (this.anchorOffsetBlock && this.anchorOffsetBlock != "1rem")
       this.style.setProperty('--ef-anchor-offset-block', this.anchorOffsetBlock as string);
 
