@@ -10,9 +10,9 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
     anchorName: { type: String, reflect: true },
     anchorOffsetBlock: { type: String },
     anchorOffsetInline: { type: String },
-    anchorPositionArea: { type: String, reflect: true },
-    anchorPositionBlock: { type: String, reflect: true },
-    anchorPositionInline: { type: String, reflect: true },
+    anchorPositionArea: { type: String },
+    anchorPositionBlock: { type: String },
+    anchorPositionInline: { type: String },
   };
 
   anchor: HTMLElement | null = null;
@@ -86,8 +86,9 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
       this.previousAnchorEl = this.anchor;
     }
 
-    const blockWasSet = changedProps.has('anchorPositionBlock');
-    const inlineWasSet = changedProps.has('anchorPositionInline');
+    const blockWasSet = this.hasAttribute('anchorPositionBlock');
+    const inlineWasSet = this.hasAttribute('anchorPositionInline');
+    console.log(blockWasSet, inlineWasSet);
 
     if (this.anchorPositionArea && (blockWasSet || inlineWasSet)) {
       this.warnOnce('invalidAnchorPositioning',
