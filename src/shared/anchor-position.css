@@ -5,8 +5,6 @@
 
 :host([anchorElement]), :host([anchorName]) {
   position: absolute;
-  isolation: isolate;
-  position-anchor: var(--ef-anchor-position-anchor);
 }
 
 :host([style*="position-area"]) {

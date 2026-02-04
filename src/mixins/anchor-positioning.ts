@@ -59,7 +59,7 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
 
     // Resolve anchor name (valid CSS identifier)
     const anchorName = this.anchorName ?? `--${this.efId}`;
-    this.style.setProperty('--ef-anchor-position-anchor', anchorName as string);
+    this.style.setProperty('position-anchor', anchorName as string);
 
     // Resolve anchor element if using selector mode
     this.anchor = null;
