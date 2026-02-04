@@ -37,11 +37,11 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
       changedProps.has('anchorPositionArea') ||
       changedProps.has('anchorPositionBlock') ||
       changedProps.has('anchorPositionInline')) {
-      this.schedule('anchor', () => this.updateAnchor(changedProps));
+      this.schedule('anchor', () => this.updateAnchor());
     }
   }
 
-  protected updateAnchor(changedProps: Map<string, unknown>) {
+  protected updateAnchor() {
     // If neither is set, do nothing (no warning unless user attempted anchor usage)
     if (!this.anchorElement && !this.anchorName) {
       this.style.removeProperty('position-anchor');
