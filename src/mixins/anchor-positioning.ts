@@ -88,7 +88,6 @@ export const AnchorPositioning = <T extends Constructor<EfElement>>(Base: T) => 
 
     const blockWasSet = this.hasAttribute('anchorPositionBlock');
     const inlineWasSet = this.hasAttribute('anchorPositionInline');
-    console.log(blockWasSet, inlineWasSet);
 
     if (this.anchorPositionArea && (blockWasSet || inlineWasSet)) {
       this.warnOnce('invalidAnchorPositioning',
